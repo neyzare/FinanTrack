@@ -1,31 +1,34 @@
-import fs from "fs";
-import path from "path";
+// clean-all-imports.js
+const fs = require("fs");
+const path = require("path");
 
-const uiDir = path.join(process.cwd(), "app/components/ui");
+const rootDir = "./app/components/ui";
 
-function cleanFile(filePath) {
-    let content = fs.readFileSync(filePath, "utf8");
-    const updated = content.replace(/(@radix-ui\/react-[a-zA-Z-]+)@\d+\.\d+\.\d+/g, "$1");
-
-    if (content !== updated) {
-        fs.writeFileSync(filePath, updated, "utf8");
-        console.log("✅ Cleaned:", filePath);
-    }
-}
-
-function walk(dir) {
-    for (const file of fs.readdirSync(dir)) {
-        const filePath = path.join(dir, file);
-        const stat = fs.statSync(filePath);
+function cleanImports(dir) {
+    const files = fs.readdirSync(dir);
+    for (const file of files) {
+        const fullPath = path.join(dir, file);
+        const stat = fs.statSync(fullPath);
 
         if (stat.isDirectory()) {
-            walk(filePath);
-        } else if (filePath.endsWith(".tsx") || filePath.endsWith(".ts")) {
-            cleanFile(filePath);
+            cleanImports(fullPath);
+        } else if (file.endsWith(".tsx") || file.endsWith(".ts")) {
+            let content = fs.readFileSync(fullPath, "utf-8");
+
+            // Supprime toute version du style "@xxx@1.2.3"
+            const newContent = content.replace(
+                /(["'])((?:@?[\w-]+\/?[\w-]+))@\d+\.\d+\.\d+(["'])/g,
+                '"$2"'
+            );
+
+            if (content !== newContent) {
+                fs.writeFileSync(fullPath, newContent);
+                console.log(`✅ Cleaned: ${fullPath}`);
+            }
         }
     }
 }
 
-console.log("🚀 Cleaning Radix UI imports...");
-walk(uiDir);
-console.log("✨ Done! All @radix-ui imports cleaned.");
+console.log("🚀 Cleaning ALL imports with versions...");
+cleanImports(rootDir);
+console.log("✨ Done!");

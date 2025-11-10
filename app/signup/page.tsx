@@ -1,8 +1,8 @@
-function registerPages() {
-    return(
-        <h1>caca</h1>
-        
-    )
+// app/register/page.tsx
+export default function RegisterPage() {
+    return (
+        <div>
+            <h1 className={"text-black"}>register</h1>
+        </div>
+    );
 }
-
-export default registerPages()
