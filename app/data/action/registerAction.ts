@@ -7,16 +7,15 @@ import bcrypt from 'bcrypt'
 const registerSchema = z.object({
     email: z.string().email('Email invalide'),
     password: z.string().min(8, 'Mot de passe trop court'),
-    fullName: z.string().min(2, 'Nom requis'),
+    fullname: z.string().min(2, 'Nom requis'),
 
 })
 
 export async function registerAction(formData: FormData) {
-    console.log("bienvenue dans la logique du register")
 
     try {
         const data = {
-            fullName: formData.get("fullName"),
+            fullname: formData.get("fullname"),
             email: formData.get("email"),
             password: formData.get("password")
         }
@@ -38,21 +37,24 @@ export async function registerAction(formData: FormData) {
 
         const hashedPassword = await bcrypt.hash(valideData.password,10)
 
+
         const user = await prisma.user.create({
             data:{
-                fullName: valideData.fullName,
+                fullname: valideData.fullname,
                 email: valideData.email,
                 password: hashedPassword,
 
             }
         })
+        
+
 
         return {
             success: true,
             user: {
                 id: user.id,
                 email: user.email,
-                fullName: user.fullName
+                fullname: user.fullname
             }
         }
 
@@ -60,7 +62,12 @@ export async function registerAction(formData: FormData) {
         if (error instanceof z.ZodError) {
             return {
                 success: false,
-                error: error.errors[0].message
+                error: error.issues[0].message
             }
-        }}
+        }
+        return {
+            success: false,
+            error: "Une erreur est survenue lors de l'enregistrement"
+        }
+    }
 }

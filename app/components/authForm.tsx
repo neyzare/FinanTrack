@@ -6,8 +6,6 @@ import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { Button } from "../components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
-import { Separator } from "../components/ui/separator";
-import { Github } from "lucide-react";
 import { Logo } from "../components/Logo";
 import { ImageWithFallback } from "@/app/components/ImageWithFallBack";
 import {loginAction} from "@/app/data/action/authAction";
@@ -33,7 +31,7 @@ export default function AuthForm({ onLogin, action }: AuthFormProps) {
     const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
-        await action(formData);
+        await registerAction(formData);
         onLogin();
     };
 
@@ -116,13 +114,13 @@ export default function AuthForm({ onLogin, action }: AuthFormProps) {
 
                             {/* Signup Tab */}
                             <TabsContent value="signup">
-                                <form onSubmit={handleSignup} className="space-y-4" action={registerAction}>
+                                <form onSubmit={handleSignup} className="space-y-4">
                                     <div className="space-y-2">
                                         <Label htmlFor="signup-name">Nom complet</Label>
                                         <Input
                                             id="signup-name"
                                             type="text"
-                                            name={"fullName"}
+                                            name={"fullneame"}
                                             placeholder="Jean Dupont"
                                             value={name}
                                             onChange={(e) => setName(e.target.value)}
