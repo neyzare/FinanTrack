@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../components/ui/card";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
@@ -8,37 +7,33 @@ import { Button } from "../components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
 import { Logo } from "../components/Logo";
 import { ImageWithFallback } from "@/app/components/ImageWithFallBack";
-import {loginAction} from "@/app/data/action/authAction";
-import {registerAction} from "@/app/data/action/registerAction";
+import { loginAction } from "@/app/data/action/authAction";
+import { registerAction } from "@/app/data/action/registerAction";
+import { useFormState, useFormStatus } from "react-dom";
 
-interface AuthFormProps {
-    onLogin: () => void;
-    action: (formData: FormData) => Promise<void>; // Server Action
+// Composant pour le bouton avec état de chargement
+function SubmitButton({ children, variant = "login" }: { children: React.ReactNode; variant?: "login" | "signup" }) {
+    const { pending } = useFormStatus();
+
+    return (
+        <Button
+            type="submit"
+            className={`w-full ${variant === "signup" ? "bg-[#22C55E] hover:bg-[#22C55E]/90" : "bg-[#38BDF8] hover:bg-[#38BDF8]/90"}`}
+            disabled={pending}
+        >
+            {pending ? "Chargement..." : children}
+        </Button>
+    );
 }
 
-export default function AuthForm({ onLogin, action }: AuthFormProps) {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [name, setName] = useState("");
-
-    const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        const formData = new FormData(e.currentTarget);
-        await action(formData);
-        onLogin();
-    };
-
-    const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        const formData = new FormData(e.currentTarget);
-        await registerAction(formData);
-        onLogin();
-    };
+export default function AuthForm() {
+    const [loginState, loginFormAction] = useFormState(loginAction, null);
+    const [registerState, registerFormAction] = useFormState(registerAction, null);
 
     return (
         <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 py-12">
             <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-8 items-center">
-                {/* Left side - Image */}
+
                 <div className="hidden lg:block">
                     <div className="relative">
                         <div className="absolute inset-0 bg-gradient-to-tr from-[#38BDF8]/20 to-[#22C55E]/20 rounded-3xl blur-3xl"></div>
@@ -56,7 +51,6 @@ export default function AuthForm({ onLogin, action }: AuthFormProps) {
                     </div>
                 </div>
 
-                {/* Right side - Auth Form */}
                 <Card className="border-2 shadow-xl">
                     <CardHeader className="space-y-3">
                         <div className="lg:hidden flex justify-center">
@@ -74,18 +68,22 @@ export default function AuthForm({ onLogin, action }: AuthFormProps) {
                                 <TabsTrigger value="signup">Inscription</TabsTrigger>
                             </TabsList>
 
-                            {/* Login Tab */}
+                            {/* Formulaire de connexion */}
                             <TabsContent value="login">
-                                <form onSubmit={handleLogin} className="space-y-4" action={loginAction}>
+                                {loginState?.error && (
+                                    <div className="bg-destructive/15 text-destructive px-4 py-3 rounded-lg text-sm mb-4">
+                                        {loginState.error}
+                                    </div>
+                                )}
+
+                                <form action={loginFormAction} className="space-y-4">
                                     <div className="space-y-2">
                                         <Label htmlFor="login-email">Email</Label>
                                         <Input
                                             id="login-email"
-                                            name={"email"}
+                                            name="email"
                                             type="email"
                                             placeholder="nom@exemple.com"
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
                                             required
                                         />
                                     </div>
@@ -98,32 +96,32 @@ export default function AuthForm({ onLogin, action }: AuthFormProps) {
                                         </div>
                                         <Input
                                             id="login-password"
-                                            name={"password"}
+                                            name="password"
                                             type="password"
                                             placeholder="••••••••"
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
                                             required
                                         />
                                     </div>
-                                    <Button type="submit" className="w-full bg-[#38BDF8] hover:bg-[#38BDF8]/90">
-                                        Se connecter
-                                    </Button>
+                                    <SubmitButton variant="login">Se connecter</SubmitButton>
                                 </form>
                             </TabsContent>
 
-                            {/* Signup Tab */}
+                            {/* Formulaire d'inscription */}
                             <TabsContent value="signup">
-                                <form onSubmit={handleSignup} className="space-y-4">
+                                {registerState?.error && (
+                                    <div className="bg-destructive/15 text-destructive px-4 py-3 rounded-lg text-sm mb-4">
+                                        {registerState.error}
+                                    </div>
+                                )}
+
+                                <form action={registerFormAction} className="space-y-4">
                                     <div className="space-y-2">
                                         <Label htmlFor="signup-name">Nom complet</Label>
                                         <Input
                                             id="signup-name"
                                             type="text"
-                                            name={"fullneame"}
+                                            name="fullname"
                                             placeholder="Jean Dupont"
-                                            value={name}
-                                            onChange={(e) => setName(e.target.value)}
                                             required
                                         />
                                     </div>
@@ -132,10 +130,8 @@ export default function AuthForm({ onLogin, action }: AuthFormProps) {
                                         <Input
                                             id="signup-email"
                                             type="email"
-                                            name={'email'}
+                                            name="email"
                                             placeholder="nom@exemple.com"
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
                                             required
                                         />
                                     </div>
@@ -144,19 +140,15 @@ export default function AuthForm({ onLogin, action }: AuthFormProps) {
                                         <Input
                                             id="signup-password"
                                             type="password"
-                                            name={'password'}
+                                            name="password"
                                             placeholder="••••••••"
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
                                             required
                                         />
                                         <p className="text-xs text-muted-foreground">
                                             Minimum 8 caractères avec lettres et chiffres
                                         </p>
                                     </div>
-                                    <Button type="submit" className="w-full bg-[#22C55E] hover:bg-[#22C55E]/90">
-                                        Créer un compte
-                                    </Button>
+                                    <SubmitButton variant="signup">Créer un compte</SubmitButton>
                                 </form>
                             </TabsContent>
                         </Tabs>

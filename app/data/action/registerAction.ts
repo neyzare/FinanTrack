@@ -2,6 +2,8 @@
 import {z} from "zod"
 import {prisma} from "@/app/lib/prisma";
 import bcrypt from 'bcrypt'
+import {cookies} from "next/headers";
+import {redirect} from "next/navigation";
 
 
 const registerSchema = z.object({
@@ -11,7 +13,7 @@ const registerSchema = z.object({
 
 })
 
-export async function registerAction(formData: FormData) {
+export async function registerAction(previousState: any, formData: FormData) {
 
     try {
         const data = {
@@ -31,7 +33,7 @@ export async function registerAction(formData: FormData) {
         if (existingUser) {
             return {
                 success: false,
-                message: "user already exists"
+                error: "Cet email est déjà utilisé"
             }
         }
 
@@ -47,7 +49,16 @@ export async function registerAction(formData: FormData) {
             }
         })
         
+        // Créer la session avec cookie
+        const cookieStore = await cookies()
+        cookieStore.set("userId", user.id, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: 'lax',
+            maxAge: 60 * 60 * 24 * 7
+        })
 
+        redirect("/")
 
         return {
             success: true,
@@ -59,6 +70,12 @@ export async function registerAction(formData: FormData) {
         }
 
     } catch (error) {
+        // Relancer l'erreur de redirection Next.js
+        if (error && typeof error === 'object' && 'digest' in error && 
+            typeof error.digest === 'string' && error.digest.includes('NEXT_REDIRECT')) {
+            throw error;
+        }
+        
         if (error instanceof z.ZodError) {
             return {
                 success: false,
