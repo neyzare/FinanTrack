@@ -5,20 +5,7 @@ export function interetAvecApportMensuel(
     t: number,              // durée en années
     apportMensuel: number   // apport mensuel (C)
 ): number {
-
-    /*
-      Formule avec apports mensuels (fin de période) :
-
-        A = P * (1 + r/n)^(n*t)
-          + C * ( ((1 + r/n)^(n*t) - 1) / (r/n) )
-
-      Où :
-        P = capital initial
-        r = taux annuel
-        n = compositions par an
-        t = années
-        C = apport mensuel
-    */
+    
 
     const N = n * t;
     const i = r / n;
