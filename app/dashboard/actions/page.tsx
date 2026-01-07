@@ -1,8 +1,68 @@
 "use client"
 import {useState} from "react";
+import {getStocks} from "@/app/lib/Finnhub";
+
+interface Stock {
+    id: number,
+    name: string,
+    ticker:string,
+    price?: number,
+    variation?: number,
+    quantity: number,
+    value: number
+
+}
 
 export default function ActionsPage() {
-    const [stocks, setStocks] = useState(undefined)
+    const [stocks, setStocks] = useState<Stock[]>([])
+    const [shearchValue, setShearchValue] = useState<string>("")
+    const [errors, setErrors] = useState<string>("")
+
+    const handleInputChange = (e) => {
+        setShearchValue(e.target.value)
+    }
+
+    const handleKeyPress = (e) => {
+        if (e.key === "Enter") {
+            shearchStocks()
+        }
+    }
+
+    const shearchStocks = async () => {
+        const symbols = shearchValue.trim().toUpperCase()
+
+        if (!symbols) {
+            setErrors("veuillez entre un symbole d'action valide.")
+            return
+        }
+
+        if (stocks.find((s => s.ticker === symbols))) {
+            setErrors("cette action est deja dans votre liste.")
+            return
+        }
+
+
+        try {
+            const data = await getStocks(symbols)
+
+            const newStock: Stock = {
+                id: Date.now(),
+                name: symbols,
+                ticker: symbols,
+                price: data.c,
+                variation: data.dp,
+                quantity: 0,
+                value: 0
+            }
+
+            setStocks([...stocks, newStock])
+            setShearchValue("")
+            setErrors("")
+        } catch (error) {
+            setErrors("impossible de recuperer les donnees pour ce symbole")
+            console.error(error)
+        }
+    }
 
     return (
         <div className="space-y-6">
@@ -18,6 +78,9 @@ export default function ActionsPage() {
                         className="px-2 py-1 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:border-blue-400 bg-transparent"
                         type="text"
                         placeholder="Rechercher une action..."
+                        value={shearchValue}
+                        onChange={handleInputChange}
+                        onKeyDown={handleKeyPress}
                     />
                 </div>
 
@@ -25,31 +88,39 @@ export default function ActionsPage() {
                     <table className="w-full text-left border-collapse">
                         <thead>
                         <tr className="border-b border-gray-700">
-                            <th className="py-3 px-4 text-gray-400 font-semibold">#</th>
-                            <th className="py-3 px-4 text-gray-400 font-semibold">Name</th>
-                            <th className="py-3 px-4 text-gray-400 font-semibold">Job</th>
-                            <th className="py-3 px-4 text-gray-400 font-semibold">Favorite Color</th>
+                            <th className="py-3 px-4 text-gray-400 font-semibold">Action</th>
+                            <th className="py-3 px-4 text-gray-400 font-semibold">Ticker</th>
+                            <th className="py-3 px-4 text-gray-400 font-semibold">Prix</th>
+                            <th className="py-3 px-4 text-gray-400 font-semibold">Variation</th>
+                            <th className="py-3 px-4 text-gray-400 font-semibold">Quantité</th>
+                            <th className="py-3 px-4 text-gray-400 font-semibold">Valeur</th>
+
+
                         </tr>
                         </thead>
                         <tbody>
-                        <tr className="border-b border-gray-700 hover:bg-gray-800/50">
-                            <th className="py-3 px-4 text-gray-300">1</th>
-                            <td className="py-3 px-4 text-white">Cy Ganderton</td>
-                            <td className="py-3 px-4 text-white">Quality Control Specialist</td>
-                            <td className="py-3 px-4 text-white">Blue</td>
-                        </tr>
-                        <tr className="border-b border-gray-700 hover:bg-gray-800/50">
-                            <th className="py-3 px-4 text-gray-300">2</th>
-                            <td className="py-3 px-4 text-white">Hart Hagerty</td>
-                            <td className="py-3 px-4 text-white">Desktop Support Technician</td>
-                            <td className="py-3 px-4 text-white">Purple</td>
-                        </tr>
-                        <tr className="hover:bg-gray-800/50">
-                            <th className="py-3 px-4 text-gray-300">3</th>
-                            <td className="py-3 px-4 text-white">Brice Swyre</td>
-                            <td className="py-3 px-4 text-white">Tax Accountant</td>
-                            <td className="py-3 px-4 text-white">Red</td>
-                        </tr>
+                        {
+                            stocks.length === 0 ? (
+                                <tr>
+                                    <td colSpan={6} className="py-8 text-center text-gray-500">
+                                        Aucune action ajoutée. Recherchez une action ci-dessus.
+                                    </td>
+                                </tr>
+                            ) :
+
+                                (
+                            stocks.map((stock) => (
+                                <tr key={stock.id} className="border-b border-gray-700 hover:bg-gray-800/50">
+                                    <th className="py-3 px-4 text-gray-300">{stock.name}</th>
+                                    <th className="py-3 px-4 text-gray-300">{stock.ticker}</th>
+                                    <th className="py-3 px-4 text-gray-300">{stock.price}</th>
+                                    <th className="py-3 px-4 text-gray-300">{stock.variation}</th>
+                                    <th className="py-3 px-4 text-gray-300">{stock.quantity}</th>
+                                    <th className="py-3 px-4 text-gray-300">{stock.value}</th>
+                                </tr>
+                            )))
+                        }
+
                         </tbody>
                     </table>
                 </div>
