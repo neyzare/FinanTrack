@@ -33,6 +33,6 @@ export async function getStocks(symbols : string): Promise<StockQuote | null> {
         return data
     } catch (error) {
         console.error(error);
-        throw new Error("Failed to fetch stock data ");
+        return null;
     }
 }

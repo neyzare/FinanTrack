@@ -5,18 +5,25 @@ import {getStocks} from "@/app/lib/Finnhub";
 interface Stock {
     id: number,
     name: string,
-    ticker:string,
+    ticker: string,
     price?: number,
     variation?: number,
     quantity: number,
     value: number
-
 }
 
 export default function ActionsPage() {
     const [stocks, setStocks] = useState<Stock[]>([])
     const [shearchValue, setShearchValue] = useState<string>("")
     const [errors, setErrors] = useState<string>("")
+
+    const updateQuantity = (stockId: number, newQuantity: number) => {
+        setStocks(stocks.map(stock =>
+            stock.id === stockId
+                ? { ...stock, quantity: newQuantity, value: (stock.price || 0) * newQuantity }
+                : stock
+        ))
+    }
 
     const handleInputChange = (e) => {
         setShearchValue(e.target.value)
@@ -40,7 +47,6 @@ export default function ActionsPage() {
             setErrors("cette action est deja dans votre liste.")
             return
         }
-
 
         try {
             const data = await getStocks(symbols)
@@ -84,18 +90,22 @@ export default function ActionsPage() {
                     />
                 </div>
 
+                {errors && (
+                    <div className="mb-4 p-3 bg-red-500/10 border border-red-500 rounded text-red-400">
+                        {errors}
+                    </div>
+                )}
+
                 <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse">
+                    <table className="w-full text-left border-collapse table-fixed">
                         <thead>
                         <tr className="border-b border-gray-700">
-                            <th className="py-3 px-4 text-gray-400 font-semibold">Action</th>
-                            <th className="py-3 px-4 text-gray-400 font-semibold">Ticker</th>
-                            <th className="py-3 px-4 text-gray-400 font-semibold">Prix</th>
-                            <th className="py-3 px-4 text-gray-400 font-semibold">Variation</th>
-                            <th className="py-3 px-4 text-gray-400 font-semibold">Quantité</th>
-                            <th className="py-3 px-4 text-gray-400 font-semibold">Valeur</th>
-
-
+                            <th className="py-3 px-4 text-gray-400 font-semibold w-[20%]">Action</th>
+                            <th className="py-3 px-4 text-gray-400 font-semibold w-[15%]">Ticker</th>
+                            <th className="py-3 px-4 text-gray-400 font-semibold w-[15%]">Prix</th>
+                            <th className="py-3 px-4 text-gray-400 font-semibold w-[15%]">Variation</th>
+                            <th className="py-3 px-4 text-gray-400 font-semibold w-[15%]">Quantité</th>
+                            <th className="py-3 px-4 text-gray-400 font-semibold w-[20%]">Valeur</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -106,21 +116,29 @@ export default function ActionsPage() {
                                         Aucune action ajoutée. Recherchez une action ci-dessus.
                                     </td>
                                 </tr>
-                            ) :
-
-                                (
-                            stocks.map((stock) => (
-                                <tr key={stock.id} className="border-b border-gray-700 hover:bg-gray-800/50">
-                                    <th className="py-3 px-4 text-gray-300">{stock.name}</th>
-                                    <th className="py-3 px-4 text-gray-300">{stock.ticker}</th>
-                                    <th className="py-3 px-4 text-gray-300">{stock.price}</th>
-                                    <th className="py-3 px-4 text-gray-300">{stock.variation}</th>
-                                    <th className="py-3 px-4 text-gray-300">{stock.quantity}</th>
-                                    <th className="py-3 px-4 text-gray-300">{stock.value}</th>
-                                </tr>
-                            )))
+                            ) : (
+                                stocks.map((stock) => (
+                                    <tr key={stock.id} className="border-b border-gray-700 hover:bg-gray-800/50">
+                                        <td className="py-3 px-4 text-gray-300">{stock.name}</td>
+                                        <td className="py-3 px-4 text-gray-300">{stock.ticker}</td>
+                                        <td className="py-3 px-4 text-gray-300">${stock.price?.toFixed(2)}</td>
+                                        <td className={`py-3 px-4 ${stock.variation && stock.variation >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                            {stock.variation?.toFixed(2)}%
+                                        </td>
+                                        <td className="py-3 px-4">
+                                            <input
+                                                type="number"
+                                                min="0"
+                                                value={stock.quantity}
+                                                onChange={(e) => updateQuantity(stock.id, Number(e.target.value))}
+                                                className="w-full px-2 py-1 bg-gray-700 text-gray-300 rounded border border-gray-600 focus:outline-none focus:border-blue-400"
+                                            />
+                                        </td>
+                                        <td className="py-3 px-4 text-gray-300">${stock.value.toFixed(2)}</td>
+                                    </tr>
+                                ))
+                            )
                         }
-
                         </tbody>
                     </table>
                 </div>
