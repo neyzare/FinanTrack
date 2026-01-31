@@ -1,0 +1,44 @@
+@startuml
+!theme plain
+
+package "Frontend (Next.js)" {
+  [Pages]
+  [Components]
+  [Forms]
+}
+
+package "API Layer" {
+  [Server Actions]
+  [API Routes]
+}
+
+package "Business Logic" {
+  [Auth Service]
+  [Stock Service]
+  [Calculator Service]
+  [Finnhub Client]
+}
+
+package "Data Layer" {
+  [Prisma ORM]
+  database PostgreSQL
+}
+
+package "External Services" {
+  [Finnhub API]
+}
+
+[Pages] --> [Forms]
+[Pages] --> [Components]
+[Forms] --> [Server Actions]
+[Server Actions] --> [Auth Service]
+[Server Actions] --> [Stock Service]
+[Server Actions] --> [Calculator Service]
+[Auth Service] --> [Prisma ORM]
+[Stock Service] --> [Prisma ORM]
+[Stock Service] --> [Finnhub Client]
+[Finnhub Client] --> [Finnhub API]
+[Prisma ORM] --> PostgreSQL
+[API Routes] --> [Finnhub Client]
+
+@enduml

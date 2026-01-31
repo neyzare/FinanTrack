@@ -1,10 +1,10 @@
-"use client"; // ✅ Obligatoire pour utiliser les hooks et l'interactivité
+"use client";
 
-import { useState, useEffect } from "react";
-import { Button } from "./ui/button";
-import { Logo } from "./Logo";
-import { Bell, User, Moon, Sun } from "lucide-react";
-import { useRouter} from "next/navigation";
+import {useEffect, useState} from "react";
+import {Button} from "./ui/button";
+import {Logo} from "./Logo";
+import {Bell, Moon, Sun, User} from "lucide-react";
+import {useRouter, usePathname} from "next/navigation";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -13,19 +13,38 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import {Avatar, AvatarFallback, AvatarImage} from "./ui/avatar";
+import {auth} from "@/app/lib/auth";
+import Link from "next/link";
+import {authLogout} from "@/app/data/action/authLogout";
 
 interface NavbarProps {
-    isAuthenticated?: boolean;
+    initialAuth?: boolean;
     onNavigate?: (page: string) => void;
     onLogout?: () => void;
 }
 
-export function Navbar({ isAuthenticated, onNavigate, onLogout }: NavbarProps) {
+export function Navbar({ initialAuth = false, onNavigate, onLogout }: NavbarProps) {
     const [isDarkMode, setIsDarkMode] = useState(true);
+    const [isAuth, setIsAuth] = useState<boolean>(initialAuth)
     const router = useRouter()
+    const pathname = usePathname()
 
-    // gere le dark mode dans le localStorage ou par défaut
+    useEffect(() => {
+        const checkAuth = async () => {
+            try {
+                const user = await auth()
+                setIsAuth(!!user)
+            } catch (error) {
+                setIsAuth(false)
+            }
+        }
+
+        checkAuth()
+    }, [pathname])
+
+
+
     useEffect(() => {
         const storedTheme = localStorage.getItem("theme");
         if (storedTheme === "light") {
@@ -47,23 +66,36 @@ export function Navbar({ isAuthenticated, onNavigate, onLogout }: NavbarProps) {
         });
     };
 
+    const handleLogout = async () => {
+        try {
+            await authLogout()
+            router.push("/login")
+        }
+        catch (error) {
+            console.error("Erreur lors de la déconnexion:", error)
+        }
+    }
+
     return (
-        <nav className="border-b bg-card sticky top-0 z-50 backdrop-blur-sm bg-card/95 overscroll-none">
+        <nav className="border-b sticky top-0 z-50 backdrop-blur-sm bg-card/95 overscroll-none">
             <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-                {/* Logo */}
-                <div
-                    onClick={() => onNavigate?.(isAuthenticated ? "dashboard" : "landing")}
-                    className="cursor-pointer"
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                            onNavigate?.(isAuthenticated ? "dashboard" : "landing");
-                        }
-                    }}
-                >
-                    <Logo />
-                </div>
+
+                <Link href="/">
+                    <div
+                        onClick={() => onNavigate?.(isAuth ? "dashboard" : "landing")}
+                        className="cursor-pointer"
+
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                                onNavigate?.(isAuth ? "dashboard" : "landing");
+                            }
+                        }}
+                    >
+                        <Logo />
+                    </div>
+                </Link>
 
                 {/* Actions */}
                 <div className="flex items-center gap-3">
@@ -77,15 +109,12 @@ export function Navbar({ isAuthenticated, onNavigate, onLogout }: NavbarProps) {
                         {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                     </Button>
 
-                    {isAuthenticated ? (
+                    {isAuth ? (
                         <>
-                            {/* Notifications */}
-                            <Button variant="ghost" size="icon" className="rounded-full relative">
-                                <Bell className="w-5 h-5" />
-                                <span className="absolute top-1 right-1 w-2 h-2 bg-green-500 rounded-full"></span>
-                            </Button>
 
-                            {/* Avatar + Dropdown */}
+
+
+
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <button className="rounded-full p-1 hover:bg-accent transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring">
@@ -103,7 +132,7 @@ export function Navbar({ isAuthenticated, onNavigate, onLogout }: NavbarProps) {
                                         Paramètres
                                     </DropdownMenuItem>
                                     <DropdownMenuSeparator />
-                                    <DropdownMenuItem onClick={onLogout} className="text-destructive">
+                                    <DropdownMenuItem onClick={handleLogout} className="text-destructive">
                                         Se déconnecter
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>

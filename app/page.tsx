@@ -1,5 +1,4 @@
 "use client"
-import Image from "next/image";
 import { ImageWithFallback } from "@/app/components/ImageWithFallBack";
 import {
     TrendingUp,
@@ -53,7 +52,10 @@ export default function Home() {
                         <p className="text-lg text-gray-500 mb-6 max-w-lg">
                             Finantrack vous aide à gérer votre portefeuille d'actions, analyser vos dépenses et optimiser vos rendements grâce à des outils intelligents.
                         </p>
-                        <button className="btn bg-[#39BDF8] rounded-xl">Commencer maintenant</button>
+                        <Link href="/dashboard">
+                            <button className="btn bg-[#39BDF8] rounded-xl" >Commencer maintenant</button>
+
+                        </Link>
                     </div>
                 </div>
             </section>
@@ -138,7 +140,7 @@ export default function Home() {
                                 <Button
                                     size="lg"
                                     className="bg-white text-[#38BDF8] hover:bg-white/90"
-                                    onClick={() => Link('auth')}
+                                    onClick={() => Link('/dashboard')}
                                 >
                                     Commencer gratuitement
                                     <Check className="ml-2 w-5 h-5" />

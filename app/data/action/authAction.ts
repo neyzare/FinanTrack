@@ -4,6 +4,7 @@ import {z} from "zod"
 import {prisma} from "@/app/lib/prisma";
 import bcrypt from "bcrypt";
 import {redirect} from "next/navigation";
+import {revalidatePath} from "next/cache";
 
 const authSchema = z.object({
     email: z.string().regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Email invalide"),
@@ -62,6 +63,8 @@ export async function loginAction(previousState: any, formData : FormData) {
           maxAge: 60 * 60 * 24 * 7
       })
 
+      revalidatePath('/')
+      revalidatePath('/', 'layout')
       redirect("/")
 
       return {
@@ -73,7 +76,6 @@ export async function loginAction(previousState: any, formData : FormData) {
   }catch (e) {
       console.log(e)
       
-      // Relancer l'erreur de redirection Next.js
       if (e && typeof e === 'object' && 'digest' in e && 
           typeof e.digest === 'string' && e.digest.includes('NEXT_REDIRECT')) {
           throw e;

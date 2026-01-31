@@ -2,7 +2,6 @@
 import { Configuration, DefaultApi } from "finnhub-ts";
 
 const API_KEY = process.env.FINNHUB_API_KEY!;
-console.log(API_KEY)
 
 interface StockQuote {
     c?: number,

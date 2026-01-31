@@ -4,6 +4,7 @@ import {prisma} from "@/app/lib/prisma";
 import bcrypt from 'bcrypt'
 import {cookies} from "next/headers";
 import {redirect} from "next/navigation";
+import {revalidatePath} from "next/cache";
 
 
 const registerSchema = z.object({
@@ -42,14 +43,13 @@ export async function registerAction(previousState: any, formData: FormData) {
 
         const user = await prisma.user.create({
             data:{
-                fullname: valideData.fullname,
+                name: valideData.fullname,
                 email: valideData.email,
                 password: hashedPassword,
 
             }
         })
         
-        // Créer la session avec cookie
         const cookieStore = await cookies()
         cookieStore.set("userId", user.id, {
             httpOnly: true,
@@ -58,6 +58,8 @@ export async function registerAction(previousState: any, formData: FormData) {
             maxAge: 60 * 60 * 24 * 7
         })
 
+        revalidatePath('/')
+        revalidatePath('/', 'layout')
         redirect("/")
 
         return {
@@ -65,12 +67,12 @@ export async function registerAction(previousState: any, formData: FormData) {
             user: {
                 id: user.id,
                 email: user.email,
-                fullname: user.fullname
+                name: user.name
             }
         }
 
     } catch (error) {
-        // Relancer l'erreur de redirection Next.js
+
         if (error && typeof error === 'object' && 'digest' in error && 
             typeof error.digest === 'string' && error.digest.includes('NEXT_REDIRECT')) {
             throw error;

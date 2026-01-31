@@ -1,0 +1,38 @@
+@startuml
+!theme plain
+
+actor Utilisateur
+participant "Page Portefeuille" as Page
+participant "addStock" as AddAction
+participant "auth()" as Auth
+participant "Prisma" as DB
+participant "Finnhub API" as API
+
+Utilisateur -> Page: Ajouter action (AAPL)
+Page -> AddAction: addStock(ticker, name, quantity, buyPrice)
+activate AddAction
+
+AddAction -> Auth: auth()
+Auth -> DB: findUnique(userId)
+DB --> Auth: user
+Auth --> AddAction: user
+
+AddAction -> DB: create stock
+activate DB
+
+alt Stock créé avec succès
+  DB --> AddAction: stock data
+  AddAction --> Page: {success: true, stock}
+  Page -> API: getStocks(ticker)
+  API --> Page: prix en temps réel
+  Page --> Utilisateur: Afficher action avec prix
+else Stock existe déjà (P2002)
+  DB --> AddAction: error P2002
+  AddAction --> Page: {success: false, error}
+  Page --> Utilisateur: "Action existe déjà"
+end
+
+deactivate DB
+deactivate AddAction
+
+@enduml

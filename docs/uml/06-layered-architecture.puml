@@ -1,0 +1,46 @@
+@startuml
+!theme plain
+
+package "Couche Présentation" #LightBlue {
+  [Pages Next.js]
+  [Components UI]
+  [Forms]
+}
+
+package "Couche Logique Métier" #LightGreen {
+  [Server Actions]
+  [Auth Logic]
+  [Stock Management]
+  [Calculator Logic]
+}
+
+package "Couche Services" #LightYellow {
+  [Finnhub Client]
+  [Prisma ORM]
+  [Cookie Management]
+  [Bcrypt Hashing]
+}
+
+package "Couche Données" #LightCoral {
+  database PostgreSQL
+  cloud "Finnhub API" as finnhub
+}
+
+[Pages Next.js] --> [Server Actions]
+[Components UI] --> [Server Actions]
+[Forms] --> [Server Actions]
+
+[Server Actions] --> [Auth Logic]
+[Server Actions] --> [Stock Management]
+[Server Actions] --> [Calculator Logic]
+
+[Auth Logic] --> [Prisma ORM]
+[Auth Logic] --> [Cookie Management]
+[Auth Logic] --> [Bcrypt Hashing]
+[Stock Management] --> [Prisma ORM]
+[Stock Management] --> [Finnhub Client]
+
+[Prisma ORM] --> PostgreSQL
+[Finnhub Client] --> finnhub
+
+@enduml

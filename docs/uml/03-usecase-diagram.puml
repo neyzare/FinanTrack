@@ -1,0 +1,45 @@
+@startuml
+!theme plain
+
+left to right direction
+
+actor Utilisateur as user
+actor "Finnhub API" as api
+
+rectangle "FinanTrack Application" {
+  usecase "S'inscrire" as UC1
+  usecase "Se connecter" as UC2
+  usecase "Se déconnecter" as UC3
+  usecase "Consulter le dashboard" as UC4
+  usecase "Ajouter une action" as UC5
+  usecase "Modifier la quantité" as UC6
+  usecase "Supprimer une action" as UC7
+  usecase "Consulter le portefeuille" as UC8
+  usecase "Obtenir prix en temps réel" as UC9
+  usecase "Calculer intérêts composés" as UC10
+  usecase "Gérer les paramètres" as UC11
+}
+
+user --> UC1
+user --> UC2
+user --> UC3
+user --> UC4
+user --> UC5
+user --> UC6
+user --> UC7
+user --> UC8
+user --> UC10
+user --> UC11
+
+UC5 ..> UC9 : <<include>>
+UC8 ..> UC9 : <<include>>
+UC9 --> api
+
+note right of UC9
+  Communication avec
+  l'API externe Finnhub
+  pour obtenir les cours
+  boursiers en temps réel
+end note
+
+@enduml

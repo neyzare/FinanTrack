@@ -1,0 +1,25 @@
+@startuml
+!theme plain
+
+[*] --> NonAuthentifié
+
+NonAuthentifié --> EnCoursConnexion : Login/Register
+EnCoursConnexion --> Authentifié : Succès
+EnCoursConnexion --> NonAuthentifié : Échec
+
+Authentifié --> ConsulterDashboard
+Authentifié --> GérerPortefeuille
+Authentifié --> UtiliserCalculatrice
+Authentifié --> GérerParamètres
+
+ConsulterDashboard --> Authentifié
+GérerPortefeuille --> Authentifié
+UtiliserCalculatrice --> Authentifié
+GérerParamètres --> Authentifié
+
+Authentifié --> NonAuthentifié : Déconnexion
+Authentifié --> NonAuthentifié : Cookie expiré
+
+NonAuthentifié --> [*]
+
+@enduml

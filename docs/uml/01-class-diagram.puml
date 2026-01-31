@@ -1,0 +1,38 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+
+class User {
+  - id: String (PK)
+  - email: String (unique)
+  - password: String
+  - name: String
+  - createdAt: DateTime
+  - updatedAt: DateTime
+  __
+  + stocks: Stock[]
+}
+
+class Stock {
+  - id: Int (PK)
+  - ticker: String
+  - name: String?
+  - quantity: Int
+  - buyPrice: Float?
+  - userId: String (FK)
+  - createdAt: DateTime
+  - updatedAt: DateTime
+  __
+  + user: User
+}
+
+User "1" -- "*" Stock : possède >
+
+note right of Stock
+  Contrainte unique: 
+  (userId, ticker)
+  Un utilisateur ne peut avoir
+  qu'une seule entrée par ticker
+end note
+
+@enduml

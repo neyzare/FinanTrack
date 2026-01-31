@@ -1,0 +1,38 @@
+@startuml
+!theme plain
+
+actor Utilisateur
+participant "Page Login" as Page
+participant "loginAction" as Action
+participant "Prisma" as DB
+participant "bcrypt" as Hash
+participant "Cookies" as Cookie
+
+Utilisateur -> Page: Saisir email/password
+Page -> Action: loginAction(formData)
+activate Action
+
+Action -> Action: Valider avec Zod
+Action -> DB: findUnique(email)
+DB --> Action: user data
+
+alt Utilisateur trouvé
+  Action -> Hash: compare(password, hashedPassword)
+  Hash --> Action: passwordMatch
+  
+  alt Mot de passe correct
+    Action -> Cookie: set("userId", user.id)
+    Action --> Page: redirect("/")
+    Page --> Utilisateur: Accès dashboard
+  else Mot de passe incorrect
+    Action --> Page: error
+    Page --> Utilisateur: Afficher erreur
+  end
+else Utilisateur non trouvé
+  Action --> Page: error
+  Page --> Utilisateur: Afficher erreur
+end
+
+deactivate Action
+
+@enduml
