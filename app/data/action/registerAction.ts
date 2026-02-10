@@ -1,92 +1,90 @@
 "use server"
-import {z} from "zod"
-import {prisma} from "@/app/lib/prisma";
-import bcrypt from 'bcrypt'
-import {cookies} from "next/headers";
-import {redirect} from "next/navigation";
-import {revalidatePath} from "next/cache";
 
+import { z } from "zod"
+import { prisma } from "@/app/lib/prisma"
+import bcrypt from "bcrypt"
+import { cookies } from "next/headers"
+import { redirect } from "next/navigation"
+import { isRedirectError } from "next/dist/client/components/redirect-error"
+import { revalidatePath } from "next/cache"
+
+type RegisterState = {
+    success: boolean
+    error?: string
+}
 
 const registerSchema = z.object({
-    email: z.string().email('Email invalide'),
-    password: z.string().min(8, 'Mot de passe trop court'),
-    fullname: z.string().min(2, 'Nom requis'),
-
+    email: z.email("Email invalide"),
+    password: z.string().min(8, "Mot de passe trop court"),
+    fullname: z.string().min(2, "Nom requis"),
 })
 
-export async function registerAction(previousState: any, formData: FormData) {
+export async function registerAction(
+    previousState: RegisterState | null,
+    formData: FormData
+): Promise<RegisterState> {
 
     try {
         const data = {
             fullname: formData.get("fullname"),
             email: formData.get("email"),
-            password: formData.get("password")
+            password: formData.get("password"),
         }
 
-        const valideData = registerSchema.parse(data)
+        const validateData = registerSchema.safeParse(data)
+
+        if (!validateData.success) {
+            return {
+                success: false,
+                error: validateData.error.issues[0].message,
+            }
+        }
+
+        const { email, password, fullname } = validateData.data
 
         const existingUser = await prisma.user.findUnique({
-            where: {
-                email: valideData.email
-            }
+            where: { email },
         })
 
         if (existingUser) {
             return {
                 success: false,
-                error: "Cet email est déjà utilisé"
+                error: "Cet email est déjà utilisé",
             }
         }
 
-        const hashedPassword = await bcrypt.hash(valideData.password,10)
-
+        const hashedPassword = await bcrypt.hash(password, 10)
 
         const user = await prisma.user.create({
-            data:{
-                name: valideData.fullname,
-                email: valideData.email,
+            data: {
+                name: fullname,
+                email,
                 password: hashedPassword,
-
-            }
+            },
         })
-        
+
         const cookieStore = await cookies()
         cookieStore.set("userId", user.id, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: 'lax',
-            maxAge: 60 * 60 * 24 * 7
+            sameSite: "lax",
+            maxAge: 60 * 60 * 24 * 7,
         })
 
-        revalidatePath('/')
-        revalidatePath('/', 'layout')
-        redirect("/")
+        revalidatePath("/", "layout")
 
-        return {
-            success: true,
-            user: {
-                id: user.id,
-                email: user.email,
-                name: user.name
-            }
+    } catch (e) {
+        if (isRedirectError(e)) {
+            throw e
         }
 
-    } catch (error) {
+        console.error("[Register Error]", e)
 
-        if (error && typeof error === 'object' && 'digest' in error && 
-            typeof error.digest === 'string' && error.digest.includes('NEXT_REDIRECT')) {
-            throw error;
-        }
-        
-        if (error instanceof z.ZodError) {
-            return {
-                success: false,
-                error: error.issues[0].message
-            }
-        }
         return {
             success: false,
-            error: "Une erreur est survenue lors de l'enregistrement"
+            error: "Une erreur est survenue lors de l'enregistrement",
         }
     }
+
+    redirect("/dashboard")
 }

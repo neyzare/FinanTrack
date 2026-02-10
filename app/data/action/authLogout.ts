@@ -8,8 +8,8 @@ export async function authLogout() {
 
     try {
         cookieStore.delete("userId")
-        revalidatePath('/')       // ← Ajoutez
-        revalidatePath('/dashboard')  // ← Ajoutez
+        revalidatePath('/')     
+        revalidatePath('/dashboard')  
     } catch (e) {
         if (e && typeof e === 'object' && 'digest' in e &&
             typeof e.digest === 'string' && e.digest.includes('NEXT_REDIRECT')) {

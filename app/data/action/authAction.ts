@@ -7,7 +7,7 @@ import {redirect} from "next/navigation";
 import {revalidatePath} from "next/cache";
 
 const authSchema = z.object({
-    email: z.string().regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Email invalide"),
+    email: z.                                               email( "Email invalide"),
     password: z.string().min(1, "Le mot de passe est requis")
 })
 
@@ -69,8 +69,8 @@ export async function loginAction(previousState: any, formData : FormData) {
 
       return {
           success: true,
-          id: user.id,
-          user: user.email
+          id: user?.id,
+          user: user?.email
       }
 
   }catch (e) {
