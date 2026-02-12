@@ -14,7 +14,7 @@ model User {
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  stock     Stock[]
+  stocks    Stock[]
 }
 
 model Stock {
@@ -27,7 +27,31 @@ model Stock {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id])
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  snapshots StockSnapshot[]
 
   @@unique([userId, ticker])
+  @@index([userId])
+  @@index([ticker])
+}
+
+model StockSnapshot {
+  id      Int    @id @default(autoincrement())
+  stockId Int
+  ticker  String
+  userId  String
+
+  price      Float
+  quantity   Int
+  totalValue Float
+
+  snapshotDate DateTime @default(now())
+  createdAt    DateTime @default(now())
+
+  stock Stock @relation(fields: [stockId], references: [id], onDelete: Cascade)
+
+  @@unique([stockId, snapshotDate])
+  @@index([userId, snapshotDate])
+  @@index([ticker, snapshotDate])
+  @@index([snapshotDate])
 }

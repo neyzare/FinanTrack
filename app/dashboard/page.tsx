@@ -6,7 +6,7 @@ import { TrendingUp, TrendingDown, DollarSign, Activity, Target } from 'lucide-r
 export default function DashboardPage() {
 
     const totalValue = 45234.50;
-    const portfolioChange = 2.5; // +2.5%
+    const portfolioChange = 2.5;
 
     const monthlyRevenue = 1234.56;
     const yesterdayPerformance = -0.8;
@@ -92,6 +92,17 @@ export default function DashboardPage() {
                         </CardContent>
                     </Card>
                 ))}
+            </div>
+            <div className="grid grid-cols-6 mt-6">
+                <Card className="col-start-1 col-end-7">
+                    <CardHeader>
+                        <CardTitle>Évolution du portefeuille</CardTitle>
+                        <p className="text-sm text-muted-foreground">Performance sur les 6 derniers mois</p>
+                    </CardHeader>
+                    <CardContent className="h-80">
+
+                    </CardContent>
+                </Card>
             </div>
         </>
     );
