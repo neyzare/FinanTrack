@@ -7,11 +7,10 @@ import { Button } from "../components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
 import { Logo } from "../components/Logo";
 import { ImageWithFallback } from "@/app/components/ImageWithFallBack";
-import { loginAction } from "@/app/data/action/authAction";
-import { registerAction } from "@/app/data/action/registerAction";
+import { loginAction } from "@/app/lib/authAction";
+import { registerAction } from "@/app/lib/registerAction";
 import { useFormState, useFormStatus } from "react-dom";
 
-// Composant pour le bouton avec état de chargement
 function SubmitButton({ children, variant = "login" }: { children: React.ReactNode; variant?: "login" | "signup" }) {
     const { pending } = useFormStatus();
 
@@ -68,7 +67,6 @@ export default function AuthForm() {
                                 <TabsTrigger value="signup">Inscription</TabsTrigger>
                             </TabsList>
 
-                            {/* Formulaire de connexion */}
                             <TabsContent value="login">
                                 {loginState?.error && (
                                     <div className="bg-destructive/15 text-destructive px-4 py-3 rounded-lg text-sm mb-4">
@@ -106,7 +104,6 @@ export default function AuthForm() {
                                 </form>
                             </TabsContent>
 
-                            {/* Formulaire d'inscription */}
                             <TabsContent value="signup">
                                 {registerState?.error && (
                                     <div className="bg-destructive/15 text-destructive px-4 py-3 rounded-lg text-sm mb-4">

@@ -34,7 +34,6 @@ export default function Home() {
 
     return (
         <>
-            {/* Section Hero */}
             <section className="hero min-h-screen">
                 <div className="hero-content flex-col lg:flex-row-reverse gap-10">
                     <div className="relative">
@@ -60,7 +59,6 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* Section 2 : Fonctionnalités principales */}
             <section className=" flex flex-col items-center justify-center gap-12 py-20 bg-[#1E293B] ">
                 <div className="text-center max-w-2xl ">
                     <h2 className="text-4xl font-bold mb-4">Fonctionnalités principales</h2>
@@ -84,7 +82,6 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* Section 3 : */}
             <section className="flex flex-col items-center justify-center gap-8 py-20">
                 <div className="text-center">
                     <h2 className="text-4xl font-bold mb-2">Comment ça marche</h2>
@@ -115,7 +112,6 @@ export default function Home() {
                 </ul>
             </section>
 
-            {/*SECTION 4*/}
             <section className=" flex flex-col items-center justify-center gap-12 py-20 bg-[#1E293B] ">
                 <div className="text-center max-w-2xl ">
                     <h2 className="text-4xl font-bold mb-4">Un petit mot du Createur</h2>
@@ -125,7 +121,6 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* Section 5 : */}
             <section className="py-20">
                 <div className="container mx-auto px-4">
                     <Card className="bg-gradient-to-r from-[#38BDF8] to-[#22C55E] border-0 text-white">
@@ -137,14 +132,16 @@ export default function Home() {
                                 Rejoignez Finantrack aujourd'hui et prenez le contrôle de vos investissements
                             </p>
                             <div className="flex flex-wrap gap-4 justify-center">
-                                <Button
-                                    size="lg"
-                                    className="bg-white text-[#38BDF8] hover:bg-white/90"
-                                    onClick={() => Link('/dashboard')}
-                                >
-                                    Commencer gratuitement
-                                    <Check className="ml-2 w-5 h-5" />
-                                </Button>
+                                <Link href={"/dashboard"}>
+                                    <Button
+                                        size="lg"
+                                        className="bg-white text-[#38BDF8] hover:bg-white/90"
+
+                                    >a
+                                        Commencer gratuitement
+                                        <Check className="ml-2 w-5 h-5" />
+                                    </Button>
+                                </Link>
                             </div>
                         </CardContent>
                     </Card>

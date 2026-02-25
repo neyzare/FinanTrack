@@ -1,14 +1,15 @@
 'use client';
 
-import { LayoutDashboard, TrendingUp, Calculator, Wallet, Settings } from 'lucide-react';
+import { LayoutDashboard, TrendingUp, Calculator, Wallet, Settings, ChartCandlestick} from 'lucide-react';
 import { Button } from './ui/button';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
-    { id: 'actions', label: 'Mes Actions', icon: TrendingUp, href: '/dashboard/actions' },
+    { id: 'actions', label: 'Action', icon: TrendingUp, href: '/dashboard/actions' },
     { id: 'calculatrice', label: 'Calculatrice', icon: Calculator, href: '/dashboard/calculatrice' },
+    { id: 'sandbox', label: 'Sandbox', icon: ChartCandlestick, href: '/dashboard/sandbox' },
     { id: 'portefeuille', label: 'Portefeuille', icon: Wallet, href: '/dashboard/portefeuille' },
     { id: 'parametres', label: 'Paramètres', icon: Settings, href: '/dashboard/parametres' },
 ];

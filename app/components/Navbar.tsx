@@ -16,7 +16,7 @@ import {
 import {Avatar, AvatarFallback, AvatarImage} from "./ui/avatar";
 import {auth} from "@/app/lib/auth";
 import Link from "next/link";
-import {authLogout} from "@/app/data/action/authLogout";
+import {authLogout} from "@/app/lib/authLogout";
 
 interface NavbarProps {
     initialAuth?: boolean;
@@ -97,9 +97,7 @@ export function Navbar({ initialAuth = false, onNavigate, onLogout }: NavbarProp
                     </div>
                 </Link>
 
-                {/* Actions */}
                 <div className="flex items-center gap-3">
-                    {/* Dark mode toggle */}
                     <Button
                         variant="ghost"
                         size="icon"

@@ -55,3 +55,12 @@ model StockSnapshot {
   @@index([ticker, snapshotDate])
   @@index([snapshotDate])
 }
+
+model CachedQuote {
+  ticker    String   @id
+  price     Float
+  variation Float?
+  updatedAt DateTime @updatedAt
+
+  @@index([updatedAt])
+}

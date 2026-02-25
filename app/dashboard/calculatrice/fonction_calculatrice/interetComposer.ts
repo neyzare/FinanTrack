@@ -6,11 +6,11 @@ export interface ResultatInteretCompose {
 }
 
 export function interetAvecApportMensuel(
-    P: number,        // Capital initial investi au début
-    r: number,        // Taux d'intérêt annuel (format décimal)
-    n: number = 12,        // Fréquence de capitalisation par an
-    t: number,        // Durée en années
-    apportMensuel: number  // Versement mensuel régulier
+    P: number,
+    r: number,
+    n: number = 12,
+    t: number,
+    apportMensuel: number
 ): ResultatInteretCompose {
     const N = n * t;
     const i = r / n;
