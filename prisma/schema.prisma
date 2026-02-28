@@ -56,6 +56,18 @@ model StockSnapshot {
   @@index([snapshotDate])
 }
 
+model CandleStock {
+  id     Int      @id @unique @default(autoincrement())
+  name   String
+  ticker String
+  open   Float
+  high   Float
+  low    Float
+  close  Float
+  Volume Int
+  date   DateTime
+}
+
 model CachedQuote {
   ticker    String   @id
   price     Float
