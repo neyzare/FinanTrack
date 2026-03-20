@@ -137,7 +137,7 @@ export default function Home() {
                                         size="lg"
                                         className="bg-white text-[#38BDF8] hover:bg-white/90"
 
-                                    >a
+                                    >
                                         Commencer gratuitement
                                         <Check className="ml-2 w-5 h-5" />
                                     </Button>

@@ -1,4 +1,5 @@
 import { Sidebar } from "@/app/components/SideBar";
+import { Toaster } from "@/app/components/ui/sonner";
 import React from "react";
 
 export default function DashboardLayout({
@@ -12,6 +13,7 @@ export default function DashboardLayout({
             <main className="flex-1 p-6">
                 {children}
             </main>
+            <Toaster position="bottom-right" richColors />
         </div>
     );
 }

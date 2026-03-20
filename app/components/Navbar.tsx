@@ -109,9 +109,11 @@ export function Navbar({ initialAuth = false, onNavigate, onLogout }: NavbarProp
 
                     {isAuth ? (
                         <>
-
-
-
+                            <Link href="/dashboard">
+                                <button>
+                                    Dashboard
+                                </button>
+                            </Link>
 
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>

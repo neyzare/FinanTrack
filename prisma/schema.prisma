@@ -76,3 +76,12 @@ model CachedQuote {
 
   @@index([updatedAt])
 }
+
+model SandboxStock {
+  id         Int    @id @default(autoincrement())
+  name       String
+  secteur    String
+  Price      Float
+  volatility Float
+  Drift      Float
+}

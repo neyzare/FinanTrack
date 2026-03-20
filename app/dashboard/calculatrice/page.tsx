@@ -8,6 +8,8 @@ import { Button } from '../../components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
 import { Calculator as CalcIcon, TrendingUp, Save } from 'lucide-react';
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { Document, Page as PDFPage, StyleSheet, Text, View, pdf } from '@react-pdf/renderer';
+import { toast } from 'sonner';
 
 interface DonneesGraphique {
     annee: number;
@@ -18,6 +20,55 @@ interface DonneesDepenses {
     categorie: string;
     valeur: number;
 }
+
+interface LignePDF {
+    label: string;
+    valeur: string;
+}
+
+interface SectionPDF {
+    titre: string;
+    lignes: LignePDF[];
+}
+
+const stylesPDF = StyleSheet.create({
+    page: {
+        padding: 32,
+        fontSize: 11,
+        color: '#0F172A',
+    },
+    titre: {
+        fontSize: 18,
+        marginBottom: 8,
+    },
+    date: {
+        fontSize: 10,
+        color: '#475569',
+        marginBottom: 18,
+    },
+    section: {
+        marginBottom: 16,
+        padding: 12,
+        borderRadius: 6,
+        border: '1 solid #E2E8F0',
+    },
+    sectionTitre: {
+        fontSize: 13,
+        marginBottom: 8,
+        color: '#1E293B',
+    },
+    ligne: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 6,
+    },
+    label: {
+        color: '#475569',
+    },
+    valeur: {
+        color: '#0F172A',
+    },
+});
 
 function Calculatrice(): JSX.Element {
     const [capital, setCapital] = useState<number>(10000);
@@ -85,8 +136,117 @@ function Calculatrice(): JSX.Element {
     const totalVerse: number = capital + apportMensuel * 12 * annees;
     const totalInterets: number = valeurFinale - totalVerse;
 
-    const sauvegarder = (typeCalcul: string): void => {
-        alert(`${typeCalcul} sauvegardé !`);
+    const formatEuros = (valeur: number): string => `${valeur.toLocaleString('fr-FR')} €`;
+
+    const construireSections = (typeCalcul: string): SectionPDF[] => {
+        if (typeCalcul === 'Intérêts composés') {
+            return [
+                {
+                    titre: 'Paramètres',
+                    lignes: [
+                        { label: 'Capital initial', valeur: formatEuros(capital) },
+                        { label: 'Apport mensuel', valeur: formatEuros(apportMensuel) },
+                        { label: 'Taux annuel', valeur: `${tauxAnnuel.toLocaleString('fr-FR')} %` },
+                        { label: 'Durée', valeur: `${annees} ans` },
+                    ],
+                },
+                {
+                    titre: 'Résultats',
+                    lignes: [
+                        { label: 'Valeur finale', valeur: formatEuros(valeurFinale) },
+                        { label: 'Total versé', valeur: formatEuros(totalVerse) },
+                        { label: 'Intérêts gagnés', valeur: formatEuros(totalInterets) },
+                    ],
+                },
+            ];
+        }
+
+        if (typeCalcul === 'Rendement attendu') {
+            const valeurFinaleRendement = donneesRendement[donneesRendement.length - 1]?.valeur || 0;
+            return [
+                {
+                    titre: 'Paramètres',
+                    lignes: [
+                        { label: 'Investissement initial', valeur: formatEuros(investissementInitial) },
+                        { label: 'Rendement annuel attendu', valeur: `${rendementAttendu.toLocaleString('fr-FR')} %` },
+                        { label: 'Durée', valeur: `${anneesInvestissement} ans` },
+                    ],
+                },
+                {
+                    titre: 'Résultats',
+                    lignes: [
+                        { label: 'Valeur finale', valeur: formatEuros(valeurFinaleRendement) },
+                        { label: 'Gain total', valeur: formatEuros(valeurFinaleRendement - investissementInitial) },
+                    ],
+                },
+            ];
+        }
+
+        return [
+            {
+                titre: 'Budget mensuel',
+                lignes: [
+                    { label: 'Revenus', valeur: formatEuros(revenus) },
+                    { label: 'Logement', valeur: formatEuros(logement) },
+                    { label: 'Alimentation', valeur: formatEuros(alimentation) },
+                    { label: 'Transport', valeur: formatEuros(transport) },
+                    { label: 'Autres dépenses', valeur: formatEuros(autres) },
+                ],
+            },
+            {
+                titre: 'Analyse',
+                lignes: [
+                    { label: 'Total dépenses', valeur: formatEuros(totalDepenses) },
+                    { label: 'Épargne', valeur: formatEuros(epargne) },
+                    { label: "Taux d'épargne", valeur: `${tauxEpargne.toFixed(1)} %` },
+                ],
+            },
+        ];
+    };
+
+    const sauvegarder = async (typeCalcul: string): Promise<void> => {
+        try {
+            const sections = construireSections(typeCalcul);
+            const dateGeneration = new Date().toLocaleString('fr-FR');
+            const pdfDocument = (
+                <Document>
+                    <PDFPage size="A4" style={stylesPDF.page}>
+                        <Text style={stylesPDF.titre}>FinanTrack - Export {typeCalcul}</Text>
+                        <Text style={stylesPDF.date}>Généré le {dateGeneration}</Text>
+                        {sections.map((section) => (
+                            <View key={section.titre} style={stylesPDF.section}>
+                                <Text style={stylesPDF.sectionTitre}>{section.titre}</Text>
+                                {section.lignes.map((ligne) => (
+                                    <View key={ligne.label} style={stylesPDF.ligne}>
+                                        <Text style={stylesPDF.label}>{ligne.label}</Text>
+                                        <Text style={stylesPDF.valeur}>{ligne.valeur}</Text>
+                                    </View>
+                                ))}
+                            </View>
+                        ))}
+                    </PDFPage>
+                </Document>
+            );
+
+            const blob = await pdf(pdfDocument).toBlob();
+            const url = URL.createObjectURL(blob);
+            const lien = document.createElement('a');
+            const horodatage = new Date().toISOString().slice(0, 10);
+            const nomFichier = `${typeCalcul.toLowerCase().replace(/[\s']/g, '-').normalize('NFD').replace(/[\u0300-\u036f]/g, '')}-${horodatage}.pdf`;
+            lien.href = url;
+            lien.download = nomFichier;
+            lien.click();
+            URL.revokeObjectURL(url);
+
+            toast.success('PDF exporté avec succès', {
+                description: `${typeCalcul} — ${nomFichier}`,
+            });
+        } catch (error) {
+            console.error('Erreur export PDF:', error);
+            toast.error("Échec de l'export PDF", {
+                description: "Une erreur est survenue lors de la génération du fichier.",
+            });
+        }
     };
 
     return (

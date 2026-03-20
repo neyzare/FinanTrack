@@ -101,7 +101,7 @@ export default function DashboardClient({ data, initialChart }: { data: Dashboar
                                 </div>
                             ) : (
                                 <p className="text-sm text-muted-foreground">
-                                  s  Ajoutez des actions pour voir vos performances
+                                    Ajoutez des actions pour voir vos performances
                                 </p>
                             )}
                         </CardContent>
