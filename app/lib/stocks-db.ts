@@ -2,33 +2,20 @@
 
 import { prisma } from "@/app/lib/prisma";
 import { auth } from "@/app/lib/auth";
-import { unstable_cache, revalidateTag } from "next/cache";
 import { getQuotesForDisplay } from "@/app/lib/quote-cache";
 import { getCompanyProfile } from "@/app/lib/Finnhub";
 
 
 export async function getAllStocks() {
-   const user = await auth()
+    const user = await auth()
     if (!user) {
         return []
     }
 
-    const cacheFn = unstable_cache(
-        async () => {
-            return prisma.stock.findMany(
-                {
-                    where: {userId: user.id},
-                    orderBy: { createdAt: 'desc' },
-                }
-            )
-        },
-        ["user-stock", user.id],
-        {
-            revalidate: 60,
-            tags: ['stocks', `stocks-${user.id}`],
-        }
-    )
-    return cacheFn()
+    return prisma.stock.findMany({
+        where: { userId: user.id },
+        orderBy: { createdAt: 'desc' },
+    })
 }
 
 export interface StockWithQuote {
@@ -111,8 +98,6 @@ export async function addStock(
                 create: { ticker: ticker.toUpperCase(), price: quoteToCache.price, variation: quoteToCache.variation ?? null },
             });
         }
-        revalidateTag("stocks", "default")
-        revalidateTag(`stocks-${user.id}`, "default")
         return { success: true, stock }
     } catch (error: any) {
 
@@ -151,13 +136,10 @@ export async function updateStock(ticker: string, quantity: number) {
             },
         });
 
-        revalidateTag("stocks", "default")
-        revalidateTag(`stocks-${user.id}`, "default")
         return stock;
     } catch (error) {
         console.error("Erreur updateStock :", error);
         return { success: false, error: 'Impossible de mettre à jour' };
-
     }
 }
 
@@ -177,11 +159,9 @@ export async function deleteStock(ticker: string) {
                 }
             }
         });
-        revalidateTag("stocks", "default")
-        revalidateTag(`stocks-${user.id}`, "default")
     } catch (error) {
         console.error('erreur deleteStock : ', error)
-        return {sucess: false, error}
+        return {success: false, error}
     }
 
 }
@@ -194,15 +174,15 @@ export async function deleteAllUserStocks() {
             throw new Error('Utilisateur non authentifié')
         }
 
-        await prisma.stock.findMany({
+        await prisma.stock.deleteMany({
             where: {
-                userId : user.id
+                userId: user.id
             }
         })
 
-        return {sucess: true}
+        return {success: true}
     } catch (error) {
         console.error('erreur deleteAllUserStocks : ', error)
-        return {sucess: false, error}
+        return {success: false, error}
     }
 }

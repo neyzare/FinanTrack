@@ -1,10 +1,7 @@
 export interface Stock {
-    ticker: string;
     name: string;
     secteur: string;
-    prix: number;
-    prixInitial: number;
-    variation: number;
+    price: number;
     volatilite: number;
     drift: number;
 }

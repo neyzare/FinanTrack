@@ -4,7 +4,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -81,7 +80,7 @@ model SandboxStock {
   id         Int    @id @default(autoincrement())
   name       String
   secteur    String
-  Price      Float
+  price      Float
   volatility Float
-  Drift      Float
+  drift      Float
 }

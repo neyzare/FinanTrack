@@ -6,18 +6,16 @@ import { getAllStocks } from "@/app/lib/stocks-db"
 const STORAGE_KEY = "cached_stocks"
 
 export function useStocks() {
-    const [stocks, setStocks] = useState(() => {
-        if (typeof window === "undefined") return []
-        try {
-            const cached = localStorage.getItem(STORAGE_KEY)
-            return cached ? JSON.parse(cached) : []
-        } catch {
-            return []
-        }
-    })
-    const [loading, setLoading] = useState(stocks.length === 0)
+    const [stocks, setStocks] = useState<any[]>([])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
+        // Afficher les données en cache immédiatement pendant le fetch
+        try {
+            const cached = localStorage.getItem(STORAGE_KEY)
+            if (cached) setStocks(JSON.parse(cached))
+        } catch {}
+
         getAllStocks()
             .then((data) => {
                 const list = data ?? []
