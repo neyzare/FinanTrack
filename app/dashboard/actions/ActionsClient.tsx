@@ -7,11 +7,9 @@ import { Trash2 } from "lucide-react"
 import { addStock, updateStock, deleteStock as deleteStockFromDB } from "@/app/lib/stocks-db"
 import type { StockWithQuote } from "@/app/lib/stocks-db"
 
-interface ActionsClientProps {
-    initialStocks: StockWithQuote[]
-}
 
-export default function ActionsClient({ initialStocks }: ActionsClientProps) {
+
+export default function ActionsClient({ initialStocks }: {initialStocks : StockWithQuote[]}) {
     const router = useRouter()
     const [stocks, setStocks] = useState(initialStocks)
     const [shearchValue, setShearchValue] = useState("")

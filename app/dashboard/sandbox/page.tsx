@@ -1,10 +1,11 @@
 import SandboxStockExchange from "@/app/dashboard/sandbox/sandboxStockExchange";
+import {getSandboxStock} from "@/app/lib/stockSimulationAction";
 
-export default function sandboxPage() {
-
+export default async function  sandboxPage() {
+    const stockSandbox = await getSandboxStock()
     return (
         <>
-            <SandboxStockExchange/>
+            <SandboxStockExchange stockSandbox={stockSandbox}/>
         </>
     )
 }

@@ -2,7 +2,9 @@ export interface Stock {
     name: string;
     secteur: string;
     price: number;
-    volatilite: number;
+    initialPrice: number;
+    variation: number
+    volatility: number;
     drift: number;
 }
 

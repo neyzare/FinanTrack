@@ -9,5 +9,10 @@ export async function getSandboxStock() {
         return [];
     }
 
-   A
+    const rows = await prisma.sandboxStock.findMany()
+    return rows.map(r => ({
+        ...r,
+        initialPrice: r.price,
+        variation: 0,
+    }))
 }

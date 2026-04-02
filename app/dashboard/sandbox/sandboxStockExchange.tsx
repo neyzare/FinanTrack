@@ -30,12 +30,12 @@ import {
 import type { Stock, Bougie, BougieChart, Timeframe } from "@/app/types/stock";
 import { TIMEFRAME_LABELS } from "@/app/types/stock";
 import {
-    STOCKS_INITIAUX,
     tickStocks,
     genererHistoriqueBougies,
     mettreAJourBougies,
     bougiePourChart,
 } from "@/app/lib/stockSimulation";
+import {StockSandbox} from "@/app/types/stockSandbox";
 
 const TIMEFRAMES: Timeframe[] = ["1m", "5m", "1h", "4h", "1j", "1M"];
 const TICK_INTERVAL_MS = 3000;
@@ -49,13 +49,13 @@ function buildInitialBougiesMap(stocks: Stock[]): BougiesMap {
         const parTimeframe = {} as Record<Timeframe, Bougie[]>;
         for (const tf of TIMEFRAMES) {
             parTimeframe[tf] = genererHistoriqueBougies(
-                stock.prix,
-                stock.volatilite,
+                stock.price,
+                stock.volatility,
                 stock.drift,
                 tf,
             );
         }
-        map[stock.ticker] = parTimeframe;
+        map[stock.name] = parTimeframe;
     }
     return map;
 }
@@ -75,8 +75,8 @@ function computeMaxQuantity(
     valeurActions: number,
 ): number {
     if (!stock) return 0;
-    const maxAchat = Math.floor(liquidite / stock.prix);
-    const maxVente = Math.floor(valeurActions / stock.prix);
+    const maxAchat = Math.floor(liquidite / stock.price);
+    const maxVente = Math.floor(valeurActions / stock.price);
     return type === "achat" ? maxAchat : maxVente;
 }
 
@@ -100,13 +100,13 @@ function CandlestickTooltip({ active, payload, timeframe }: any) {
     );
 }
 
-export default function SandboxStockExchange() {
-    const [stocks, setStocks] = useState<Stock[]>(STOCKS_INITIAUX);
+export default function SandboxStockExchange( {stockSandbox}: { stockSandbox:StockSandbox[] } ) {
+    const [stocks, setStocks] = useState<Stock[]>(stockSandbox);
     const [liquidite, setLiquidite] = useState(10_000);
     const [valeurActions, setValeurActions] = useState(0);
     const [transactions, setTransactions] = useState(0);
 
-    const [tickerSelectionne, setTickerSelectionne] = useState<string>("AAPL");
+    const [nameSelectionne, setTickerSelectionne] = useState<string>(stockSandbox[0]?.name ?? "");
     const [timeframe, setTimeframe] = useState<Timeframe>("1m");
 
     const [modalOuvert, setModalOuvert] = useState(false);
@@ -121,16 +121,16 @@ export default function SandboxStockExchange() {
         setModalOuvert(true);
     };
 
-    const bougiesRef = useRef<BougiesMap>(buildInitialBougiesMap(STOCKS_INITIAUX));
+    const bougiesRef = useRef<BougiesMap>(buildInitialBougiesMap(stockSandbox));
 
     const simulerTick = useCallback(() => {
         setStocks(prev => {
             const nouveaux = tickStocks(prev);
             for (const stock of nouveaux) {
-                const tickerMap = bougiesRef.current[stock.ticker];
-                if (!tickerMap) continue;
+                const nameMap = bougiesRef.current[stock.name];
+                if (!nameMap) continue;
                 for (const tf of TIMEFRAMES) {
-                    tickerMap[tf] = mettreAJourBougies(tickerMap[tf], stock.prix, tf);
+                    nameMap[tf] = mettreAJourBougies(nameMap[tf], stock.price, tf);
                 }
             }
             return nouveaux;
@@ -143,13 +143,13 @@ export default function SandboxStockExchange() {
     }, [simulerTick]);
 
     const bougiesActuelles: BougieChart[] =
-        (bougiesRef.current[tickerSelectionne]?.[timeframe] ?? []).map(bougiePourChart);
+        (bougiesRef.current[nameSelectionne]?.[timeframe] ?? []).map(bougiePourChart);
 
-    const stockSelectionne = stocks.find(s => s.ticker === tickerSelectionne) ?? stocks[0];
+    const stockSelectionne = stocks.find(s => s.name === nameSelectionne) ?? stocks[0];
 
     const confirmerOrdre = () => {
         if (!modalStock || quantite < 1) return;
-        const total = +(modalStock.prix * quantite).toFixed(2);
+        const total = +(modalStock.price * quantite).toFixed(2);
 
         if (modalType === "achat") {
             if (liquidite < total) return;
@@ -165,7 +165,7 @@ export default function SandboxStockExchange() {
         setModalOuvert(false);
     };
 
-    const prixTotalModal = modalStock ? +(modalStock.prix * quantite).toFixed(2) : 0;
+    const prixTotalModal = modalStock ? +(modalStock.price * quantite).toFixed(2) : 0;
     const quantiteMax = computeMaxQuantity(modalType, modalStock, liquidite, valeurActions);
     const ordreValide = quantite >= 1 && quantite <= quantiteMax;
 
@@ -173,12 +173,12 @@ export default function SandboxStockExchange() {
         setLiquidite(10_000);
         setValeurActions(0);
         setTransactions(0);
-        setStocks(STOCKS_INITIAUX);
+        setStocks(stockSandbox);
         const map: Record<string, Record<Timeframe, Bougie[]>> = {};
-        for (const stock of STOCKS_INITIAUX) {
-            map[stock.ticker] = {} as Record<Timeframe, Bougie[]>;
+        for (const stock of stockSandbox) {
+            map[stock.name] = {} as Record<Timeframe, Bougie[]>;
             for (const tf of TIMEFRAMES) {
-                map[stock.ticker][tf] = genererHistoriqueBougies(stock.prix, stock.volatilite, stock.drift, tf);
+                map[stock.name][tf] = genererHistoriqueBougies(stock.price, stock.volatility, stock.drift, tf);
             }
         }
         bougiesRef.current = map;
@@ -230,7 +230,7 @@ export default function SandboxStockExchange() {
                     <div className="flex items-center justify-between flex-wrap gap-4">
                         <div>
                             <CardTitle className="flex items-center gap-2">
-                                {stockSelectionne.ticker}
+
                                 <span className="text-base font-normal text-muted-foreground">
                                     — {stockSelectionne.name}
                                 </span>
@@ -239,7 +239,7 @@ export default function SandboxStockExchange() {
                                 </span>
                             </CardTitle>
                             <p className="text-2xl font-bold mt-1">
-                                {stockSelectionne.prix.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} €
+                                {stockSelectionne.price.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} €
                             </p>
                         </div>
                         <div className="flex gap-1 bg-muted rounded-lg p-1">
@@ -313,24 +313,23 @@ export default function SandboxStockExchange() {
                         <tbody>
                             {stocks.map((stock) => {
                                 const hausse = stock.variation >= 0;
-                                const estSelectionne = stock.ticker === tickerSelectionne;
+                                const estSelectionne = stock.name === nameSelectionne;
                                 return (
                                     <tr
-                                        key={stock.ticker}
-                                        onClick={() => setTickerSelectionne(stock.ticker)}
+                                        key={stock.name}
+                                        onClick={() => setTickerSelectionne(stock.name)}
                                         className={`border-b last:border-0 cursor-pointer transition-colors ${
                                             estSelectionne ? 'bg-primary/10' : 'hover:bg-muted/30'
                                         }`}
                                     >
                                         <td className="px-6 py-4">
-                                            <p className="font-bold">{stock.ticker}</p>
-                                            <p className="text-xs text-muted-foreground">{stock.name}</p>
+                                            <p className="font-bold">{stock.name}</p>
                                         </td>
                                         <td className="px-6 py-4">
                                             <Badge variant="outline">{stock.secteur}</Badge>
                                         </td>
                                         <td className="px-6 py-4 text-right font-medium tabular-nums">
-                                            {stock.prix.toLocaleString('fr-FR', { minimumFractionDigits: 2 })}€
+                                            {stock.price.toLocaleString('fr-FR', { minimumFractionDigits: 2 })}€
                                         </td>
                                         <td className="px-6 py-4 text-right">
                                             <span className={`flex items-center justify-end gap-1 font-medium tabular-nums ${hausse ? 'text-green-500' : 'text-red-500'}`}>
@@ -343,7 +342,7 @@ export default function SandboxStockExchange() {
                                                 <Button
                                                     size="sm"
                                                     className="bg-green-500 hover:bg-green-500/90 text-white"
-                                                    disabled={liquidite < stock.prix}
+                                                    disabled={liquidite < stock.price}
                                                     onClick={(e) => { e.stopPropagation(); ouvrirModal(stock, "achat"); }}
                                                 >
                                                     Acheter
@@ -351,7 +350,7 @@ export default function SandboxStockExchange() {
                                                 <Button
                                                     size="sm"
                                                     variant="outline"
-                                                    disabled={valeurActions < stock.prix}
+                                                    disabled={valeurActions < stock.price}
                                                     onClick={(e) => { e.stopPropagation(); ouvrirModal(stock, "vente"); }}
                                                 >
                                                     Vendre
@@ -373,10 +372,10 @@ export default function SandboxStockExchange() {
                             <span className={modalType === "achat" ? "text-green-500" : "text-red-500"}>
                                 {modalType === "achat" ? "Acheter" : "Vendre"}
                             </span>
-                            {modalStock?.ticker}
+                            {modalStock?.name}
                         </DialogTitle>
                         <DialogDescription>
-                            {modalStock?.name} — {modalStock?.prix.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} € par action
+                            {modalStock?.name} — {modalStock?.price.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} € par action
                         </DialogDescription>
                     </DialogHeader>
 
@@ -418,7 +417,7 @@ export default function SandboxStockExchange() {
                         <div className="rounded-lg bg-muted p-4 space-y-2">
                             <div className="flex justify-between text-sm">
                                 <span className="text-muted-foreground">Prix unitaire</span>
-                                <span>{modalStock?.prix.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} €</span>
+                                <span>{modalStock?.price.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} €</span>
                             </div>
                             <div className="flex justify-between text-sm">
                                 <span className="text-muted-foreground">Quantité</span>

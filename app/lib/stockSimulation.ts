@@ -38,14 +38,14 @@ export function tickStocks(stocks: Stock[]): Stock[] {
     return stocks.map(stock => {
         const nouveauPrix = calculerNouveauPrix(
             stock.price,
-            stock.volatilite,
+            stock.volatility,
             stock.drift,
             chocs[stock.secteur],
         );
         return {
             ...stock,
-            prix: nouveauPrix,
-            variation: calculerVariation(nouveauPrix, stock.prixInitial),
+            price: nouveauPrix,
+            variation: calculerVariation(nouveauPrix, stock.initialPrice),
         };
     });
 }
@@ -154,5 +154,3 @@ export function bougiePourChart(b: Bougie): BougieChart {
         whiskerDataKey: [bodyCenter - b.low, b.high - bodyCenter],
     };
 }
-
-export const STOCKS_INITIAUX: Stock[] = await getSandboxStock()
