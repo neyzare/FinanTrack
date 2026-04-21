@@ -1,7 +1,7 @@
 export function Footer() {
     return(
         <>
-            <footer className="footer sm:footer-horizontal bg-[#1e293b] text-base-content p-10">
+            <footer className="footer sm:footer-horizontal bg-card text-card-foreground border-t border-border p-10">
                 <aside>
                     <svg
                         width="50"

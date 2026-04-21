@@ -80,7 +80,10 @@ export async function addStock(
     try {
         const user = await auth();
         if (!user) {
-            throw new Error("Utilisateur non authentifié");
+            return {
+                success: false,
+                message: "no user found"
+            }
         }
         const stock = await prisma.stock.create({
             data: {
@@ -121,7 +124,10 @@ export async function updateStock(ticker: string, quantity: number) {
         const user = await auth();
 
         if (!user) {
-            throw new Error("Utilisateur non authentifié");
+            return {
+                success: false,
+                message: "no user found"
+            }
         }
 
         const stock = await prisma.stock.update({
@@ -148,7 +154,10 @@ export async function deleteStock(ticker: string) {
         const user = await auth()
 
         if (!user) {
-            throw new Error("Utilisateur non authentifié");
+            return {
+                success: false,
+                message: "no user found"
+            }
         }
 
         await prisma.stock.delete({
@@ -171,7 +180,10 @@ export async function deleteAllUserStocks() {
         const user = await auth()
 
         if (!user) {
-            throw new Error('Utilisateur non authentifié')
+            return {
+                success: false,
+                message: "no user found"
+            }
         }
 
         await prisma.stock.deleteMany({

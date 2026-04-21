@@ -3,7 +3,7 @@
 import {useEffect, useState} from "react";
 import {Button} from "./ui/button";
 import {Logo} from "./Logo";
-import {Bell, Moon, Sun, User} from "lucide-react";
+import { Moon, Sun, User} from "lucide-react";
 import {useRouter, usePathname} from "next/navigation";
 import {
     DropdownMenu,
@@ -17,6 +17,7 @@ import {Avatar, AvatarFallback, AvatarImage} from "./ui/avatar";
 import {auth} from "@/app/lib/auth";
 import Link from "next/link";
 import {authLogout} from "@/app/lib/authLogout";
+import {useTheme} from "@/app/components/ThemeProvider";
 
 interface NavbarProps {
     initialAuth?: boolean;
@@ -24,8 +25,8 @@ interface NavbarProps {
     onLogout?: () => void;
 }
 
-export function Navbar({ initialAuth = false, onNavigate, onLogout }: NavbarProps) {
-    const [isDarkMode, setIsDarkMode] = useState(true);
+export function Navbar({ initialAuth = false, onNavigate }: NavbarProps) {
+    const { isDarkMode, toggleTheme } = useTheme();
     const [isAuth, setIsAuth] = useState<boolean>(initialAuth)
     const router = useRouter()
     const pathname = usePathname()
@@ -42,29 +43,6 @@ export function Navbar({ initialAuth = false, onNavigate, onLogout }: NavbarProp
 
         checkAuth()
     }, [pathname])
-
-
-
-    useEffect(() => {
-        const storedTheme = localStorage.getItem("theme");
-        if (storedTheme === "light") {
-            document.documentElement.classList.remove("dark");
-            setIsDarkMode(false);
-        } else {
-            document.documentElement.classList.add("dark");
-            setIsDarkMode(true);
-            if (!storedTheme) localStorage.setItem("theme", "dark");
-        }
-    }, []);
-
-    const toggleTheme = () => {
-        setIsDarkMode((prev) => {
-            const newMode = !prev;
-            document.documentElement.classList.toggle("dark", newMode);
-            localStorage.setItem("theme", newMode ? "dark" : "light");
-            return newMode;
-        });
-    };
 
     const handleLogout = async () => {
         try {

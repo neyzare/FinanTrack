@@ -10,7 +10,6 @@ import {
     DollarSign,
     PieChart,
     Target,
-    Sparkles,
 } from "lucide-react";
 
 const SECTOR_COLORS: Record<string, string> = {

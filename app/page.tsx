@@ -48,7 +48,7 @@ export default function Home() {
                         <h2 className="text-4xl lg:text-5xl font-bold mb-4">
                             Maîtrisez vos finances, suivez vos investissements
                         </h2>
-                        <p className="text-lg text-gray-500 mb-6 max-w-lg">
+                        <p className="text-lg text-muted-foreground mb-6 max-w-lg">
                             Finantrack vous aide à gérer votre portefeuille d'actions, analyser vos dépenses et optimiser vos rendements grâce à des outils intelligents.
                         </p>
                         <Link href="/dashboard">
@@ -59,24 +59,24 @@ export default function Home() {
                 </div>
             </section>
 
-            <section className=" flex flex-col items-center justify-center gap-12 py-20 bg-[#1E293B] ">
+            <section className="flex flex-col items-center justify-center gap-12 py-20 bg-muted">
                 <div className="text-center max-w-2xl ">
                     <h2 className="text-4xl font-bold mb-4">Fonctionnalités principales</h2>
-                    <p className="text-lg text-gray-500">
+                    <p className="text-lg text-muted-foreground">
                         Tout ce dont vous avez besoin pour gérer vos finances et vos
                         investissements.
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-6 lg:px-20 bg-[#1E293B]">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-6 lg:px-20">
                     {features.map((feature, index) => (
                         <div
                             key={index}
-                            className="card bg-[#1E283A] border hover:border-[#39BDF8] border-[#334156] shadow-xl rounded-2xl p-8 flex flex-col items-center text-center hover:shadow-2xl transition"
+                            className="card bg-card text-card-foreground border hover:border-[#39BDF8] border-border shadow-xl rounded-2xl p-8 flex flex-col items-center text-center hover:shadow-2xl transition"
                         >
                             <feature.icon className="h-10 w-10 text-primary mb-4" />
                             <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                            <p className="text-gray-500">{feature.description}</p>
+                            <p className="text-muted-foreground">{feature.description}</p>
                         </div>
                     ))}
                 </div>
@@ -85,7 +85,7 @@ export default function Home() {
             <section className="flex flex-col items-center justify-center gap-8 py-20">
                 <div className="text-center">
                     <h2 className="text-4xl font-bold mb-2">Comment ça marche</h2>
-                    <p className="text-lg text-gray-500">
+                    <p className="text-lg text-muted-foreground">
                         Commencez à suivre vos investissements en 3 étapes simples
                     </p>
                 </div>
@@ -94,7 +94,7 @@ export default function Home() {
                     <li className="step step-primary">
                         <div className="flex flex-col gap-1 items-center">
                             <span className="font-semibold">Créer un compte</span>
-                            <p className="text-sm text-gray-500">
+                            <p className="text-sm text-muted-foreground">
                                 Inscrivez-vous gratuitement en quelques secondes
                             </p>
                         </div>
@@ -104,7 +104,7 @@ export default function Home() {
               <span className="font-semibold">
                 Suivez et testez vos performances
               </span>
-                            <p className="text-sm text-gray-500">
+                            <p className="text-sm text-muted-foreground">
                                 Analysez et optimisez votre portefeuille
                             </p>
                         </div>
@@ -112,7 +112,7 @@ export default function Home() {
                 </ul>
             </section>
 
-            <section className=" flex flex-col items-center justify-center gap-12 py-20 bg-[#1E293B] ">
+            <section className="flex flex-col items-center justify-center gap-12 py-20 bg-muted">
                 <div className="text-center max-w-2xl ">
                     <h2 className="text-4xl font-bold mb-4">Un petit mot du Createur</h2>
                     <p className="text-3xl text-[#51A2FF]">

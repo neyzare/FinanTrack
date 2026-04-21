@@ -1,20 +1,13 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
-html, body, #__next {
-  background-color: #0e172a !important;
-}
-
-[data-theme],
-html[data-theme] {
-  background-color: white !important;
-}
-
 /* Empêche le rubber band sur iOS */
 html, body {
     overscroll-behavior: none; /* pour les navigateurs modernes */
     touch-action: pan-x pan-y;  /* iOS */
     -webkit-overflow-scrolling: auto; /* désactive l’effet élastique iOS */
+    background-color: var(--background);
+    color: var(--foreground);
 }
 
 

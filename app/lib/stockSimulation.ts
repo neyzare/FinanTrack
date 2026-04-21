@@ -1,6 +1,5 @@
 import type { Stock, Bougie, BougieChart, Timeframe } from "@/app/types/stock";
 import { TIMEFRAME_DUREES_SEC, TIMEFRAME_NB_BOUGIES } from "@/app/types/stock";
-import {getSandboxStock} from "@/app/lib/stockSimulationAction";
 
 export function gaussienne(): number {
     let u = 0, v = 0;
