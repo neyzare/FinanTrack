@@ -41,7 +41,7 @@ export function Navbar({ initialAuth = false, onNavigate }: NavbarProps) {
             }
         }
 
-        checkAuth()
+        void checkAuth()
     }, [pathname])
 
     const handleLogout = async () => {
@@ -88,7 +88,7 @@ export function Navbar({ initialAuth = false, onNavigate }: NavbarProps) {
                     {isAuth ? (
                         <>
                             <Link href="/dashboard">
-                                <button>
+                                <button className="font-bold">
                                     Dashboard
                                 </button>
                             </Link>

@@ -34,12 +34,12 @@ import {
     genererHistoriqueBougies,
     mettreAJourBougies,
     bougiePourChart,
+    TICK_INTERVAL_MS,
 } from "@/app/lib/stockSimulation";
 import type { Stocksandbox, Position, OrderType, BougiesMap, Transaction } from "@/app/types/Sandbox";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/app/components/ui/tabs";
 
 const TIMEFRAMES: Timeframe[] = ["1m", "5m", "1h", "4h", "1j", "1M"];
-const TICK_INTERVAL_MS = 3000;
 
 
 
@@ -51,7 +51,6 @@ function buildInitialBougiesMap(stocks: Stock[]): BougiesMap {
             parTimeframe[tf] = genererHistoriqueBougies(
                 stock.price,
                 stock.volatility,
-                stock.drift,
                 tf,
             );
         }
@@ -128,7 +127,6 @@ export default function SandboxStockExchange( {stockSandbox}: { stockSandbox:Sto
 
     const bougiesRef = useRef<BougiesMap>(buildInitialBougiesMap(stockSandbox));
 
-    // ─── Valeurs derivees (recalculees automatiquement) ──────────
 
     const valeurActions = useMemo(() => {
         return Object.values(positions).reduce((sum, pos) => {
@@ -230,7 +228,7 @@ export default function SandboxStockExchange( {stockSandbox}: { stockSandbox:Sto
         for (const stock of stockSandbox) {
             map[stock.name] = {} as Record<Timeframe, Bougie[]>;
             for (const tf of TIMEFRAMES) {
-                map[stock.name][tf] = genererHistoriqueBougies(stock.price, stock.volatility, stock.drift, tf);
+                map[stock.name][tf] = genererHistoriqueBougies(stock.price, stock.volatility, tf);
             }
         }
         bougiesRef.current = map;
@@ -313,8 +311,8 @@ export default function SandboxStockExchange( {stockSandbox}: { stockSandbox:Sto
                     </div>
                 </CardHeader>
                 <CardContent>
-                    <div className="h-[400px]">
-                        <ResponsiveContainer width="100%" height="100%">
+                    <div className="h-[400px] w-full">
+                        <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                             <BarChart data={bougiesActuelles} margin={{ top: 10, right: 20, left: 10, bottom: 10 }}>
                                 <CartesianGrid vertical={false} strokeDasharray="3 3" className="stroke-border" />
                                 <XAxis

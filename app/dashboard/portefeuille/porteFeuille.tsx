@@ -90,11 +90,6 @@ export default function Portefeuille({ stocks }: PortefeuilleProps) {
 
     const topStocks = [...stocks].sort((a, b) => b.value - a.value).slice(0, 5);
 
-    const techPct = sectorDistribution.find((s) => s.name === "Technology")?.value ?? 0;
-    const autoPct = sectorDistribution.find((s) => s.name === "Automotive")?.value ?? 0;
-    const ecomPct = sectorDistribution.find((s) => s.name === "E-commerce")?.value ?? 0;
-    const financePct = sectorDistribution.find((s) => s.name === "Finance")?.value ?? 0;
-
     return (
         <div className="space-y-6">
             <div>

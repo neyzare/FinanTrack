@@ -11,8 +11,7 @@ const authSchema = z.object({
     password: z.string().min(1, "Le mot de passe est requis")
 })
 
-export async function loginAction(previousState: any, formData : FormData) {
-    console.log("bienvenue dans la logique du login")
+export async function loginAction(_previousState: any | undefined, formData: FormData) {
 
   try {
       const data = {
@@ -33,7 +32,7 @@ export async function loginAction(previousState: any, formData : FormData) {
 
       const user = await prisma.user.findUnique({
           where: {
-              email: validateData.data?.email
+              email
           }
       })
 

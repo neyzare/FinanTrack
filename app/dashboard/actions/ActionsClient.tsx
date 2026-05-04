@@ -51,7 +51,7 @@ export default function ActionsClient({ initialStocks }: {initialStocks : StockW
     }
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter") shearchStocks()
+        if (e.key === "Enter") {shearchStocks()}
     }
 
     const shearchStocks = async () => {
@@ -91,6 +91,7 @@ export default function ActionsClient({ initialStocks }: {initialStocks : StockW
                     variation: data.dp,
                     quantity: 0,
                     value: 0,
+                    buyPrice
                 },
             ])
             setShearchValue("")
