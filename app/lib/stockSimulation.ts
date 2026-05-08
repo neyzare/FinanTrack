@@ -3,13 +3,13 @@ import { TIMEFRAME_DUREES_SEC, TIMEFRAME_NB_BOUGIES } from "@/app/types/stock";
 
 export const TICK_INTERVAL_MS = 3000;
 
-const RAPPEL = 0.02;
 const TICKS_PAR_BOUGIE = 20;
+const VOLATILITE = 0.03;
 
-function variationTick(prix: number, prixCible: number, volatilite: number): number {
-    const rappel = (prixCible - prix) * RAPPEL;
-    const bruit = (Math.random() - 0.5) * 2 * volatilite * prix;
-    return Math.max(0.01, +(prix + rappel + bruit).toFixed(2));
+function variationTick(prix: number): number {
+    const pourcentage = (Math.random() - 0.5) * 2 * VOLATILITE;
+    const nouveauPrix = prix * (1 + pourcentage);
+    return Math.max(0.01, +nouveauPrix.toFixed(2));
 }
 
 export function calculerVariation(prixActuel: number, prixInitial: number): number {
@@ -18,7 +18,7 @@ export function calculerVariation(prixActuel: number, prixInitial: number): numb
 
 export function tickStocks(stocks: Stock[]): Stock[] {
     return stocks.map(stock => {
-        const nouveauPrix = variationTick(stock.price, stock.initialPrice, stock.volatility);
+        const nouveauPrix = variationTick(stock.price);
         return {
             ...stock,
             price: nouveauPrix,
@@ -29,7 +29,6 @@ export function tickStocks(stocks: Stock[]): Stock[] {
 
 export function genererHistoriqueBougies(
     prixDepart: number,
-    volatilite: number,
     timeframe: Timeframe,
 ): Bougie[] {
     const nbBougies = TIMEFRAME_NB_BOUGIES[timeframe];
@@ -47,7 +46,7 @@ export function genererHistoriqueBougies(
         let close = open;
 
         for (let t = 0; t < TICKS_PAR_BOUGIE; t++) {
-            close = variationTick(close, prixDepart, volatilite);
+            close = variationTick(close);
             if (close > high) high = close;
             if (close < low) low = close;
         }

@@ -20,7 +20,6 @@ const config = new Configuration({
 
 const finnhubClient = new DefaultApi(config);
 
-// --- Rate limiter (max 2 appels API simultanés) ---
 
 const MAX_CONCURRENT = 2;
 let inFlight = 0;

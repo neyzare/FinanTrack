@@ -37,7 +37,7 @@ export default function Home() {
             <section className="hero min-h-screen">
                 <div className="hero-content flex-col lg:flex-row-reverse gap-10">
                     <div className="relative">
-                        <div className="absolute inset-0 bg-gradient-to-tr from-[#38BDF8]/20 to-[#22C55E]/20 rounded-3xl blur-3xl"></div>
+                        <div className="absolute inset-0 bg-linear-to-tr from-[#38BDF8]/20 to-[#22C55E]/20 rounded-3xl blur-3xl"></div>
                         <ImageWithFallback
                             src="https://images.unsplash.com/photo-1744473755637-e09f0c2fab41?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmaW5hbmNpYWwlMjBjaGFydHMlMjBncm93dGh8ZW58MXx8fHwxNzYxNjM4MTg0fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
                             alt="Financial Dashboard"
@@ -116,14 +116,14 @@ export default function Home() {
                 <div className="text-center max-w-2xl ">
                     <h2 className="text-4xl font-bold mb-4">Un petit mot du Createur</h2>
                     <p className="text-3xl text-[#51A2FF]">
-                        J'ai voulu creer FinanTrack pour faciliter les calcules Financiers
+                        J’ai voulu créer FinanTrack pour faciliter et optimiser vos finances
                     </p>
                 </div>
             </section>
 
             <section className="py-20">
                 <div className="container mx-auto px-4">
-                    <Card className="bg-gradient-to-r from-[#38BDF8] to-[#22C55E] border-0 text-white">
+                    <Card className="bg-linear-to-r from-[#38BDF8] to-[#22C55E] border-0 text-white">
                         <CardContent className="p-12 text-center space-y-6">
                             <h2 className="text-3xl lg:text-5xl text-white">
                                 Prêt à transformer vos finances ?

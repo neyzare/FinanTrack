@@ -155,7 +155,7 @@ export default function DashboardClient({ data, initialChart }: { data: Dashboar
                                         border: "1px solid hsl(var(--border))",
                                         borderRadius: "0.5rem",
                                     }}
-                                    formatter={(value: number) => [`${Number(value).toLocaleString("fr-FR")} €`, "Valeur"]}
+                                    formatter={(value) => [`${Number(value).toLocaleString("fr-FR")} €`, "Valeur"]}
                                 />
                                 <Line
                                     type="monotone"

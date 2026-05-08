@@ -4,8 +4,6 @@ export interface Stock {
     price: number;
     initialPrice: number;
     variation: number
-    volatility: number;
-    drift: number;
 }
 
 export interface Bougie {

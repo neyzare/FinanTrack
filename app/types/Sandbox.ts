@@ -4,8 +4,6 @@ export interface Stocksandbox {
     name: string;
     secteur: string;
     price: number;
-    volatility: number;
-    drift: number;
     initialPrice: number;
     variation: number;
 }
@@ -27,4 +25,23 @@ export interface Transaction {
     unitPrice: number;
     total: number;
     timestamp: Date;
+}
+
+export type CandlesMap = Record<string, Partial<Record<Timeframe, Bougie>>>;
+
+export interface SandboxState {
+    liquidite: number;
+    positions: Position[];
+    historique: Transaction[];
+    candles: CandlesMap;
+}
+
+export interface SavedCandle {
+    stockName: string;
+    timeframe: Timeframe;
+    time: number;
+    open: number;
+    high: number;
+    low: number;
+    close: number;
 }

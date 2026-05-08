@@ -2,7 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
-type Theme = "light" | "dark";
+export type Theme = "light" | "dark";
 
 interface ThemeContextValue {
     theme: Theme;
@@ -12,6 +12,10 @@ interface ThemeContextValue {
 }
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
+
+function persistTheme(theme: Theme) {
+    document.cookie = `theme=${theme}; path=/; max-age=31536000; samesite=lax`
+}
 
 function applyThemeToDocument(theme: Theme) {
     const root = document.documentElement;
@@ -23,26 +27,22 @@ function applyThemeToDocument(theme: Theme) {
     root.style.colorScheme = theme;
 }
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
-    const [theme, setThemeState] = useState<Theme>("dark");
+export function ThemeProvider({ children, initialTheme }: { children: React.ReactNode, initialTheme: Theme }) {
+    const [theme, setThemeState] = useState<Theme>(initialTheme);
 
     useEffect(() => {
-        const stored = (localStorage.getItem("theme") as Theme | null) ?? "dark";
-        setThemeState(stored);
-        applyThemeToDocument(stored);
-    }, []);
+        applyThemeToDocument(theme);
+    }, [theme]);
 
     const setTheme = useCallback((next: Theme) => {
         setThemeState(next);
-        localStorage.setItem("theme", next);
-        applyThemeToDocument(next);
+        persistTheme(next)
     }, []);
 
     const toggleTheme = useCallback(() => {
         setThemeState((prev) => {
             const next: Theme = prev === "dark" ? "light" : "dark";
-            localStorage.setItem("theme", next);
-            applyThemeToDocument(next);
+            persistTheme(next)
             return next;
         });
     }, []);
