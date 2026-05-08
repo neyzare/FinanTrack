@@ -20,9 +20,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     const theme: Theme = cookieStore.get('theme')?.value === 'light' ? "light" : "dark";
     return (
         <html lang="en" className={theme === "dark" ? "dark" : ""} style={{colorScheme: theme}}>
-        <head>
-            <title></title>
-        </head>
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}>
         <ThemeProvider initialTheme={theme}>
             <Navbar initialAuth={!!user} />
