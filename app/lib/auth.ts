@@ -2,10 +2,12 @@
 
 import {cookies} from "next/headers";
 import {prisma} from "@/app/lib/prisma";
+import {verifySignedValue} from "@/app/lib/cookie-sign";
 
 export async function auth() {
     const cookieStore = await cookies();
-    const userID = cookieStore.get("userId")?.value
+    const signed = cookieStore.get("userId")?.value
+    const userID = verifySignedValue(signed)
 
     if (!userID) {
         return null

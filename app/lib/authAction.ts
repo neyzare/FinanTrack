@@ -5,13 +5,20 @@ import {prisma} from "@/app/lib/prisma";
 import bcrypt from "bcrypt";
 import {redirect} from "next/navigation";
 import {revalidatePath} from "next/cache";
+import {signValue} from "@/app/lib/cookie-sign";
 
 const authSchema = z.object({
-    email: z.                                               email( "Email invalide"),
-    password: z.string().min(1, "Le mot de passe est requis")
+    email: z.email( "Email invalide"),
+    password: z.string().min(8, "Le mot de passe est requis")
 })
 
-export async function loginAction(_previousState: any | undefined, formData: FormData) {
+export interface PreviousState {
+    success: boolean;
+    error?: string;
+    id?: string;
+    user?: string;
+}
+export async function loginAction(_previousState: PreviousState | null, formData: FormData) {
 
   try {
       const data = {
@@ -55,7 +62,7 @@ export async function loginAction(_previousState: any | undefined, formData: For
       }
 
       const cookieStore = await cookies()
-      cookieStore.set("userId", user.id, {
+      cookieStore.set("userId", signValue(user.id), {
           httpOnly:true,
           secure: process.env.NODE_ENV === "production",
           sameSite: 'lax',

@@ -7,9 +7,10 @@ import { Button } from "../components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
 import { Logo } from "../components/Logo";
 import { ImageWithFallback } from "@/app/components/ImageWithFallBack";
-import { loginAction } from "@/app/lib/authAction";
+import {loginAction} from "@/app/lib/authAction";
 import { registerAction } from "@/app/lib/registerAction";
-import { useFormState, useFormStatus } from "react-dom";
+import { useFormStatus } from "react-dom";
+import {useActionState} from "react";
 
 function SubmitButton({ children, variant = "login" }: { children: React.ReactNode; variant?: "login" | "signup" }) {
     const { pending } = useFormStatus();
@@ -26,8 +27,8 @@ function SubmitButton({ children, variant = "login" }: { children: React.ReactNo
 }
 
 export default function AuthForm() {
-    const [loginState, loginFormAction] = useFormState(loginAction, null);
-    const [registerState, registerFormAction] = useFormState(registerAction, null);
+    const [loginState, loginFormAction] = useActionState(loginAction, null);
+    const [registerState, registerFormAction] = useActionState(registerAction, null);
 
     return (
         <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 py-12">

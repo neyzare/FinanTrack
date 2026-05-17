@@ -7,6 +7,7 @@ import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 import { isRedirectError } from "next/dist/client/components/redirect-error"
 import { revalidatePath } from "next/cache"
+import {signValue} from "@/app/lib/cookie-sign";
 
 type RegisterState = {
     success: boolean
@@ -15,7 +16,7 @@ type RegisterState = {
 
 const registerSchema = z.object({
     email: z.email("Email invalide"),
-    password: z.string().min(8, "Mot de passe trop court"),
+    password: z.string().min(12, "Mot de passe trop court"),
     fullname: z.string().min(2, "Nom requis"),
 })
 
@@ -64,7 +65,7 @@ export async function registerAction(
         })
 
         const cookieStore = await cookies()
-        cookieStore.set("userId", user.id, {
+        cookieStore.set("userId", signValue(user.id), {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             sameSite: "lax",

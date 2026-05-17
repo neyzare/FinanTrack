@@ -29,11 +29,17 @@ function CandlestickShape(props: CandlestickShapeProps) {
     return <Rectangle {...props} fill={color} stroke={color} />;
 }
 
-function CandlestickTooltip({ active, payload, timeframe }: any) {
+interface CandlestickTooltipProps {
+    active?: boolean;
+    payload?: Array<{ payload: BougieChart }>;
+    timeframe: Timeframe;
+}
+
+function CandlestickTooltip({ active, payload, timeframe }: CandlestickTooltipProps) {
     if (!active || !payload?.length) return null;
-    const { time, open, high, low, close, isBullish } = payload[0].payload as BougieChart;
+    const { time, open, high, low, close, isBullish } = payload[0].payload;
     const color = isBullish ? "#22c55e" : "#ef4444";
-    const tf = timeframe as Timeframe;
+    const tf = timeframe;
 
     return (
         <div className="rounded-lg border bg-card p-3 shadow-md text-sm space-y-1">

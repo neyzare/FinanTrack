@@ -1,5 +1,6 @@
 "use server"
 
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/app/lib/prisma";
 import { auth } from "@/app/lib/auth";
 import { getQuotesForDisplay } from "@/app/lib/quote-cache";
@@ -102,21 +103,20 @@ export async function addStock(
             });
         }
         return { success: true, stock }
-    } catch (error: any) {
+    } catch (error: unknown) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+            return {
+                success: false,
+                error: 'Cette action existe déjà dans votre portefeuille'
+            };
+        }
 
-    if (error.code === 'P2002') {
+        console.error('Erreur addStock:', error);
         return {
             success: false,
-            error: 'Cette action existe déjà dans votre portefeuille'
+            error: error instanceof Error ? error.message : "Impossible d'ajouter l'action"
         };
     }
-
-    console.error('Erreur addStock:', error);
-    return {
-        success: false,
-        error: error.message || 'Impossible d\'ajouter l\'action'
-    };
-}
 }
 
 export async function updateStock(ticker: string, quantity: number) {

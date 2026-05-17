@@ -24,7 +24,7 @@ interface Props {
 }
 
 export default function SandboxStockExchange({ stockSandbox, initialState }: Props) {
-    const { stocks, bougiesRef, reinitialiserSimulation } = useStockSimulation(stockSandbox);
+    const { stocks, bougies, reinitialiserSimulation } = useStockSimulation(stockSandbox);
     const { liquidite, positions, historique, passerOrdre, reinitialiserTrading } = useTrading(initialState);
 
     const [nameSelectionne, setTickerSelectionne] = useState<string>(stockSandbox[0]?.name ?? "");
@@ -53,8 +53,10 @@ export default function SandboxStockExchange({ stockSandbox, initialState }: Pro
     const positionsList = Object.values(positions);
     const stockSelectionne = stocks.find(s => s.name === nameSelectionne) ?? stocks[0];
 
-    const bougiesActuelles: BougieChart[] =
-        (bougiesRef.current[nameSelectionne]?.[timeframe] ?? []).map(bougiePourChart);
+    const bougiesActuelles: BougieChart[] = useMemo(
+        () => (bougies[nameSelectionne]?.[timeframe] ?? []).map(bougiePourChart),
+        [bougies, nameSelectionne, timeframe],
+    );
 
     const quantiteMax = computeMaxQuantity(modalType, modalStock, liquidite, positions);
 

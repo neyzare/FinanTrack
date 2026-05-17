@@ -49,7 +49,7 @@ export default function Home() {
                             Maîtrisez vos finances, suivez vos investissements
                         </h2>
                         <p className="text-lg text-muted-foreground mb-6 max-w-lg">
-                            Finantrack vous aide à gérer votre portefeuille d'actions, analyser vos dépenses et optimiser vos rendements grâce à des outils intelligents.
+                            Finantrack vous aide à gérer votre portefeuille d&apos;actions, analyser vos dépenses et optimiser vos rendements grâce à des outils intelligents.
                         </p>
                         <Link href="/dashboard">
                             <button className="btn bg-[#39BDF8] rounded-xl" >Commencer maintenant</button>
@@ -129,7 +129,7 @@ export default function Home() {
                                 Prêt à transformer vos finances ?
                             </h2>
                             <p className="text-xl text-white/90 max-w-2xl mx-auto">
-                                Rejoignez Finantrack aujourd'hui et prenez le contrôle de vos investissements
+                                Rejoignez Finantrack aujourd&apos;hui et prenez le contrôle de vos investissements
                             </p>
                             <div className="flex flex-wrap gap-4 justify-center">
                                 <Link href={"/dashboard"}>

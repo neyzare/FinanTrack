@@ -25,11 +25,14 @@ export default function DashboardClient({ data, initialChart }: { data: Dashboar
     useEffect(() => {
         if (selectedDays === 30) return
         if (!data.hasStocks) return
+        let cancelled = false
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- loading flag must mirror an async fetch lifecycle
         setLoading(true)
         getHistory(selectedDays)
-            .then(setChartData)
-            .catch(() => setChartData([]))
-            .finally(() => setLoading(false))
+            .then(points => { if (!cancelled) setChartData(points) })
+            .catch(() => { if (!cancelled) setChartData([]) })
+            .finally(() => { if (!cancelled) setLoading(false) })
+        return () => { cancelled = true }
     }, [selectedDays, data.hasStocks])
 
     const stats = [
@@ -67,7 +70,7 @@ export default function DashboardClient({ data, initialChart }: { data: Dashboar
         <>
             <div className="mb-6">
                 <h3 className="text-3xl font-bold pb-2">Dashboard</h3>
-                <p className="text-muted-foreground">Vue d'ensemble de votre portefeuille</p>
+                <p className="text-muted-foreground">Vue d&apos;ensemble de votre portefeuille</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -169,7 +172,7 @@ export default function DashboardClient({ data, initialChart }: { data: Dashboar
                         </ResponsiveContainer>
                     ) : (
                         <div className="flex items-center justify-center h-full text-muted-foreground">
-                            <p>Visitez le dashboard chaque jour pour construire l'historique</p>
+                            <p>Visitez le dashboard chaque jour pour construire l&apos;historique</p>
                         </div>
                     )}
                 </CardContent>

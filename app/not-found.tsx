@@ -24,11 +24,11 @@ export default function NotFound() {
             </div>
 
             <h1 className="text-2xl font-bold mb-3">
-                Oups, cette page n'existe pas
+                Oups, cette page n&apos;existe pas
             </h1>
             <p className="text-muted-foreground max-w-sm mb-8">
                 La page que vous cherchez a peut-être été déplacée, supprimée,
-                ou n'a jamais existé. Vérifiez l'URL ou retournez à l'accueil.
+                ou n&apos;a jamais existé. Vérifiez l&apos;URL ou retournez à l&apos;accueil.
             </p>
 
             <div className="flex gap-3">
