@@ -1,4 +1,3 @@
-""
 ARG NODE_VERSION=22-alpine
 
 FROM node:${NODE_VERSION} AS base
