@@ -1,19 +1,24 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import {verifySignedValue} from "@/app/lib/cookie-sign";
+import { verifySignedValue } from '@/app/lib/cookie-sign'
 
-export function proxy(request : NextRequest) {
+export function proxy(request: NextRequest) {
+    const { pathname } = request.nextUrl
 
-    const signed = request.cookies.get("userId")?.value
+    if (pathname.startsWith('/.well-known/acme-challenge/')) {
+        return NextResponse.next()
+    }
+
+    const signed = request.cookies.get('userId')?.value
     const userId = verifySignedValue(signed)
 
     if (!userId) {
-        return NextResponse.redirect(new URL("/login", request.url))
+        return NextResponse.redirect(new URL('/login', request.url))
     }
 
     return NextResponse.next()
 }
 
 export const config = {
-    matcher: ["/dashboard/:path*"]
+    matcher: ['/dashboard/:path*'],
 }
