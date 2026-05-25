@@ -7,7 +7,7 @@ import { Button } from "../components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
 import { Logo } from "../components/Logo";
 import { ImageWithFallback } from "@/app/components/ImageWithFallBack";
-import {loginAction} from "@/app/lib/authAction";
+import { loginAction } from "@/app/lib/authAction";
 import { registerAction } from "@/app/lib/registerAction";
 import { useFormStatus } from "react-dom";
 import {useActionState} from "react";
@@ -89,7 +89,7 @@ export default function AuthForm() {
                                     <div className="space-y-2">
                                         <div className="flex items-center justify-between">
                                             <Label htmlFor="login-password">Mot de passe</Label>
-                                            <a href="#" className="text-sm text-[#38BDF8] hover:underline">
+                                            <a href="/forgot-password" className="text-sm text-[#38BDF8] hover:underline">
                                                 Mot de passe oublié ?
                                             </a>
                                         </div>
@@ -143,7 +143,7 @@ export default function AuthForm() {
                                             required
                                         />
                                         <p className="text-xs text-muted-foreground">
-                                            Minimum 8 caractères avec lettres et chiffres
+                                            Minimum 12 caractères avec lettres et chiffres
                                         </p>
                                     </div>
                                     <SubmitButton variant="signup">Créer un compte</SubmitButton>

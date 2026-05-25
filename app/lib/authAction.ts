@@ -9,7 +9,7 @@ import {signValue} from "@/app/lib/cookie-sign";
 
 const authSchema = z.object({
     email: z.email( "Email invalide"),
-    password: z.string().min(8, "Le mot de passe est requis")
+    password: z.string().min(12, "Le mot de passe est requis")
 })
 
 export interface PreviousState {
