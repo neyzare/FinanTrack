@@ -75,9 +75,9 @@ export default function SandboxStockExchange({ stockSandbox, initialState }: Pro
         <div className="space-y-6">
             <div>
                 <h1 className="text-3xl mb-2">SandBox Boursier</h1>
-                <div className="flex justify-between mt-2">
+                <div className="flex flex-col gap-3 mt-2 sm:flex-row sm:justify-between sm:items-center">
                     <span className="text-muted-foreground">Entraînez-vous au trading avec un capital virtuel de 10 000€</span>
-                    <Button variant="outline" onClick={reinitialiser}>Réinitialiser</Button>
+                    <Button variant="outline" onClick={reinitialiser} className="self-start sm:self-auto">Réinitialiser</Button>
                 </div>
             </div>
 

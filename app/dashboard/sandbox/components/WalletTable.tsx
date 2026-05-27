@@ -20,7 +20,7 @@ export function WalletTable({ positionsList, stocks, valeurActions, onSelectStoc
                 <CardTitle>Mes Positions</CardTitle>
                 <span className="text-sm text-muted-foreground">Actions actuellement détenues</span>
             </CardHeader>
-            <CardContent className={positionsList.length === 0 ? "" : "p-0"}>
+            <CardContent className={positionsList.length === 0 ? "" : "p-0 overflow-x-auto"}>
                 {positionsList.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-12 text-center">
                         <PackageOpen className="w-12 h-12 text-muted-foreground/40 mb-4" />
@@ -30,7 +30,7 @@ export function WalletTable({ positionsList, stocks, valeurActions, onSelectStoc
                         </p>
                     </div>
                 ) : (
-                    <table className="w-full text-sm">
+                    <table className="w-full text-sm min-w-[800px]">
                         <thead>
                         <tr className="border-b text-muted-foreground">
                             <th className="text-left px-6 py-3 font-medium">Action</th>

@@ -15,7 +15,7 @@ export function HistoryTable({ historique }: HistoryTableProps) {
                 <CardTitle>Historique des Transactions</CardTitle>
                 <span className="text-sm text-muted-foreground">Toutes les opérations effectuées</span>
             </CardHeader>
-            <CardContent className={historique.length === 0 ? "" : "p-0"}>
+            <CardContent className={historique.length === 0 ? "" : "p-0 overflow-x-auto"}>
                 {historique.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-12 text-center">
                         <Activity className="w-12 h-12 text-muted-foreground/40 mb-4" />
@@ -25,7 +25,7 @@ export function HistoryTable({ historique }: HistoryTableProps) {
                         </p>
                     </div>
                 ) : (
-                    <table className="w-full text-sm">
+                    <table className="w-full text-sm min-w-[700px]">
                         <thead>
                         <tr className="border-b text-muted-foreground">
                             <th className="text-left px-6 py-3 font-medium">Heure</th>

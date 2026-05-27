@@ -16,7 +16,7 @@ export default function ActionsClient({ initialStocks }: { initialStocks: StockW
             </div>
 
             <div className="p-6 border border-border rounded-lg bg-card text-card-foreground">
-                <div className="flex justify-between items-center mb-6">
+                <div className="flex flex-col gap-3 mb-6 sm:flex-row sm:justify-between sm:items-center">
                     <span className="font-semibold">Liste des actions</span>
                     <StockSearchBar onSearch={ajouterStock} />
                 </div>

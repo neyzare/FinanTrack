@@ -22,8 +22,8 @@ export function MarketTable({ stocks, positions, liquidite, nameSelectionne, onS
                 <CardTitle>Actions Disponibles</CardTitle>
                 <p className="text-sm text-muted-foreground">Prix actualisés toutes les 3 secondes</p>
             </CardHeader>
-            <CardContent className="p-0">
-                <table className="w-full text-sm">
+            <CardContent className="p-0 overflow-x-auto">
+                <table className="w-full text-sm min-w-[700px]">
                     <thead>
                     <tr className="border-b text-muted-foreground">
                         <th className="text-left px-6 py-3 font-medium">Action</th>

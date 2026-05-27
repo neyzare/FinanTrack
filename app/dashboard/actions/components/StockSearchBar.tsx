@@ -20,7 +20,7 @@ export function StockSearchBar({ onSearch }: StockSearchBarProps) {
 
     return (
         <input
-            className="px-2 py-1 border border-border rounded-md text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary bg-input-background"
+            className="w-full sm:w-64 px-2 py-1 border border-border rounded-md text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary bg-input-background"
             type="text"
             placeholder="Rechercher une action..."
             value={value}

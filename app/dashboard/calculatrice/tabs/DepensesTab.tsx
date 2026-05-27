@@ -90,7 +90,7 @@ export function DepensesTab() {
             <Card className="border-2 lg:col-span-2">
                 <CardHeader>
                     <CardTitle>Analyse des dépenses</CardTitle>
-                    <div className="grid grid-cols-3 gap-4 mt-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
                         <div className="space-y-1">
                             <p className="text-sm text-muted-foreground">Total dépenses</p>
                             <p className="text-xl text-[#EF4444]">{totalDepenses.toLocaleString('fr-FR')} €</p>

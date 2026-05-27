@@ -83,7 +83,7 @@ export function RendementTab() {
             <Card className="border-2 lg:col-span-2">
                 <CardHeader>
                     <CardTitle>Projection de rendement</CardTitle>
-                    <div className="grid grid-cols-2 gap-4 mt-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
                         <div className="space-y-1">
                             <p className="text-sm text-muted-foreground">Valeur finale</p>
                             <p className="text-xl text-[#22C55E]">{valeurFinale.toLocaleString('fr-FR')} €</p>
