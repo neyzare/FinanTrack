@@ -3,7 +3,7 @@
 import {useEffect, useState} from "react";
 import {Button} from "./ui/button";
 import {Logo} from "./Logo";
-import { Moon, Sun, User} from "lucide-react";
+import {Moon, Sun, User, UserRoundCog} from "lucide-react";
 import {useRouter, usePathname} from "next/navigation";
 import {
     DropdownMenu,
@@ -96,10 +96,7 @@ export function Navbar({ initialAuth = false, onNavigate }: NavbarProps) {
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <button className="rounded-full p-1 hover:bg-accent transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring">
-                                        <Avatar className="w-8 h-8">
-                                            <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop" />
-                                            <AvatarFallback>JD</AvatarFallback>
-                                        </Avatar>
+                                        <UserRoundCog />
                                     </button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end" className="w-56">
