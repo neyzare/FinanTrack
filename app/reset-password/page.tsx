@@ -11,7 +11,7 @@ import {resetPasswordAction} from "@/app/lib/resetPasswordAction";
 import {useSearchParams} from "next/navigation";
 
 export default function ResetPasswordPage() {
-    const [_resetFormState, resetFormAction] = useActionState(resetPasswordAction, null)
+    const [, resetFormAction] = useActionState(resetPasswordAction, null)
     const token = useSearchParams().get("token") ?? ""
 
     return (

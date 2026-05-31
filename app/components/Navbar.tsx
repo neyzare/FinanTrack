@@ -13,7 +13,6 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import {Avatar, AvatarFallback, AvatarImage} from "./ui/avatar";
 import {auth} from "@/app/lib/auth";
 import Link from "next/link";
 import {authLogout} from "@/app/lib/authLogout";
@@ -36,7 +35,7 @@ export function Navbar({ initialAuth = false, onNavigate }: NavbarProps) {
             try {
                 const user = await auth()
                 setIsAuth(!!user)
-            } catch (error) {
+            } catch {
                 setIsAuth(false)
             }
         }

@@ -1,4 +1,5 @@
 "use client"
+/* eslint-disable @next/next/no-img-element -- wrapper de fallback générique, next/image inadapté ici */
 import React, { useState } from 'react'
 
 const ERROR_IMG_SRC =

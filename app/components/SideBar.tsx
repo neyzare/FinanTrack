@@ -4,7 +4,7 @@ import { LayoutDashboard, TrendingUp, Calculator, Wallet, Settings, ChartCandles
 import { Button } from './ui/button';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
@@ -18,10 +18,6 @@ const menuItems = [
 export function Sidebar() {
     const pathname = usePathname();
     const [open, setOpen] = useState(false);
-
-    useEffect(() => {
-        setOpen(false);
-    }, [pathname]);
 
     return (
         <>
@@ -65,7 +61,7 @@ export function Sidebar() {
                         const isActive = pathname === item.href;
 
                         return (
-                            <Link key={item.id} href={item.href}>
+                            <Link key={item.id} href={item.href} onClick={() => setOpen(false)}>
                                 <Button
                                     variant={isActive ? 'default' : 'ghost'}
                                     className={`w-full justify-start gap-3 ${

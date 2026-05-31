@@ -42,7 +42,7 @@ export default function ResetPasswordEmail({
                     </Section>
 
                     <Text style={text}>
-                        Ce lien expire dans <strong>30 minutes</strong>. Si tu n'as pas demandé cette réinitialisation, ignore simplement cet email.
+                        Ce lien expire dans <strong>30 minutes</strong>. Si tu n&apos;as pas demandé cette réinitialisation, ignore simplement cet email.
                     </Text>
 
                     <Hr style={hr} />

@@ -11,7 +11,7 @@ import {useActionState} from "react";
 
 export default function ForgotPasswordPage() {
 
-    const [forgotPasswordState, forgotFormAction] = useActionState(forgotPasswordAction, null);
+    const [, forgotFormAction] = useActionState(forgotPasswordAction, null);
     return (
         <>
             <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 py-12">

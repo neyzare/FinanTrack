@@ -55,7 +55,8 @@ export function useTrading(initialState: SandboxState) {
                 if (!existing) return prev;
                 const newQty = existing.quantity - quantite;
                 if (newQty <= 0) {
-                    const { [nom]: _, ...rest } = prev;
+                    const rest = { ...prev };
+                    delete rest[nom];
                     return rest;
                 }
                 return { ...prev, [nom]: { ...existing, quantity: newQty } };
