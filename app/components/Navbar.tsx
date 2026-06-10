@@ -102,7 +102,7 @@ export function Navbar({ initialAuth = false, onNavigate }: NavbarProps) {
                                     <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem onClick={() => onNavigate?.("settings")}>
-                                       <Link href="/parametre">
+                                       <Link href="dashboard/parametres">
                                            <User className="w-4 h-4 mr-2" />
                                            Paramètres
                                        </Link>
