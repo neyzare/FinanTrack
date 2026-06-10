@@ -102,8 +102,10 @@ export function Navbar({ initialAuth = false, onNavigate }: NavbarProps) {
                                     <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem onClick={() => onNavigate?.("settings")}>
-                                        <User className="w-4 h-4 mr-2" />
-                                        Paramètres
+                                       <Link href="/parametre">
+                                           <User className="w-4 h-4 mr-2" />
+                                           Paramètres
+                                       </Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem onClick={handleLogout} className="text-destructive">

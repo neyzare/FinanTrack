@@ -7,7 +7,7 @@ export default async function DashboardPage() {
         getHistory(30),
     ])
 
-    await saveSnapshot()
+    saveSnapshot()
 
     return <DashboardClient data={data} initialChart={chartData} />
 }
