@@ -20,10 +20,10 @@ export function StocksTable({ stocks, onUpdateQuantity, onDelete }: StocksTableP
 
     return (
         <>
-            <div className="hidden md:block overflow-x-auto">
+            <div className="hidden md:block max-h-[28rem] overflow-auto">
                 <table className="w-full text-left border-collapse min-w-[680px]">
                     <thead>
-                        <tr className="border-b border-border">
+                        <tr className="border-b border-border sticky top-0 bg-card">
                             <th className="py-3 px-4 text-muted-foreground font-semibold">Action</th>
                             <th className="py-3 px-4 text-muted-foreground font-semibold">Ticker</th>
                             <th className="py-3 px-4 text-muted-foreground font-semibold">Prix</th>
@@ -74,7 +74,7 @@ export function StocksTable({ stocks, onUpdateQuantity, onDelete }: StocksTableP
                 </table>
             </div>
 
-            <div className="md:hidden space-y-3">
+            <div className="md:hidden space-y-3 max-h-[28rem] overflow-y-auto">
                 {stocks.map((stock) => {
                     const isUp = stock.variation != null && stock.variation >= 0;
                     return (

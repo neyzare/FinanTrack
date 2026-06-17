@@ -16,7 +16,11 @@ package "Business Logic" {
   [Auth Service]
   [Stock Service]
   [Calculator Service]
+  [Sandbox Service]
+  [Password Reset Service]
+  [Quote Cache]
   [Finnhub Client]
+  [Resend Client]
 }
 
 package "Data Layer" {
@@ -26,6 +30,7 @@ package "Data Layer" {
 
 package "External Services" {
   [Finnhub API]
+  [Resend API]
 }
 
 [Pages] --> [Forms]
@@ -34,11 +39,26 @@ package "External Services" {
 [Server Actions] --> [Auth Service]
 [Server Actions] --> [Stock Service]
 [Server Actions] --> [Calculator Service]
+[Server Actions] --> [Sandbox Service]
+[Server Actions] --> [Password Reset Service]
 [Auth Service] --> [Prisma ORM]
 [Stock Service] --> [Prisma ORM]
-[Stock Service] --> [Finnhub Client]
+[Stock Service] --> [Quote Cache]
+[Sandbox Service] --> [Prisma ORM]
+[Password Reset Service] --> [Prisma ORM]
+[Password Reset Service] --> [Resend Client]
+[Quote Cache] --> [Prisma ORM]
+[Quote Cache] --> [Finnhub Client]
 [Finnhub Client] --> [Finnhub API]
+[Resend Client] --> [Resend API]
 [Prisma ORM] --> PostgreSQL
 [API Routes] --> [Finnhub Client]
+
+note bottom of [Quote Cache]
+  Table CachedQuote :
+  cache des cours 5 min
+  pour limiter les appels
+  à Finnhub
+end note
 
 @enduml

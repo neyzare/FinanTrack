@@ -11,6 +11,8 @@ class User {
   - updatedAt: DateTime
   __
   + stocks: Stock[]
+  + sandboxState: SandboxState?
+  + passwordResetToken: PasswordResetToken[]
 }
 
 class Stock {
@@ -18,21 +20,110 @@ class Stock {
   - ticker: String
   - name: String?
   - quantity: Int
-  - buyPrice: Float?
+  - buyPrice: Float
   - userId: String (FK)
   - createdAt: DateTime
   - updatedAt: DateTime
   __
   + user: User
+  + snapshots: StockSnapshot[]
+}
+
+class StockSnapshot {
+  - id: Int (PK)
+  - stockId: Int (FK)
+  - ticker: String
+  - userId: String
+  - price: Float
+  - quantity: Int
+  - totalValue: Float
+  - snapshotDate: DateTime
+  - createdAt: DateTime
+  __
+  + stock: Stock
+}
+
+class SandboxState {
+  - userId: String (PK, FK)
+  - liquidite: Float (défaut 10000)
+  - positions: Json
+  - historique: Json
+  - candles: Json
+  - updatedAt: DateTime
+  __
+  + user: User
+}
+
+class SandboxStock {
+  - id: Int (PK)
+  - name: String
+  - secteur: String
+  - price: Float
+}
+
+class PasswordResetToken {
+  - id: String (PK)
+  - userId: String (FK)
+  - tokenHash: String (unique)
+  - expiresAt: DateTime
+  - usedAt: DateTime?
+  - createdAt: DateTime
+  __
+  + user: User
+}
+
+class CachedQuote {
+  - ticker: String (PK)
+  - price: Float
+  - variation: Float?
+  - updatedAt: DateTime
+}
+
+class CandleStock {
+  - id: Int (PK)
+  - name: String
+  - ticker: String
+  - open: Float
+  - high: Float
+  - low: Float
+  - close: Float
+  - Volume: Int
+  - date: DateTime
 }
 
 User "1" -- "*" Stock : possède >
+User "1" -- "0..1" SandboxState : possède >
+User "1" -- "*" PasswordResetToken : génère >
+Stock "1" -- "*" StockSnapshot : historise >
 
 note right of Stock
-  Contrainte unique: 
+  Contrainte unique:
   (userId, ticker)
   Un utilisateur ne peut avoir
   qu'une seule entrée par ticker
+end note
+
+note bottom of SandboxState
+  État du simulateur de trading :
+  liquidité, positions, historique
+  et bougies stockés en Json.
+  Suppression en cascade avec
+  l'utilisateur.
+end note
+
+note bottom of CachedQuote
+  Cache des cours Finnhub
+  (péremption après 5 min)
+  pour limiter les appels
+  à l'API externe
+end note
+
+note bottom of SandboxStock
+  Actions fictives (noms parodiques)
+  insérées via migration de seed,
+  utilisées par la sandbox.
+  Sans relation : référencées par nom
+  dans le Json de SandboxState.
 end note
 
 @enduml
