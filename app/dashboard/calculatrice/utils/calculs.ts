@@ -13,6 +13,9 @@ interface ParamsInteretsComposes {
 
 export function calculerInteretsComposes(params: ParamsInteretsComposes): DonneesGraphique[] {
     const { capital, apportMensuel, tauxAnnuel, annees } = params;
+    if (annees < 0) throw new Error("Le nombre d'années ne peut pas être négatif");
+    if (capital < 0 || apportMensuel < 0) throw new Error("Les montants ne peuvent pas être négatifs");
+
     const donnees: DonneesGraphique[] = [];
     let solde = capital;
     const tauxMensuel = tauxAnnuel / 100 / 12;
@@ -34,6 +37,9 @@ interface ParamsRendement {
 
 export function calculerRendement(params: ParamsRendement): DonneesGraphique[] {
     const { investissementInitial, rendementAttendu, annees } = params;
+    if (annees < 0) throw new Error("Le nombre d'années ne peut pas être négatif");
+    if (investissementInitial < 0) throw new Error("L'investissement initial ne peut pas être négatif");
+
     const donnees: DonneesGraphique[] = [];
     let valeur = investissementInitial;
     const taux = rendementAttendu / 100;
