@@ -42,6 +42,32 @@ describe("calculerRendement", () => {
     });
 });
 
+describe("gestion d'erreur", () => {
+    it("refuse un nombre d'années négatif (intérêts composés)", () => {
+        expect(() =>
+            calculerInteretsComposes({ capital: 1000, apportMensuel: 0, tauxAnnuel: 5, annees: -1 })
+        ).toThrow("Le nombre d'années ne peut pas être négatif");
+    });
+
+    it("refuse un capital négatif (intérêts composés)", () => {
+        expect(() =>
+            calculerInteretsComposes({ capital: -100, apportMensuel: 0, tauxAnnuel: 5, annees: 1 })
+        ).toThrow("Les montants ne peuvent pas être négatifs");
+    });
+
+    it("refuse un nombre d'années négatif (rendement)", () => {
+        expect(() =>
+            calculerRendement({ investissementInitial: 1000, rendementAttendu: 10, annees: -1 })
+        ).toThrow("Le nombre d'années ne peut pas être négatif");
+    });
+
+    it("refuse un investissement initial négatif", () => {
+        expect(() =>
+            calculerRendement({ investissementInitial: -1000, rendementAttendu: 10, annees: 2 })
+        ).toThrow("L'investissement initial ne peut pas être négatif");
+    });
+});
+
 describe("formatEuros", () => {
     it("ajoute le symbole euro après la valeur", () => {
         expect(normalize(formatEuros(1234))).toBe("1 234 €");
