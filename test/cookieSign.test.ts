@@ -9,4 +9,12 @@ describe("verifySignedValue", () => {
         const signed = signValue("user-123");
         expect(verifySignedValue(signed)).toBe("user-123");
     });
+
+    it("retourne null si le cookie est absent", () => {
+        expect(verifySignedValue(undefined)).toBeNull();
+    });
+
+    it("retourne null si le format est invalide (pas de séparateur)", () => {
+        expect(verifySignedValue("valeur-sans-signature")).toBeNull();
+    });
 });
