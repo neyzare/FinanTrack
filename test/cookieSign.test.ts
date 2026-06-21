@@ -17,4 +17,16 @@ describe("verifySignedValue", () => {
     it("retourne null si le format est invalide (pas de séparateur)", () => {
         expect(verifySignedValue("valeur-sans-signature")).toBeNull();
     });
+
+    it("retourne null si la signature est falsifiée", () => {
+        const signed = signValue("user-123");
+        const falsifie = signed.slice(0, signed.lastIndexOf(".") + 1) + "signaturebidon";
+        expect(verifySignedValue(falsifie)).toBeNull();
+    });
+
+    it("retourne null si la valeur a été modifiée après signature", () => {
+        const signed = signValue("user-123");
+        const signature = signed.slice(signed.lastIndexOf("."));
+        expect(verifySignedValue("user-999" + signature)).toBeNull();
+    });
 });
