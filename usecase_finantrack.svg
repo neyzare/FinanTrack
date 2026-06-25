@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1300 1280"
+     font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#222">
+  <style>
+    .uc { fill: #FEFEFE; stroke: #444; stroke-width: 1.2; }
+    .actor-line { stroke: #444; stroke-width: 1.4; fill: none; }
+    .assoc { stroke: #444; stroke-width: 1; fill: none; }
+    .frame { fill: none; stroke: #444; stroke-width: 1.2; }
+    .uctext { text-anchor: middle; dominant-baseline: middle; }
+    .actorname { text-anchor: middle; font-weight: 600; }
+    .frametitle { font-weight: 700; font-size: 14px; text-anchor: middle; }
+    .note { fill: #FFFCE0; stroke: #B0AC60; stroke-width: 1; }
+    .notetext { font-size: 11.5px; }
+    .corner { fill: #EAE5B0; stroke: #B0AC60; stroke-width: 1; }
+  </style>
+
+  <!-- Rectangle englobant "FinanTrack Application" -->
+  <rect class="frame" x="200" y="40" width="850" height="1200" rx="4"/>
+  <text class="frametitle" x="625" y="62">FinanTrack Application</text>
+
+  <!-- ============================================================ -->
+  <!-- ACTEUR : Utilisateur (gauche) -->
+  <!-- ============================================================ -->
+  <g id="user">
+    <!-- Tête -->
+    <circle class="actor-line" cx="80" cy="620" r="15" fill="white"/>
+    <!-- Corps -->
+    <line class="actor-line" x1="80" y1="635" x2="80" y2="685"/>
+    <!-- Bras -->
+    <line class="actor-line" x1="55" y1="650" x2="105" y2="650"/>
+    <!-- Jambes -->
+    <line class="actor-line" x1="80" y1="685" x2="60" y2="720"/>
+    <line class="actor-line" x1="80" y1="685" x2="100" y2="720"/>
+    <text class="actorname" x="80" y="745">Utilisateur</text>
+  </g>
+
+  <!-- ============================================================ -->
+  <!-- ACTEUR : Finnhub API (droite haut) -->
+  <!-- ============================================================ -->
+  <g id="finnhub">
+    <circle class="actor-line" cx="1180" cy="280" r="15" fill="white"/>
+    <line class="actor-line" x1="1180" y1="295" x2="1180" y2="345"/>
+    <line class="actor-line" x1="1155" y1="310" x2="1205" y2="310"/>
+    <line class="actor-line" x1="1180" y1="345" x2="1160" y2="380"/>
+    <line class="actor-line" x1="1180" y1="345" x2="1200" y2="380"/>
+    <text class="actorname" x="1180" y="405">Finnhub API</text>
+  </g>
+
+  <!-- Note Finnhub -->
+  <g id="note-finnhub">
+    <path d="M 1085 440 L 1255 440 L 1280 465 L 1280 560 L 1085 560 Z" class="note"/>
+    <path d="M 1255 440 L 1255 465 L 1280 465 Z" class="corner"/>
+    <text class="notetext" x="1093" y="460">
+      <tspan x="1093" dy="0">Fournit les cours boursiers</tspan>
+      <tspan x="1093" dy="16">en temps quasi réel</tspan>
+      <tspan x="1093" dy="16">(mise en cache 5 min via la</tspan>
+      <tspan x="1093" dy="16">table CachedQuote).</tspan>
+    </text>
+  </g>
+
+  <!-- ============================================================ -->
+  <!-- ACTEUR : Resend (droite bas) -->
+  <!-- ============================================================ -->
+  <g id="resend">
+    <circle class="actor-line" cx="1180" cy="780" r="15" fill="white"/>
+    <line class="actor-line" x1="1180" y1="795" x2="1180" y2="845"/>
+    <line class="actor-line" x1="1155" y1="810" x2="1205" y2="810"/>
+    <line class="actor-line" x1="1180" y1="845" x2="1160" y2="880"/>
+    <line class="actor-line" x1="1180" y1="845" x2="1200" y2="880"/>
+    <text class="actorname" x="1180" y="905">Resend (email)</text>
+  </g>
+
+  <!-- Note Resend -->
+  <g id="note-resend">
+    <path d="M 1085 935 L 1255 935 L 1280 960 L 1280 1045 L 1085 1045 Z" class="note"/>
+    <path d="M 1255 935 L 1255 960 L 1280 960 Z" class="corner"/>
+    <text class="notetext" x="1093" y="955">
+      <tspan x="1093" dy="0">Délivre l'email contenant le</tspan>
+      <tspan x="1093" dy="16">lien de réinitialisation à</tspan>
+      <tspan x="1093" dy="16">usage unique (TTL 30 min).</tspan>
+    </text>
+  </g>
+
+  <!-- ============================================================ -->
+  <!-- USE CASES — colonne unique pour clarté -->
+  <!-- ============================================================ -->
+  <!-- Position commune : cx=625, hauteur ellipse=42, espacement 70 -->
+
+  <!-- UC1 — S'inscrire -->
+  <g id="uc1">
+    <ellipse class="uc" cx="625" cy="100" rx="100" ry="22"/>
+    <text class="uctext" x="625" y="100">S'inscrire</text>
+  </g>
+
+  <!-- UC2 — Se connecter -->
+  <g id="uc2">
+    <ellipse class="uc" cx="625" cy="170" rx="100" ry="22"/>
+    <text class="uctext" x="625" y="170">Se connecter</text>
+  </g>
+
+  <!-- UC3 — Se déconnecter -->
+  <g id="uc3">
+    <ellipse class="uc" cx="625" cy="240" rx="100" ry="22"/>
+    <text class="uctext" x="625" y="240">Se déconnecter</text>
+  </g>
+
+  <!-- UC4 — Réinitialiser le mot de passe -->
+  <g id="uc4">
+    <ellipse class="uc" cx="625" cy="310" rx="140" ry="22"/>
+    <text class="uctext" x="625" y="310">Réinitialiser le mot de passe</text>
+  </g>
+
+  <!-- UC5 — Consulter le dashboard -->
+  <g id="uc5">
+    <ellipse class="uc" cx="625" cy="380" rx="120" ry="22"/>
+    <text class="uctext" x="625" y="380">Consulter le dashboard</text>
+  </g>
+
+  <!-- UC6 — Ajouter une action -->
+  <g id="uc6">
+    <ellipse class="uc" cx="625" cy="450" rx="110" ry="22"/>
+    <text class="uctext" x="625" y="450">Ajouter une action</text>
+  </g>
+
+  <!-- UC7 — Modifier la quantité -->
+  <g id="uc7">
+    <ellipse class="uc" cx="625" cy="520" rx="110" ry="22"/>
+    <text class="uctext" x="625" y="520">Modifier la quantité</text>
+  </g>
+
+  <!-- UC8 — Supprimer une action -->
+  <g id="uc8">
+    <ellipse class="uc" cx="625" cy="590" rx="110" ry="22"/>
+    <text class="uctext" x="625" y="590">Supprimer une action</text>
+  </g>
+
+  <!-- UC9 — Consulter le portefeuille -->
+  <g id="uc9">
+    <ellipse class="uc" cx="625" cy="660" rx="130" ry="22"/>
+    <text class="uctext" x="625" y="660">Consulter le portefeuille</text>
+  </g>
+
+  <!-- UC10 — Calculer intérêts composés -->
+  <g id="uc10">
+    <ellipse class="uc" cx="625" cy="730" rx="140" ry="22"/>
+    <text class="uctext" x="625" y="730">Calculer intérêts composés</text>
+  </g>
+
+  <!-- UC11 — Trader en sandbox -->
+  <g id="uc11">
+    <ellipse class="uc" cx="625" cy="800" rx="155" ry="22"/>
+    <text class="uctext" x="625" y="800">Trader en sandbox (achat / vente)</text>
+  </g>
+
+  <!-- UC12 — Consulter wallet et historique sandbox -->
+  <g id="uc12">
+    <ellipse class="uc" cx="625" cy="870" rx="185" ry="22"/>
+    <text class="uctext" x="625" y="870">Consulter wallet et historique sandbox</text>
+  </g>
+
+  <!-- UC13 — Réinitialiser la sandbox -->
+  <g id="uc13">
+    <ellipse class="uc" cx="625" cy="940" rx="135" ry="22"/>
+    <text class="uctext" x="625" y="940">Réinitialiser la sandbox</text>
+  </g>
+
+  <!-- UC14 — Gérer les paramètres -->
+  <g id="uc14">
+    <ellipse class="uc" cx="625" cy="1010" rx="120" ry="22"/>
+    <text class="uctext" x="625" y="1010">Gérer les paramètres</text>
+  </g>
+
+  <!-- UC15 — Consulter les pages légales -->
+  <g id="uc15">
+    <ellipse class="uc" cx="625" cy="1080" rx="145" ry="22"/>
+    <text class="uctext" x="625" y="1080">Consulter les pages légales</text>
+  </g>
+
+  <!-- ============================================================ -->
+  <!-- ASSOCIATIONS : Utilisateur <-> use cases (TRAITS SIMPLES) -->
+  <!-- ============================================================ -->
+  <!-- Le bras droit de l'acteur (x≈95, y≈645) part vers chaque use case -->
+
+  <line class="assoc" x1="95" y1="650" x2="525" y2="100"/>
+  <line class="assoc" x1="95" y1="650" x2="525" y2="170"/>
+  <line class="assoc" x1="95" y1="650" x2="525" y2="240"/>
+  <line class="assoc" x1="95" y1="650" x2="485" y2="310"/>
+  <line class="assoc" x1="95" y1="650" x2="505" y2="380"/>
+  <line class="assoc" x1="95" y1="650" x2="515" y2="450"/>
+  <line class="assoc" x1="95" y1="650" x2="515" y2="520"/>
+  <line class="assoc" x1="95" y1="650" x2="515" y2="590"/>
+  <line class="assoc" x1="95" y1="650" x2="495" y2="660"/>
+  <line class="assoc" x1="95" y1="650" x2="485" y2="730"/>
+  <line class="assoc" x1="95" y1="650" x2="470" y2="800"/>
+  <line class="assoc" x1="95" y1="650" x2="440" y2="870"/>
+  <line class="assoc" x1="95" y1="650" x2="490" y2="940"/>
+  <line class="assoc" x1="95" y1="650" x2="505" y2="1010"/>
+  <line class="assoc" x1="95" y1="650" x2="480" y2="1080"/>
+
+  <!-- ============================================================ -->
+  <!-- ASSOCIATIONS : use cases <-> Finnhub (acteur secondaire) -->
+  <!-- Use cases qui consomment les cours : UC5, UC6, UC9 -->
+  <!-- ============================================================ -->
+  <line class="assoc" x1="745" y1="380" x2="1165" y2="295"/>
+  <line class="assoc" x1="735" y1="450" x2="1165" y2="300"/>
+  <line class="assoc" x1="755" y1="660" x2="1165" y2="310"/>
+
+  <!-- ============================================================ -->
+  <!-- ASSOCIATION : UC4 <-> Resend (email) -->
+  <!-- ============================================================ -->
+  <line class="assoc" x1="765" y1="310" x2="1165" y2="795"/>
+
+  <!-- Note Sandbox -->
+  <g id="note-sandbox">
+    <path d="M 815 990 L 1055 990 L 1080 1015 L 1080 1110 L 815 1110 Z" class="note"/>
+    <path d="M 1055 990 L 1055 1015 L 1080 1015 Z" class="corner"/>
+    <text class="notetext" x="823" y="1010">
+      <tspan x="823" dy="0">Capital virtuel de 10 000 €,</tspan>
+      <tspan x="823" dy="16">actions fictives (SandboxStock),</tspan>
+      <tspan x="823" dy="16">état persisté en base</tspan>
+      <tspan x="823" dy="16">(SandboxState).</tspan>
+    </text>
+  </g>
+  <line class="assoc" stroke-dasharray="3,3" x1="780" y1="800" x2="900" y2="990"/>
+
+  <!-- Note pages légales -->
+  <g id="note-legal">
+    <path d="M 815 1130 L 1055 1130 L 1080 1155 L 1080 1230 L 815 1230 Z" class="note"/>
+    <path d="M 1055 1130 L 1055 1155 L 1080 1155 Z" class="corner"/>
+    <text class="notetext" x="823" y="1150">
+      <tspan x="823" dy="0">CGU, mentions légales et</tspan>
+      <tspan x="823" dy="16">politique de confidentialité</tspan>
+      <tspan x="823" dy="16">accessibles depuis le footer.</tspan>
+    </text>
+  </g>
+  <line class="assoc" stroke-dasharray="3,3" x1="770" y1="1080" x2="900" y2="1130"/>
+
+</svg>
