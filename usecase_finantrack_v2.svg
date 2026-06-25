@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 1360"
+     font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#222">
+  <style>
+    .uc { fill: #FEFEFE; stroke: #444; stroke-width: 1.2; }
+    .actor-line { stroke: #444; stroke-width: 1.4; fill: none; }
+    .assoc { stroke: #444; stroke-width: 1; fill: none; }
+    .frame { fill: none; stroke: #444; stroke-width: 1.2; }
+    .uctext { text-anchor: middle; dominant-baseline: middle; }
+    .actorname { text-anchor: middle; font-weight: 600; }
+    .actorstereo { text-anchor: middle; font-style: italic; font-size: 11px; fill: #666; }
+    .frametitle { font-weight: 700; font-size: 14px; text-anchor: middle; }
+    .note { fill: #FFFCE0; stroke: #B0AC60; stroke-width: 1; }
+    .notetext { font-size: 11.5px; }
+    .corner { fill: #EAE5B0; stroke: #B0AC60; stroke-width: 1; }
+  </style>
+
+  <!-- Frame "FinanTrack Application" -->
+  <rect class="frame" x="220" y="40" width="850" height="1280" rx="4"/>
+  <text class="frametitle" x="645" y="62">FinanTrack Application</text>
+
+  <!-- ============================================================ -->
+  <!-- ACTEUR PRINCIPAL : Utilisateur (gauche, au milieu) -->
+  <!-- ============================================================ -->
+  <g id="user">
+    <circle class="actor-line" cx="90" cy="560" r="16" fill="white"/>
+    <line class="actor-line" x1="90" y1="576" x2="90" y2="628"/>
+    <line class="actor-line" x1="63" y1="592" x2="117" y2="592"/>
+    <line class="actor-line" x1="90" y1="628" x2="68" y2="665"/>
+    <line class="actor-line" x1="90" y1="628" x2="112" y2="665"/>
+    <text class="actorname" x="90" y="690">Utilisateur</text>
+  </g>
+
+  <!-- ============================================================ -->
+  <!-- ACTEUR SECONDAIRE : Système (gauche, bas) — déclenche le -->
+  <!-- use case automatique "Obtenir un prix en temps réel" -->
+  <!-- ============================================================ -->
+  <g id="systeme">
+    <circle class="actor-line" cx="90" cy="1010" r="16" fill="white"/>
+    <line class="actor-line" x1="90" y1="1026" x2="90" y2="1078"/>
+    <line class="actor-line" x1="63" y1="1042" x2="117" y2="1042"/>
+    <line class="actor-line" x1="90" y1="1078" x2="68" y2="1115"/>
+    <line class="actor-line" x1="90" y1="1078" x2="112" y2="1115"/>
+    <text class="actorstereo" x="90" y="1138">«système»</text>
+    <text class="actorname" x="90" y="1156">Système</text>
+  </g>
+
+  <!-- ============================================================ -->
+  <!-- ACTEUR SECONDAIRE : Finnhub API (droite haut) -->
+  <!-- ============================================================ -->
+  <g id="finnhub">
+    <circle class="actor-line" cx="1210" cy="320" r="16" fill="white"/>
+    <line class="actor-line" x1="1210" y1="336" x2="1210" y2="388"/>
+    <line class="actor-line" x1="1183" y1="352" x2="1237" y2="352"/>
+    <line class="actor-line" x1="1210" y1="388" x2="1188" y2="425"/>
+    <line class="actor-line" x1="1210" y1="388" x2="1232" y2="425"/>
+    <text class="actorstereo" x="1210" y="448">«système externe»</text>
+    <text class="actorname" x="1210" y="466">Finnhub API</text>
+  </g>
+
+  <!-- Note Finnhub -->
+  <g id="note-finnhub">
+    <path d="M 1095 500 L 1280 500 L 1305 525 L 1305 615 L 1095 615 Z" class="note"/>
+    <path d="M 1280 500 L 1280 525 L 1305 525 Z" class="corner"/>
+    <text class="notetext" x="1103" y="520">
+      <tspan x="1103" dy="0">Fournit les cours boursiers</tspan>
+      <tspan x="1103" dy="16">en temps quasi réel ; les</tspan>
+      <tspan x="1103" dy="16">résultats sont mis en cache</tspan>
+      <tspan x="1103" dy="16">5 min via la table CachedQuote.</tspan>
+    </text>
+  </g>
+
+  <!-- ============================================================ -->
+  <!-- ACTEUR SECONDAIRE : Resend (droite bas) -->
+  <!-- ============================================================ -->
+  <g id="resend">
+    <circle class="actor-line" cx="1210" cy="830" r="16" fill="white"/>
+    <line class="actor-line" x1="1210" y1="846" x2="1210" y2="898"/>
+    <line class="actor-line" x1="1183" y1="862" x2="1237" y2="862"/>
+    <line class="actor-line" x1="1210" y1="898" x2="1188" y2="935"/>
+    <line class="actor-line" x1="1210" y1="898" x2="1232" y2="935"/>
+    <text class="actorstereo" x="1210" y="958">«système externe»</text>
+    <text class="actorname" x="1210" y="976">Resend (email)</text>
+  </g>
+
+  <!-- Note Resend -->
+  <g id="note-resend">
+    <path d="M 1095 1000 L 1280 1000 L 1305 1025 L 1305 1100 L 1095 1100 Z" class="note"/>
+    <path d="M 1280 1000 L 1280 1025 L 1305 1025 Z" class="corner"/>
+    <text class="notetext" x="1103" y="1020">
+      <tspan x="1103" dy="0">Délivre l'email contenant le</tspan>
+      <tspan x="1103" dy="16">lien de réinitialisation à</tspan>
+      <tspan x="1103" dy="16">usage unique (TTL 30 min).</tspan>
+    </text>
+  </g>
+
+  <!-- ============================================================ -->
+  <!-- USE CASES — exactement les 16 du tableau 5.2 -->
+  <!-- ============================================================ -->
+
+  <!-- UC1 — S'inscrire -->
+  <g id="uc1">
+    <ellipse class="uc" cx="645" cy="100" rx="100" ry="22"/>
+    <text class="uctext" x="645" y="100">S'inscrire</text>
+  </g>
+
+  <!-- UC2 — Se connecter -->
+  <g id="uc2">
+    <ellipse class="uc" cx="645" cy="170" rx="100" ry="22"/>
+    <text class="uctext" x="645" y="170">Se connecter</text>
+  </g>
+
+  <!-- UC3 — Se déconnecter -->
+  <g id="uc3">
+    <ellipse class="uc" cx="645" cy="240" rx="100" ry="22"/>
+    <text class="uctext" x="645" y="240">Se déconnecter</text>
+  </g>
+
+  <!-- UC4 — Demander une réinitialisation -->
+  <g id="uc4">
+    <ellipse class="uc" cx="645" cy="310" rx="150" ry="22"/>
+    <text class="uctext" x="645" y="310">Demander une réinitialisation</text>
+  </g>
+
+  <!-- UC5 — Réinitialiser son mot de passe -->
+  <g id="uc5">
+    <ellipse class="uc" cx="645" cy="380" rx="155" ry="22"/>
+    <text class="uctext" x="645" y="380">Réinitialiser son mot de passe</text>
+  </g>
+
+  <!-- UC6 — Consulter le tableau de bord -->
+  <g id="uc6">
+    <ellipse class="uc" cx="645" cy="450" rx="140" ry="22"/>
+    <text class="uctext" x="645" y="450">Consulter le tableau de bord</text>
+  </g>
+
+  <!-- UC7 — Ajouter une action -->
+  <g id="uc7">
+    <ellipse class="uc" cx="645" cy="520" rx="110" ry="22"/>
+    <text class="uctext" x="645" y="520">Ajouter une action</text>
+  </g>
+
+  <!-- UC8 — Modifier la quantité d'une action -->
+  <g id="uc8">
+    <ellipse class="uc" cx="645" cy="590" rx="155" ry="22"/>
+    <text class="uctext" x="645" y="590">Modifier la quantité d'une action</text>
+  </g>
+
+  <!-- UC9 — Supprimer une action -->
+  <g id="uc9">
+    <ellipse class="uc" cx="645" cy="660" rx="115" ry="22"/>
+    <text class="uctext" x="645" y="660">Supprimer une action</text>
+  </g>
+
+  <!-- UC10 — Consulter le portefeuille détaillé -->
+  <g id="uc10">
+    <ellipse class="uc" cx="645" cy="730" rx="160" ry="22"/>
+    <text class="uctext" x="645" y="730">Consulter le portefeuille détaillé</text>
+  </g>
+
+  <!-- UC11 — Simuler des intérêts composés -->
+  <g id="uc11">
+    <ellipse class="uc" cx="645" cy="800" rx="150" ry="22"/>
+    <text class="uctext" x="645" y="800">Simuler des intérêts composés</text>
+  </g>
+
+  <!-- UC12 — Acheter une action en sandbox -->
+  <g id="uc12">
+    <ellipse class="uc" cx="645" cy="870" rx="155" ry="22"/>
+    <text class="uctext" x="645" y="870">Acheter une action en sandbox</text>
+  </g>
+
+  <!-- UC13 — Vendre une action en sandbox -->
+  <g id="uc13">
+    <ellipse class="uc" cx="645" cy="940" rx="150" ry="22"/>
+    <text class="uctext" x="645" y="940">Vendre une action en sandbox</text>
+  </g>
+
+  <!-- UC14 — Modifier le thème -->
+  <g id="uc14">
+    <ellipse class="uc" cx="645" cy="1010" rx="105" ry="22"/>
+    <text class="uctext" x="645" y="1010">Modifier le thème</text>
+  </g>
+
+  <!-- UC15 — Supprimer son compte -->
+  <g id="uc15">
+    <ellipse class="uc" cx="645" cy="1080" rx="115" ry="22"/>
+    <text class="uctext" x="645" y="1080">Supprimer son compte</text>
+  </g>
+
+  <!-- UC16 — Obtenir un prix en temps réel (déclenché par le Système) -->
+  <g id="uc16">
+    <ellipse class="uc" cx="645" cy="1180" rx="155" ry="22"/>
+    <text class="uctext" x="645" y="1180">Obtenir un prix en temps réel</text>
+  </g>
+
+  <!-- ============================================================ -->
+  <!-- ASSOCIATIONS — Utilisateur <-> use cases UC1..UC15 -->
+  <!-- (traits simples, sans flèche) -->
+  <!-- ============================================================ -->
+  <line class="assoc" x1="106" y1="592" x2="545" y2="100"/>
+  <line class="assoc" x1="106" y1="592" x2="545" y2="170"/>
+  <line class="assoc" x1="106" y1="592" x2="545" y2="240"/>
+  <line class="assoc" x1="106" y1="592" x2="495" y2="310"/>
+  <line class="assoc" x1="106" y1="592" x2="490" y2="380"/>
+  <line class="assoc" x1="106" y1="592" x2="505" y2="450"/>
+  <line class="assoc" x1="106" y1="592" x2="535" y2="520"/>
+  <line class="assoc" x1="106" y1="592" x2="490" y2="590"/>
+  <line class="assoc" x1="106" y1="592" x2="530" y2="660"/>
+  <line class="assoc" x1="106" y1="592" x2="485" y2="730"/>
+  <line class="assoc" x1="106" y1="592" x2="495" y2="800"/>
+  <line class="assoc" x1="106" y1="592" x2="490" y2="870"/>
+  <line class="assoc" x1="106" y1="592" x2="495" y2="940"/>
+  <line class="assoc" x1="106" y1="592" x2="540" y2="1010"/>
+  <line class="assoc" x1="106" y1="592" x2="530" y2="1080"/>
+
+  <!-- ============================================================ -->
+  <!-- ASSOCIATION : Système <-> Obtenir un prix en temps réel -->
+  <!-- ============================================================ -->
+  <line class="assoc" x1="106" y1="1042" x2="490" y2="1180"/>
+
+  <!-- ============================================================ -->
+  <!-- ASSOCIATIONS : use cases <-> acteurs secondaires (droite) -->
+  <!-- ============================================================ -->
+
+  <!-- Demander une réinitialisation -> Resend (email) -->
+  <line class="assoc" x1="795" y1="310" x2="1195" y2="845"/>
+
+  <!-- Obtenir un prix en temps réel -> Finnhub API -->
+  <line class="assoc" x1="800" y1="1180" x2="1195" y2="335"/>
+
+  <!-- ============================================================ -->
+  <!-- Notes complémentaires -->
+  <!-- ============================================================ -->
+
+  <!-- Note sandbox -->
+  <g id="note-sandbox">
+    <path d="M 845 1130 L 1075 1130 L 1100 1155 L 1100 1230 L 845 1230 Z" class="note"/>
+    <path d="M 1075 1130 L 1075 1155 L 1100 1155 Z" class="corner"/>
+    <text class="notetext" x="853" y="1150">
+      <tspan x="853" dy="0">Sandbox : capital virtuel de</tspan>
+      <tspan x="853" dy="16">10 000 €, actions fictives</tspan>
+      <tspan x="853" dy="16">(SandboxStock), état persisté</tspan>
+      <tspan x="853" dy="16">en base (SandboxState).</tspan>
+    </text>
+  </g>
+  <line class="assoc" stroke-dasharray="3,3" x1="800" y1="870" x2="960" y2="1130"/>
+  <line class="assoc" stroke-dasharray="3,3" x1="795" y1="940" x2="960" y2="1130"/>
+
+  <!-- Note "Obtenir un prix" -->
+  <g id="note-price">
+    <path d="M 845 1245 L 1075 1245 L 1100 1270 L 1100 1340 L 845 1340 Z" class="note"/>
+    <path d="M 1075 1245 L 1075 1270 L 1100 1270 Z" class="corner"/>
+    <text class="notetext" x="853" y="1265">
+      <tspan x="853" dy="0">Déclenché par le système</tspan>
+      <tspan x="853" dy="16">(refresh du cache CachedQuote)</tspan>
+      <tspan x="853" dy="16">avec rate-limiter à 2 appels</tspan>
+      <tspan x="853" dy="16">concurrents.</tspan>
+    </text>
+  </g>
+  <line class="assoc" stroke-dasharray="3,3" x1="800" y1="1180" x2="950" y2="1245"/>
+
+</svg>

@@ -85,7 +85,7 @@ export default function Home() {
                 <div className="text-center">
                     <h2 className="text-4xl font-bold mb-2">Comment ça marche</h2>
                     <p className="text-lg text-muted-foreground">
-                        Commencez à suivre vos investissements en 2 étapes simples
+                        Commencez à suivre vos investissements en 2^ étapes simples
                     </p>
                 </div>
 

@@ -1,0 +1,120 @@
+@startuml FinanTrack_UseCase
+!theme plain
+title Diagramme des cas d'utilisation — FinanTrack
+
+skinparam packageStyle rectangle
+skinparam usecase {
+    BackgroundColor #FEFEFE
+    BorderColor #444444
+    ArrowColor #444444
+}
+skinparam actor {
+    BorderColor #444444
+}
+skinparam note {
+    BackgroundColor #FFFCE0
+    BorderColor #B0AC60
+}
+
+left to right direction
+
+' ============================================================
+' ACTEURS
+' ============================================================
+actor "Utilisateur" as user
+actor "Système" <<système>> as systeme
+actor "Finnhub API" <<système externe>> as finnhub
+actor "Resend (email)" <<système externe>> as resend
+
+' ============================================================
+' USE CASES — exactement les 16 du tableau 5.2
+' ============================================================
+rectangle "FinanTrack Application" {
+  ' Authentification (UC1-UC5)
+  usecase "S'inscrire" as UC1
+  usecase "Se connecter" as UC2
+  usecase "Se déconnecter" as UC3
+  usecase "Demander une réinitialisation" as UC4
+  usecase "Réinitialiser son mot de passe" as UC5
+
+  ' Portefeuille (UC6-UC10)
+  usecase "Consulter le tableau de bord" as UC6
+  usecase "Ajouter une action" as UC7
+  usecase "Modifier la quantité\nd'une action" as UC8
+  usecase "Supprimer une action" as UC9
+  usecase "Consulter le portefeuille\ndétaillé" as UC10
+
+  ' Outils (UC11)
+  usecase "Simuler des intérêts composés" as UC11
+
+  ' Sandbox (UC12-UC13)
+  usecase "Acheter une action\nen sandbox" as UC12
+  usecase "Vendre une action\nen sandbox" as UC13
+
+  ' Paramètres / compte (UC14-UC15)
+  usecase "Modifier le thème" as UC14
+  usecase "Supprimer son compte" as UC15
+
+  ' Système (UC16) — déclenché automatiquement
+  usecase "Obtenir un prix\nen temps réel" as UC16
+}
+
+' ============================================================
+' ASSOCIATIONS — traits simples (PAS de flèches)
+' ============================================================
+
+' --- Utilisateur ---
+user -- UC1
+user -- UC2
+user -- UC3
+user -- UC4
+user -- UC5
+user -- UC6
+user -- UC7
+user -- UC8
+user -- UC9
+user -- UC10
+user -- UC11
+user -- UC12
+user -- UC13
+user -- UC14
+user -- UC15
+
+' --- Système (déclenche le refresh des cours) ---
+systeme -- UC16
+
+' --- Acteurs secondaires (services externes) ---
+UC4  -- resend
+UC16 -- finnhub
+
+' ============================================================
+' NOTES explicatives
+' ============================================================
+note bottom of finnhub
+  Fournit les cours boursiers
+  en temps quasi réel.
+  Mise en cache 5 min via
+  la table CachedQuote.
+end note
+
+note bottom of resend
+  Délivre l'email contenant
+  le lien de réinitialisation
+  à usage unique (TTL 30 min).
+end note
+
+note right of UC12
+  Sandbox : capital virtuel
+  de 10 000 €, actions fictives
+  (SandboxStock), état persisté
+  en base (SandboxState).
+end note
+
+note right of UC16
+  Déclenché par le système
+  (refresh du cache CachedQuote)
+  avec rate-limiter à 2 appels
+  concurrents.
+end note
+
+@enduml
