@@ -70,7 +70,7 @@ export function Navbar({ initialAuth = false, onNavigate }: NavbarProps) {
                             }
                         }}
                     >
-                        <wwwLogo />
+                        <Logo />
                     </div>
                 </Link>
 
