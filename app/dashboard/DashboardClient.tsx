@@ -26,7 +26,7 @@ export default function DashboardClient({ data, initialChart }: { data: Dashboar
         if (selectedDays === 30) return
         if (!data.hasStocks) return
         let cancelled = false
-        // eslint-disable-next-line react-hooks/set-state-in-effect -- loading flag must mirror an async fetch lifecycle
+     
         setLoading(true)
         getHistory(selectedDays)
             .then(points => { if (!cancelled) setChartData(points) })

@@ -70,7 +70,7 @@ export function Navbar({ initialAuth = false, onNavigate }: NavbarProps) {
                             }
                         }}
                     >
-                        <Logo />
+                        <wwwLogo />
                     </div>
                 </Link>
 
@@ -87,7 +87,7 @@ export function Navbar({ initialAuth = false, onNavigate }: NavbarProps) {
                     {isAuth ? (
                         <>
                             <Link href="/dashboard">
-                                <button className="font-bold">
+                                <button className="font-bold px-3 py-1.5 rounded-md cursor-pointer hover:bg-accent transition-colors">
                                     Dashboard
                                 </button>
                             </Link>
