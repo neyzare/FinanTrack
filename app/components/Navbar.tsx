@@ -94,7 +94,7 @@ export function Navbar({ initialAuth = false, onNavigate }: NavbarProps) {
 
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-                                    <button className="rounded-full p-1 hover:bg-accent transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                                    <button className="rounded-full p-1 hover:bg-accent transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer">
                                         <UserRoundCog />
                                     </button>
                                 </DropdownMenuTrigger>
