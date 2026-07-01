@@ -18,7 +18,7 @@ const PERIODS = [
 export default function DashboardClient({ data, initialChart }: { data: DashboardData; initialChart: ChartPoint[] }) {
     const [selectedDays, setSelectedDays] = useState(30)
     const [chartData, setChartData] = useState<ChartPoint[]>([])
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     const displayChartData = selectedDays === 30 ? initialChart : chartData
 
@@ -26,8 +26,7 @@ export default function DashboardClient({ data, initialChart }: { data: Dashboar
         if (selectedDays === 30) return
         if (!data.hasStocks) return
         let cancelled = false
-     
-        setLoading(true)
+
         getHistory(selectedDays)
             .then(points => { if (!cancelled) setChartData(points) })
             .catch(() => { if (!cancelled) setChartData([]) })

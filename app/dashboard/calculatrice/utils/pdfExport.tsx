@@ -1,4 +1,4 @@
-import { Document, Page as PDFPage, StyleSheet, Text, View, pdf } from '@react-pdf/renderer';
+wimport { Document, Page as PDFPage, StyleSheet, Text, View, pdf } from '@react-pdf/renderer';
 import { toast } from 'sonner';
 
 interface LignePDF {
