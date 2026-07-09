@@ -101,7 +101,7 @@ export function RendementTab() {
                                 <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
                                 <XAxis
                                     dataKey="annee"
-                                    label={{ value: 'Années', position: 'insideBottom', offset: -5 }}
+                                    label={{ value: 'Années', position: 'insideBottom', offset: -5, fill: 'currentColor' }}
                                     stroke="currentColor"
                                 />
                                 <YAxis
@@ -110,10 +110,12 @@ export function RendementTab() {
                                 />
                                 <Tooltip
                                     contentStyle={{
-                                        backgroundColor: 'hsl(var(--card))',
-                                        border: '1px solid hsl(var(--border))',
+                                        backgroundColor: 'var(--card)',
+                                        border: '1px solid var(--border)',
                                         borderRadius: '0.5rem',
                                     }}
+                                    labelStyle={{ color: 'var(--card-foreground)' }}
+                                    itemStyle={{ color: 'var(--card-foreground)' }}
                                     formatter={(valeur) => [`${Number(valeur).toLocaleString('fr-FR')} €`, 'Valeur']}
                                 />
                                 <Bar dataKey="valeur" fill="#22C55E" radius={[8, 8, 0, 0]} />

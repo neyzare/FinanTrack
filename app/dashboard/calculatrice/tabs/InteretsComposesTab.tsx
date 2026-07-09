@@ -103,7 +103,7 @@ export function InteretsComposesTab() {
                                 <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
                                 <XAxis
                                     dataKey="annee"
-                                    label={{ value: 'Années', position: 'insideBottom', offset: -5 }}
+                                    label={{ value: 'Années', position: 'insideBottom', offset: -5, fill: 'currentColor' }}
                                     stroke="currentColor"
                                 />
                                 <YAxis
@@ -112,10 +112,12 @@ export function InteretsComposesTab() {
                                 />
                                 <Tooltip
                                     contentStyle={{
-                                        backgroundColor: 'hsl(var(--card))',
-                                        border: '1px solid hsl(var(--border))',
+                                        backgroundColor: 'var(--card)',
+                                        border: '1px solid var(--border)',
                                         borderRadius: '0.5rem',
                                     }}
+                                    labelStyle={{ color: 'var(--card-foreground)' }}
+                                    itemStyle={{ color: 'var(--card-foreground)' }}
                                     formatter={(valeur) => [`${Number(valeur).toLocaleString('fr-FR')} €`, 'Valeur']}
                                 />
                                 <Line type="monotone" dataKey="valeur" stroke="#38BDF8" strokeWidth={3} dot={{ fill: '#38BDF8' }} />

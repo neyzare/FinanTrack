@@ -114,10 +114,12 @@ export function DepensesTab() {
                                 <YAxis stroke="currentColor" tickFormatter={(valeur: number) => `${valeur}€`} />
                                 <Tooltip
                                     contentStyle={{
-                                        backgroundColor: 'hsl(var(--card))',
-                                        border: '1px solid hsl(var(--border))',
+                                        backgroundColor: 'var(--card)',
+                                        border: '1px solid var(--border)',
                                         borderRadius: '0.5rem',
                                     }}
+                                    labelStyle={{ color: 'var(--card-foreground)' }}
+                                    itemStyle={{ color: 'var(--card-foreground)' }}
                                     formatter={(valeur) => [`${valeur} €`, 'Montant']}
                                 />
                                 <Bar dataKey="valeur" fill="#8B5CF6" radius={[8, 8, 0, 0]} />
