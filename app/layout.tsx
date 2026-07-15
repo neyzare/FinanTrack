@@ -5,6 +5,7 @@ import Footer from "@/app/components/Footer";
 import { auth } from "@/app/lib/auth";
 import {Theme, ThemeProvider} from "@/app/components/ThemeProvider";
 import {cookies} from "next/headers";
+import Script from "next/script";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -26,6 +27,20 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <main>{children}</main>
             <Footer />
         </ThemeProvider>
+
+        {children}
+        <Script
+            src="https://www.googletagmanager.com/gtag/js?id=G-3NXS99FQF6"
+            strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+            {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-3NXS99FQF6');
+          `}
+        </Script>
         </body>
         </html>
     );
