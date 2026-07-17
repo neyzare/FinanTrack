@@ -28,7 +28,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <Footer />
         </ThemeProvider>
 
-        {children}
         <Script
             src="https://www.googletagmanager.com/gtag/js?id=G-3NXS99FQF6"
             strategy="afterInteractive"
