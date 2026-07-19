@@ -29,7 +29,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         </ThemeProvider>
 
         <Script
-            src="https://www.googletagmanager.com/gtag/js?id=G-3NXS99FQF6"
+            src="https://www.googletagmanager.com/gtag/js?id=G-9WH10TP7G8"
             strategy="afterInteractive"
         />
         <Script id="google-analytics" strategy="afterInteractive">
@@ -37,7 +37,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-3NXS99FQF6');
+            gtag('config', 'G-9WH10TP7G8');
           `}
         </Script>
         </body>
