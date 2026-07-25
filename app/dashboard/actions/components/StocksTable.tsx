@@ -41,10 +41,10 @@ export function StocksTable({ stocks, onUpdateQuantity, onDelete }: StocksTableP
                                     <td className="py-3 px-4">{stock.name}</td>
                                     <td className="py-3 px-4">{stock.ticker}</td>
                                     <td className="py-3 px-4 tabular-nums">
-                                        {stock.price != null ? `$${stock.price.toFixed(2)}` : "—"}
+                                        {stock.price != null ? `$${stock.price.toFixed(2)}` : "-"}
                                     </td>
                                     <td className={`py-3 px-4 tabular-nums ${isUp ? "text-green-500" : "text-red-500"}`}>
-                                        {stock.variation != null ? `${stock.variation.toFixed(2)}%` : "—"}
+                                        {stock.variation != null ? `${stock.variation.toFixed(2)}%` : "-"}
                                     </td>
                                     <td className="py-3 px-4">
                                         <input
@@ -97,13 +97,13 @@ export function StocksTable({ stocks, onUpdateQuantity, onDelete }: StocksTableP
                                 <div className="flex items-center justify-between">
                                     <span className="text-muted-foreground">Prix</span>
                                     <span className="tabular-nums">
-                                        {stock.price != null ? `$${stock.price.toFixed(2)}` : "—"}
+                                        {stock.price != null ? `$${stock.price.toFixed(2)}` : "-"}
                                     </span>
                                 </div>
                                 <div className="flex items-center justify-between">
                                     <span className="text-muted-foreground">Variation</span>
                                     <span className={`tabular-nums ${isUp ? "text-green-500" : "text-red-500"}`}>
-                                        {stock.variation != null ? `${stock.variation.toFixed(2)}%` : "—"}
+                                        {stock.variation != null ? `${stock.variation.toFixed(2)}%` : "-"}
                                     </span>
                                 </div>
                                 <div className="flex items-center justify-between">

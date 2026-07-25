@@ -115,11 +115,7 @@ export function Navbar({ initialAuth = false, onNavigate }: NavbarProps) {
                             </DropdownMenu>
                         </>
                     ) : (
-                        <Button
-                            onClick={() => router.push("./login")}
-                            className="bg-blue-400 hover:bg-blue-400/90"
-
-                        >
+                        <Button onClick={() => router.push("./login")}>
                             Connexion
                         </Button>
                     )}

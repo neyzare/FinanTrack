@@ -14,19 +14,19 @@ export function StatsCards({ totalValue, totalGain, gainPercent }: StatsCardsPro
             label: "Valeur totale",
             value: `${totalValue.toLocaleString("fr-FR", { minimumFractionDigits: 2 })} €`,
             icon: DollarSign,
-            color: "text-[#38BDF8]",
+            color: "text-primary",
         },
         {
             label: "Plus-value",
             value: `${totalGain.toLocaleString("fr-FR", { minimumFractionDigits: 2 })} €`,
             icon: isProfit ? TrendingUp : TrendingDown,
-            color: isProfit ? "text-[#22C55E]" : "text-[#EF4444]",
+            color: isProfit ? "text-success" : "text-destructive",
         },
         {
             label: "Performance",
             value: `${isProfit ? "+" : ""}${gainPercent.toFixed(2)}%`,
             icon: Target,
-            color: isProfit ? "text-[#22C55E]" : "text-[#EF4444]",
+            color: isProfit ? "text-success" : "text-destructive",
         },
     ];
 

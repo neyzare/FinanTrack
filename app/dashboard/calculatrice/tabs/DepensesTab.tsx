@@ -80,7 +80,7 @@ export function DepensesTab() {
                         <Label htmlFor="autres">Autres dépenses</Label>
                         <Input id="autres" type="number" value={autres} onChange={(e) => setAutres(Number(e.target.value))} />
                     </div>
-                    <Button className="w-full bg-[#38BDF8] hover:bg-[#38BDF8]/90" onClick={exporter}>
+                    <Button className="w-full" onClick={exporter}>
                         <Save className="w-4 h-4 mr-2" />
                         Sauvegarder
                     </Button>
@@ -93,15 +93,15 @@ export function DepensesTab() {
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
                         <div className="space-y-1">
                             <p className="text-sm text-muted-foreground">Total dépenses</p>
-                            <p className="text-xl text-[#EF4444]">{totalDepenses.toLocaleString('fr-FR')} €</p>
+                            <p className="text-xl text-destructive">{totalDepenses.toLocaleString('fr-FR')} €</p>
                         </div>
                         <div className="space-y-1">
                             <p className="text-sm text-muted-foreground">Épargne</p>
-                            <p className="text-xl text-[#22C55E]">{epargne.toLocaleString('fr-FR')} €</p>
+                            <p className="text-xl text-success">{epargne.toLocaleString('fr-FR')} €</p>
                         </div>
                         <div className="space-y-1">
                             <p className="text-sm text-muted-foreground">Taux d&#39;épargne</p>
-                            <p className="text-xl text-[#38BDF8]">{tauxEpargne.toFixed(1)}%</p>
+                            <p className="text-xl text-primary">{tauxEpargne.toFixed(1)}%</p>
                         </div>
                     </div>
                 </CardHeader>
@@ -129,7 +129,7 @@ export function DepensesTab() {
                     <div className="mt-6 p-4 bg-muted rounded-lg">
                         <p className="text-sm">
                             {tauxEpargne >= 20 ? (
-                                <span className="text-[#22C55E]">
+                                <span className="text-success">
                                     ✓ Excellent ! Vous épargnez {tauxEpargne.toFixed(1)}% de vos revenus.
                                 </span>
                             ) : tauxEpargne >= 10 ? (
@@ -137,7 +137,7 @@ export function DepensesTab() {
                                     ⚠ Correct. Essayez d&apos;épargner au moins 20% de vos revenus.
                                 </span>
                             ) : (
-                                <span className="text-[#EF4444]">
+                                <span className="text-destructive">
                                     ⚠ Attention ! Votre taux d&#39;épargne est faible. Réduisez vos dépenses si possible.
                                 </span>
                             )}

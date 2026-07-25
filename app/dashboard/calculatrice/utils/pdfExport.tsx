@@ -65,7 +65,7 @@ export async function exporterPDF(typeCalcul: string, sections: SectionPDF[]): P
         URL.revokeObjectURL(url);
 
         toast.success('PDF exporté avec succès', {
-            description: `${typeCalcul} — ${fichier}`,
+            description: `${typeCalcul} - ${fichier}`,
         });
     } catch (error) {
         console.error('Erreur export PDF:', error);

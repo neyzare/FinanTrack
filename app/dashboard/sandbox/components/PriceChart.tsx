@@ -67,7 +67,7 @@ export function PriceChart({ stockSelectionne, bougies, timeframe, onTimeframeCh
                     <div>
                         <CardTitle className="flex items-center gap-2">
                             <span className="text-base font-normal text-muted-foreground">
-                                — {stockSelectionne.name}
+                                - {stockSelectionne.name}
                             </span>
                             <span className={`text-sm font-medium ${stockSelectionne.variation >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                                 {stockSelectionne.variation >= 0 ? '+' : ''}{stockSelectionne.variation.toFixed(2)}%

@@ -42,8 +42,8 @@ export default function DashboardClient({ data, initialChart }: { data: Dashboar
             change: data.dailyChangePercent,
             changeLabel: "aujourd'hui",
             icon: DollarSign,
-            iconColor: "text-blue-500",
-            iconBg: "bg-blue-500/10",
+            iconColor: "text-primary",
+            iconBg: "bg-primary/10",
         },
         {
             title: "Gain / Perte total",
@@ -51,8 +51,8 @@ export default function DashboardClient({ data, initialChart }: { data: Dashboar
             change: data.totalGainLossPercent,
             changeLabel: "depuis l'achat",
             icon: Activity,
-            iconColor: data.totalGainLoss >= 0 ? "text-green-500" : "text-red-500",
-            iconBg: data.totalGainLoss >= 0 ? "bg-green-500/10" : "bg-red-500/10",
+            iconColor: data.totalGainLoss >= 0 ? "text-success" : "text-destructive",
+            iconBg: data.totalGainLoss >= 0 ? "bg-success/10" : "bg-destructive/10",
         },
         {
             title: "Performance globale",
@@ -61,8 +61,8 @@ export default function DashboardClient({ data, initialChart }: { data: Dashboar
             change: data.dailyChangePercent,
             changeLabel: "aujourd'hui",
             icon: Target,
-            iconColor: data.totalGainLossPercent >= 0 ? "text-purple-500" : "text-red-500",
-            iconBg: data.totalGainLossPercent >= 0 ? "bg-purple-500/10" : "bg-red-500/10",
+            iconColor: data.totalGainLossPercent >= 0 ? "text-brass" : "text-destructive",
+            iconBg: data.totalGainLossPercent >= 0 ? "bg-brass/10" : "bg-destructive/10",
         },
     ]
 
@@ -85,7 +85,7 @@ export default function DashboardClient({ data, initialChart }: { data: Dashboar
                             </div>
                         </CardHeader>
                         <CardContent>
-                            <div className="text-3xl font-bold mb-3">
+                            <div className="tabular text-3xl font-bold mb-3">
                                 {stat.isPercentage
                                     ? `${stat.value >= 0 ? "+" : ""}${stat.value.toFixed(2)}%`
                                     : `${stat.value.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`
@@ -94,10 +94,10 @@ export default function DashboardClient({ data, initialChart }: { data: Dashboar
                             {data.hasStocks ? (
                                 <div className="flex items-center gap-1 text-sm">
                                     {stat.change >= 0
-                                        ? <TrendingUp className="w-4 h-4 text-green-500" />
-                                        : <TrendingDown className="w-4 h-4 text-red-500" />
+                                        ? <TrendingUp className="w-4 h-4 text-success" />
+                                        : <TrendingDown className="w-4 h-4 text-destructive" />
                                     }
-                                    <span className={stat.change >= 0 ? "text-green-500" : "text-red-500"}>
+                                    <span className={`tabular ${stat.change >= 0 ? "text-success" : "text-destructive"}`}>
                                         {stat.change >= 0 ? "+" : ""}{stat.change.toFixed(2)}%
                                     </span>
                                     <span className="text-muted-foreground">{stat.changeLabel}</span>
@@ -154,18 +154,19 @@ export default function DashboardClient({ data, initialChart }: { data: Dashboar
                                 />
                                 <Tooltip
                                     contentStyle={{
-                                        backgroundColor: "hsl(var(--card))",
-                                        border: "1px solid hsl(var(--border))",
+                                        backgroundColor: "var(--card)",
+                                        border: "1px solid var(--border)",
                                         borderRadius: "0.5rem",
+                                        color: "var(--card-foreground)",
                                     }}
                                     formatter={(value) => [`${Number(value).toLocaleString("fr-FR")} €`, "Valeur"]}
                                 />
                                 <Line
                                     type="monotone"
                                     dataKey="valeur"
-                                    stroke="#38bdf8"
+                                    stroke="var(--chart-1)"
                                     strokeWidth={2}
-                                    dot={displayChartData.length < 15 ? { fill: "#38bdf8", r: 3 } : false}
+                                    dot={displayChartData.length < 15 ? { fill: "var(--chart-1)", r: 3 } : false}
                                     activeDot={{ r: 5 }}
                                 />
                             </LineChart>

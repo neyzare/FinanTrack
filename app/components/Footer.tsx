@@ -15,7 +15,7 @@ export function Footer() {
                         href="https://finnhub.io"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="link link-hover text-[#38BDF8]"
+                        className="link link-hover text-primary"
                     >
                         Finnhub.io
                     </a>

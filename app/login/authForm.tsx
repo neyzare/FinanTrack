@@ -6,19 +6,18 @@ import { Label } from "../components/ui/label";
 import { Button } from "../components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
 import { Logo } from "../components/Logo";
-import { ImageWithFallback } from "@/app/components/ImageWithFallBack";
 import { loginAction } from "@/app/lib/authAction";
 import { registerAction } from "@/app/lib/registerAction";
 import { useFormStatus } from "react-dom";
 import {useActionState} from "react";
 
-function SubmitButton({ children, variant = "login" }: { children: React.ReactNode; variant?: "login" | "signup" }) {
+function SubmitButton({ children }: { children: React.ReactNode }) {
     const { pending } = useFormStatus();
 
     return (
         <Button
             type="submit"
-            className={`w-full ${variant === "signup" ? "bg-[#22C55E] hover:bg-[#22C55E]/90" : "bg-[#38BDF8] hover:bg-[#38BDF8]/90"}`}
+            className="w-full"
             disabled={pending}
         >
             {pending ? "Chargement..." : children}
@@ -35,18 +34,39 @@ export default function AuthForm() {
             <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-8 items-center">
 
                 <div className="hidden lg:block">
-                    <div className="relative">
-                        <div className="absolute inset-0 bg-gradient-to-tr from-[#38BDF8]/20 to-[#22C55E]/20 rounded-3xl blur-3xl"></div>
-                        <ImageWithFallback
-                            src="https://images.unsplash.com/photo-1758411898049-4de9588be514?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBkYXNoYm9hcmQlMjBpbnRlcmZhY2V8ZW58MXx8fHwxNzYxNjAyNjkwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-                            alt="Dashboard Preview"
-                            className="relative rounded-2xl shadow-2xl"
-                        />
-                        <div className="absolute bottom-8 left-8 right-8 bg-card/95 backdrop-blur-sm p-6 rounded-xl border-2">
+                    <div className="paper-grid border border-border rounded-2xl p-10 h-full flex flex-col justify-between gap-10 bg-card/40">
+                        <div>
                             <Logo showText={true} />
-                            <p className="mt-3 text-muted-foreground">
-                                Faites confiance à Finantrack pour gérer votre portefeuille.
+                            <h2 className="font-display text-3xl font-semibold mt-8 leading-tight">
+                                Chaque chiffre
+                                <br />a sa ligne.
+                            </h2>
+                            <p className="mt-4 text-muted-foreground max-w-sm leading-relaxed">
+                                Votre portefeuille, vos dépenses et vos rendements - tenus au
+                                centime, comme un grand livre.
                             </p>
+                        </div>
+
+                        <div className="bg-card border border-border rounded-xl overflow-hidden">
+                            <div className="flex items-center justify-between px-5 py-3 border-b border-border">
+                                <span className="eyebrow">Aperçu</span>
+                                <span className="tabular text-xs text-success">+2,14 %</span>
+                            </div>
+                            {[
+                                { t: "NVDA", v: "2 310,75" },
+                                { t: "AAPL", v: "1 240,00" },
+                                { t: "MSFT", v: "980,50" },
+                            ].map((r) => (
+                                <div
+                                    key={r.t}
+                                    className="flex items-center justify-between px-5 py-2.5 border-b border-border last:border-b-0"
+                                >
+                                    <span className="tabular text-sm font-semibold">{r.t}</span>
+                                    <span className="tabular text-sm text-muted-foreground">
+                                        {r.v} €
+                                    </span>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -89,7 +109,7 @@ export default function AuthForm() {
                                     <div className="space-y-2">
                                         <div className="flex items-center justify-between">
                                             <Label htmlFor="login-password">Mot de passe</Label>
-                                            <a href="/forgot-password" className="text-sm text-[#38BDF8] hover:underline">
+                                            <a href="/forgot-password" className="text-sm text-primary hover:underline">
                                                 Mot de passe oublié ?
                                             </a>
                                         </div>
@@ -101,7 +121,7 @@ export default function AuthForm() {
                                             required
                                         />
                                     </div>
-                                    <SubmitButton variant="login">Se connecter</SubmitButton>
+                                    <SubmitButton>Se connecter</SubmitButton>
                                 </form>
                             </TabsContent>
 
@@ -146,7 +166,7 @@ export default function AuthForm() {
                                             Minimum 12 caractères avec lettres et chiffres
                                         </p>
                                     </div>
-                                    <SubmitButton variant="signup">Créer un compte</SubmitButton>
+                                    <SubmitButton>Créer un compte</SubmitButton>
                                 </form>
                             </TabsContent>
                         </Tabs>

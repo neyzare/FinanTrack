@@ -48,7 +48,7 @@ export function InteretsComposesTab() {
             <Card className="border-2 lg:col-span-1">
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                        <CalcIcon className="w-5 h-5 text-[#38BDF8]" />
+                        <CalcIcon className="w-5 h-5 text-primary" />
                         Paramètres
                     </CardTitle>
                 </CardHeader>
@@ -71,7 +71,7 @@ export function InteretsComposesTab() {
                         <Label htmlFor="annees">Durée (années)</Label>
                         <Input id="annees" type="number" value={annees} onChange={(e) => setAnnees(Number(e.target.value))} />
                     </div>
-                    <Button className="w-full bg-[#38BDF8] hover:bg-[#38BDF8]/90" onClick={exporter}>
+                    <Button className="w-full" onClick={exporter}>
                         <Save className="w-4 h-4 mr-2" />
                         Sauvegarder
                     </Button>
@@ -84,7 +84,7 @@ export function InteretsComposesTab() {
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
                         <div className="space-y-1">
                             <p className="text-sm text-muted-foreground">Valeur finale</p>
-                            <p className="text-xl text-[#22C55E]">{valeurFinale.toLocaleString('fr-FR')} €</p>
+                            <p className="text-xl text-success">{valeurFinale.toLocaleString('fr-FR')} €</p>
                         </div>
                         <div className="space-y-1">
                             <p className="text-sm text-muted-foreground">Total versé</p>
@@ -92,7 +92,7 @@ export function InteretsComposesTab() {
                         </div>
                         <div className="space-y-1">
                             <p className="text-sm text-muted-foreground">Intérêts gagnés</p>
-                            <p className="text-xl text-[#38BDF8]">{totalInterets.toLocaleString('fr-FR')} €</p>
+                            <p className="text-xl text-primary">{totalInterets.toLocaleString('fr-FR')} €</p>
                         </div>
                     </div>
                 </CardHeader>
@@ -120,7 +120,7 @@ export function InteretsComposesTab() {
                                     itemStyle={{ color: 'var(--card-foreground)' }}
                                     formatter={(valeur) => [`${Number(valeur).toLocaleString('fr-FR')} €`, 'Valeur']}
                                 />
-                                <Line type="monotone" dataKey="valeur" stroke="#38BDF8" strokeWidth={3} dot={{ fill: '#38BDF8' }} />
+                                <Line type="monotone" dataKey="valeur" stroke="var(--chart-1)" strokeWidth={3} dot={{ fill: 'var(--chart-1)' }} />
                             </LineChart>
                         </ResponsiveContainer>
                     </div>

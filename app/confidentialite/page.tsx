@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 
 export const metadata = {
-    title: "Politique de confidentialité — Finantrack",
+    title: "Politique de confidentialité - Finantrack",
 };
 
 export default function ConfidentialitePage() {
@@ -84,7 +84,7 @@ export default function ConfidentialitePage() {
                         <ul className="list-disc list-inside space-y-1 pl-2">
                             <li><strong>IONOS</strong> (hébergement)</li>
                             <li><strong>Resend</strong> (envoi d&apos;emails transactionnels)</li>
-                            <li><strong>Finnhub.io</strong> (données de marché — aucune donnée personnelle transmise)</li>
+                            <li><strong>Finnhub.io</strong> (données de marché - aucune donnée personnelle transmise)</li>
                         </ul>
                     </section>
 

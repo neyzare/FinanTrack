@@ -5,7 +5,7 @@
 html, body {
     overscroll-behavior: none; /* pour les navigateurs modernes */
     touch-action: pan-x pan-y;  /* iOS */
-    -webkit-overflow-scrolling: auto; /* désactive l’effet élastique iOS */
+    -webkit-overflow-scrolling: auto; /* désactive l'effet élastique iOS */
     background-color: var(--background);
     color: var(--foreground);
 }
@@ -13,87 +13,125 @@ html, body {
 
 @custom-variant dark (&:is(.dark *));
 
+/*
+ * Identité « Le Registre » - la finance perso descend du grand livre
+ * comptable et du papier financier. Couleur d'encre verte, chiffres
+ * tabulaires, fond papier millimétré. Pas de bleu-néon fintech.
+ */
 :root {
     --font-size: 16px;
-    --background: #F1F5F9;
-    --foreground: #1E293B;
-    --card: #ffffff;
-    --card-foreground: #1E293B;
-    --popover: #ffffff;
-    --popover-foreground: #1E293B;
-    --primary: #38BDF8;
-    --primary-foreground: #0F172A;
-    --secondary: #F1F5F9;
-    --secondary-foreground: #1E293B;
-    --muted: #E2E8F0;
-    --muted-foreground: #64748B;
-    --accent: #38BDF8;
-    --accent-foreground: #0F172A;
-    --destructive: #EF4444;
-    --destructive-foreground: #ffffff;
-    --success: #22C55E;
-    --success-foreground: #ffffff;
-    --warning: #F59E0B;
-    --border: #E2E8F0;
-    --input: #E2E8F0;
-    --input-background: #ffffff;
-    --switch-background: #CBD5E1;
+
+    /* Papier & encre */
+    --background: #EFEEE6;
+    --foreground: #17231D;
+    --card: #FBFAF4;
+    --card-foreground: #17231D;
+    --popover: #FBFAF4;
+    --popover-foreground: #17231D;
+
+    /* Vert registre - la couleur signature */
+    --primary: #1F5C43;
+    --primary-foreground: #F5F3E9;
+    --secondary: #E4E2D6;
+    --secondary-foreground: #17231D;
+    --muted: #E4E2D6;
+    --muted-foreground: #5B6560;
+    --accent: #E7EDE7;
+    --accent-foreground: #1F5C43;
+
+    /* Laiton patiné - accent chaud (eyebrows, détails). Assombri pour
+       passer WCAG AA en petit texte sur fond papier (5.8:1). */
+    --brass: #7E5D1E;
+    --brass-foreground: #FBFAF4;
+
+    /* Sémantique data : hausse / baisse d'un vrai relevé */
+    --destructive: #A23B2D;
+    --destructive-foreground: #FBFAF4;
+    --success: #1F7A50;
+    --success-foreground: #FBFAF4;
+    --warning: #A9812E;
+
+    --border: #D8D5C6;
+    --input: #D8D5C6;
+    --input-background: #FBFAF4;
+    --switch-background: #C7C3B2;
     --font-weight-medium: 500;
     --font-weight-normal: 400;
-    --ring: #38BDF8;
-    --chart-1: #38BDF8;
-    --chart-2: #22C55E;
-    --chart-3: #8B5CF6;
-    --chart-4: #F59E0B;
-    --chart-5: #EF4444;
-    --radius: 0.75rem;
-    --sidebar: #ffffff;
-    --sidebar-foreground: #1E293B;
-    --sidebar-primary: #38BDF8;
-    --sidebar-primary-foreground: #ffffff;
-    --sidebar-accent: #F1F5F9;
-    --sidebar-accent-foreground: #1E293B;
-    --sidebar-border: #E2E8F0;
-    --sidebar-ring: #38BDF8;
+    --ring: #1F5C43;
+
+    /* Charts - dérivés de la palette, jamais des néons */
+    --chart-1: #1F5C43;
+    --chart-2: #A9812E;
+    --chart-3: #6E5A7A;
+    --chart-4: #3E6B8A;
+    --chart-5: #A23B2D;
+
+    --radius: 0.45rem;
+
+    --sidebar: #FBFAF4;
+    --sidebar-foreground: #17231D;
+    --sidebar-primary: #1F5C43;
+    --sidebar-primary-foreground: #F5F3E9;
+    --sidebar-accent: #E7EDE7;
+    --sidebar-accent-foreground: #1F5C43;
+    --sidebar-border: #D8D5C6;
+    --sidebar-ring: #1F5C43;
+
+    /* Trame millimétrée du papier registre */
+    --grid-line: rgba(23, 35, 29, 0.045);
 }
 
 .dark {
-    --background: #0F172A;
-    --foreground: #F1F5F9;
-    --card: #1E293B;
-    --card-foreground: #F1F5F9;
-    --popover: #1E293B;
-    --popover-foreground: #F1F5F9;
-    --primary: #38BDF8;
-    --primary-foreground: #0F172A;
-    --secondary: #1E293B;
-    --secondary-foreground: #F1F5F9;
-    --muted: #334155;
-    --muted-foreground: #94A3B8;
-    --accent: #1E293B;
-    --accent-foreground: #F1F5F9;
-    --destructive: #EF4444;
-    --destructive-foreground: #ffffff;
-    --success: #22C55E;
-    --border: #334155;
-    --input: #334155;
-    --input-background: #1E293B;
-    --ring: #38BDF8;
+    /* Ardoise nocturne */
+    --background: #0E1512;
+    --foreground: #E7E9E0;
+    --card: #16201B;
+    --card-foreground: #E7E9E0;
+    --popover: #16201B;
+    --popover-foreground: #E7E9E0;
+
+    --primary: #4FA37C;
+    --primary-foreground: #0E1512;
+    --secondary: #1D2822;
+    --secondary-foreground: #E7E9E0;
+    --muted: #202A24;
+    --muted-foreground: #93A099;
+    --accent: #1D2822;
+    --accent-foreground: #8FD3B0;
+
+    --brass: #CDA150;
+    --brass-foreground: #0E1512;
+
+    --destructive: #D97060;
+    --destructive-foreground: #0E1512;
+    --success: #4FA37C;
+    --success-foreground: #0E1512;
+    --warning: #CDA150;
+
+    --border: #263029;
+    --input: #263029;
+    --input-background: #16201B;
+    --switch-background: #2E3A32;
+    --ring: #4FA37C;
     --font-weight-medium: 500;
     --font-weight-normal: 400;
-    --chart-1: #38BDF8;
-    --chart-2: #22C55E;
-    --chart-3: #8B5CF6;
-    --chart-4: #F59E0B;
-    --chart-5: #EF4444;
-    --sidebar: #1E293B;
-    --sidebar-foreground: #F1F5F9;
-    --sidebar-primary: #38BDF8;
-    --sidebar-primary-foreground: #0F172A;
-    --sidebar-accent: #334155;
-    --sidebar-accent-foreground: #F1F5F9;
-    --sidebar-border: #334155;
-    --sidebar-ring: #38BDF8;
+
+    --chart-1: #4FA37C;
+    --chart-2: #CDA150;
+    --chart-3: #A38FB0;
+    --chart-4: #6F9DBE;
+    --chart-5: #CF6552;
+
+    --sidebar: #16201B;
+    --sidebar-foreground: #E7E9E0;
+    --sidebar-primary: #4FA37C;
+    --sidebar-primary-foreground: #0E1512;
+    --sidebar-accent: #1D2822;
+    --sidebar-accent-foreground: #8FD3B0;
+    --sidebar-border: #263029;
+    --sidebar-ring: #4FA37C;
+
+    --grid-line: rgba(231, 233, 224, 0.04);
 }
 
 @theme inline {
@@ -111,8 +149,13 @@ html, body {
     --color-muted-foreground: var(--muted-foreground);
     --color-accent: var(--accent);
     --color-accent-foreground: var(--accent-foreground);
+    --color-brass: var(--brass);
+    --color-brass-foreground: var(--brass-foreground);
     --color-destructive: var(--destructive);
     --color-destructive-foreground: var(--destructive-foreground);
+    --color-success: var(--success);
+    --color-success-foreground: var(--success-foreground);
+    --color-warning: var(--warning);
     --color-border: var(--border);
     --color-input: var(--input);
     --color-input-background: var(--input-background);
@@ -135,6 +178,11 @@ html, body {
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
+
+    /* Rôles typographiques : display de caractère, corps neutre, mono pour les chiffres */
+    --font-display: var(--font-bricolage), 'Geist', sans-serif;
+    --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: var(--font-geist-mono), 'JetBrains Mono', monospace;
 }
 
 @layer base {
@@ -144,8 +192,41 @@ html, body {
 
     body {
         @apply bg-background text-foreground;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-family: var(--font-sans);
     }
+
+    /* Le display porte l'identité : les titres passent en Bricolage Grotesque */
+    h1, h2, h3, .font-display {
+        font-family: var(--font-display);
+        letter-spacing: -0.02em;
+    }
+
+    /* Les chiffres sont le contenu roi : mono tabulaire, alignés au centime */
+    .tabular {
+        font-family: var(--font-mono);
+        font-variant-numeric: tabular-nums;
+        letter-spacing: -0.01em;
+    }
+}
+
+/*
+ * Signature - trame millimétrée du papier registre.
+ * Fine grille d'encre posée sur le fond, comme une feuille de compte.
+ */
+.paper-grid {
+    background-image:
+        linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+    background-size: 28px 28px;
+}
+
+/* Eyebrow : petite étiquette de section, façon en-tête de colonne de registre */
+.eyebrow {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.72rem;
+    color: var(--brass);
 }
 
 /**
@@ -212,21 +293,28 @@ html {
     transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
-/* Custom scrollbar for dark theme */
+/* Custom scrollbar */
 .dark ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }
 
 .dark ::-webkit-scrollbar-track {
-    background: #1E293B;
+    background: #16201B;
 }
 
 .dark ::-webkit-scrollbar-thumb {
-    background: #334155;
+    background: #263029;
     border-radius: 4px;
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-    background: #475569;
+    background: #33413A;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
+    }
 }

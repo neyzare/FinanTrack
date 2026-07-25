@@ -68,7 +68,7 @@ export function MarketTable({ stocks, positions, liquidite, nameSelectionne, onS
                                         {held > 0 ? (
                                             <Badge variant="secondary">{held}</Badge>
                                         ) : (
-                                            <span className="text-muted-foreground">—</span>
+                                            <span className="text-muted-foreground">-</span>
                                         )}
                                     </td>
                                     <td className="px-6 py-4">
@@ -123,7 +123,7 @@ export function MarketTable({ stocks, positions, liquidite, nameSelectionne, onS
                                     </span>
                                 </div>
                                 <p className="mt-1 text-sm text-muted-foreground">
-                                    Détenu : {held > 0 ? held : "—"}
+                                    Détenu : {held > 0 ? held : "-"}
                                 </p>
                                 <div className="mt-3 flex gap-2">
                                     <Button

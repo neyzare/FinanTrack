@@ -47,7 +47,7 @@ export function OrderDialog({
                         {stock?.name}
                     </DialogTitle>
                     <DialogDescription>
-                        {stock?.name} — {stock?.price.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} € par action
+                        {stock?.name} - {stock?.price.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} € par action
                     </DialogDescription>
                 </DialogHeader>
 

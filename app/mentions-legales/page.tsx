@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 
 export const metadata = {
-    title: "Mentions légales — Finantrack",
+    title: "Mentions légales - Finantrack",
 };
 
 export default function MentionsLegalesPage() {
@@ -38,7 +38,7 @@ export default function MentionsLegalesPage() {
                                 href="https://www.ionos.fr"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-[#38BDF8] hover:underline"
+                                className="text-primary hover:underline"
                             >
                                 www.ionos.fr
                             </a>

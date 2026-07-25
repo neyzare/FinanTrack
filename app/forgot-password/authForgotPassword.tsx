@@ -40,14 +40,14 @@ export default function ForgotPasswordPage() {
                             </div>
                             <Button
                                 type="submit"
-                                className="w-full bg-[#38BDF8] hover:bg-[#38BDF8]/90"
+                                className="w-full"
                             >
                                 Envoyer le lien de réinitialisation
                             </Button>
                         </form>
 
                         <p className="text-sm text-center text-muted-foreground">
-                            <Link href="/login" className="text-[#38BDF8] hover:underline">
+                            <Link href="/login" className="text-primary hover:underline">
                                 Retour à la connexion
                             </Link>
                         </p>

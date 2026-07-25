@@ -24,7 +24,7 @@ export function TopHoldings({ stocks, totalValue }: TopHoldingsProps) {
                         const isUp = changePercent >= 0;
                         return (
                             <div key={stock.id} className="flex items-center gap-4">
-                                <div className="w-8 h-8 bg-gradient-to-br from-[#38BDF8] to-[#22C55E] rounded-lg flex items-center justify-center text-white text-sm">
+                                <div className="tabular w-8 h-8 bg-primary text-primary-foreground rounded-lg flex items-center justify-center text-sm font-semibold">
                                     {index + 1}
                                 </div>
                                 <div className="flex-1 min-w-0">
@@ -39,10 +39,10 @@ export function TopHoldings({ stocks, totalValue }: TopHoldingsProps) {
                                             </p>
                                         </div>
                                         <div className="text-right">
-                                            <p>{stock.value.toFixed(2)} €</p>
+                                            <p className="tabular">{stock.value.toFixed(2)} €</p>
                                             <Badge
                                                 variant={isUp ? "default" : "destructive"}
-                                                className={isUp ? "bg-[#22C55E] hover:bg-[#22C55E]/90" : ""}
+                                                className={isUp ? "bg-success text-success-foreground border-transparent" : ""}
                                             >
                                                 {isUp ? "+" : ""}{changePercent.toFixed(2)}%
                                             </Badge>

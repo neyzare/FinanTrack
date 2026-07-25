@@ -44,7 +44,7 @@ export function RendementTab() {
             <Card className="border-2 lg:col-span-1">
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                        <TrendingUp className="w-5 h-5 text-[#22C55E]" />
+                        <TrendingUp className="w-5 h-5 text-success" />
                         Paramètres
                     </CardTitle>
                 </CardHeader>
@@ -73,7 +73,7 @@ export function RendementTab() {
                         <Label htmlFor="duree">Durée (années)</Label>
                         <Input id="duree" type="number" value={annees} onChange={(e) => setAnnees(Number(e.target.value))} />
                     </div>
-                    <Button className="w-full bg-[#22C55E] hover:bg-[#22C55E]/90" onClick={exporter}>
+                    <Button className="w-full" onClick={exporter}>
                         <Save className="w-4 h-4 mr-2" />
                         Sauvegarder
                     </Button>
@@ -86,11 +86,11 @@ export function RendementTab() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
                         <div className="space-y-1">
                             <p className="text-sm text-muted-foreground">Valeur finale</p>
-                            <p className="text-xl text-[#22C55E]">{valeurFinale.toLocaleString('fr-FR')} €</p>
+                            <p className="text-xl text-success">{valeurFinale.toLocaleString('fr-FR')} €</p>
                         </div>
                         <div className="space-y-1">
                             <p className="text-sm text-muted-foreground">Gain total</p>
-                            <p className="text-xl text-[#38BDF8]">{gainTotal.toLocaleString('fr-FR')} €</p>
+                            <p className="text-xl text-primary">{gainTotal.toLocaleString('fr-FR')} €</p>
                         </div>
                     </div>
                 </CardHeader>
@@ -118,7 +118,7 @@ export function RendementTab() {
                                     itemStyle={{ color: 'var(--card-foreground)' }}
                                     formatter={(valeur) => [`${Number(valeur).toLocaleString('fr-FR')} €`, 'Valeur']}
                                 />
-                                <Bar dataKey="valeur" fill="#22C55E" radius={[8, 8, 0, 0]} />
+                                <Bar dataKey="valeur" fill="var(--chart-1)" radius={[8, 8, 0, 0]} />
                             </BarChart>
                         </ResponsiveContainer>
                     </div>

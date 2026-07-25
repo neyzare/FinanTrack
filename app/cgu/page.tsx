@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 
 export const metadata = {
-    title: "Conditions Générales d'Utilisation — Finantrack",
+    title: "Conditions Générales d'Utilisation - Finantrack",
 };
 
 export default function CguPage() {
