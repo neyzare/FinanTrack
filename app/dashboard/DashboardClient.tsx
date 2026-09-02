@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import {
   Card,
   CardContent,
@@ -42,29 +42,29 @@ export default function DashboardClient({
   const [selectedDays, setSelectedDays] = useState(30);
   const [chartData, setChartData] = useState<ChartPoint[]>([]);
   const [loading, setLoading] = useState(false);
+  const lastRequest = useRef(0);
 
   const displayChartData = selectedDays === 30 ? initialChart : chartData;
 
-  useEffect(() => {
-    if (selectedDays === 30) return;
-    if (!data.hasStocks) return;
-    let cancelled = false;
+  function selectPeriod(days: number) {
+    if (days === selectedDays) return;
+    setSelectedDays(days);
+    if (days === 30 || !data.hasStocks) return;
 
+    // seule la dernière période demandée met le graphique à jour
+    const request = ++lastRequest.current;
     setLoading(true);
-    getHistory(selectedDays)
+    getHistory(days)
       .then((points) => {
-        if (!cancelled) setChartData(points);
+        if (request === lastRequest.current) setChartData(points);
       })
       .catch(() => {
-        if (!cancelled) setChartData([]);
+        if (request === lastRequest.current) setChartData([]);
       })
       .finally(() => {
-        if (!cancelled) setLoading(false);
+        if (request === lastRequest.current) setLoading(false);
       });
-    return () => {
-      cancelled = true;
-    };
-  }, [selectedDays, data.hasStocks]);
+  }
 
   const stats = [
     {
@@ -164,7 +164,7 @@ export default function DashboardClient({
             {PERIODS.map((p) => (
               <button
                 key={p.days}
-                onClick={() => setSelectedDays(p.days)}
+                onClick={() => selectPeriod(p.days)}
                 className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
                   selectedDays === p.days
                     ? "bg-background text-foreground shadow-sm font-medium"

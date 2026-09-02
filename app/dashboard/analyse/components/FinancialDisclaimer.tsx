@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import {
   Dialog,
   DialogContent,
@@ -11,23 +11,38 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
+// sessionStorage = réaffiché à chaque nouvelle session
 const STORAGE_KEY = "financial-disclaimer-ack";
 
+const listeners = new Set<() => void>();
+
+function subscribe(listener: () => void) {
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+  };
+}
+
+function isAcknowledged() {
+  return sessionStorage.getItem(STORAGE_KEY) !== null;
+}
+
+function acknowledge() {
+  sessionStorage.setItem(STORAGE_KEY, "1");
+  listeners.forEach((listener) => listener());
+}
+
 export function FinancialDisclaimer() {
-  const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    // sessionStorage = réaffiché à chaque nouvelle session
-    if (!sessionStorage.getItem(STORAGE_KEY)) setOpen(true);
-  }, []);
-
-  function accept() {
-    sessionStorage.setItem(STORAGE_KEY, "1");
-    setOpen(false);
-  }
+  // le serveur ne connaît pas sessionStorage : on rend la modale fermée,
+  // puis on relit le storage une fois hydraté
+  const acknowledged = useSyncExternalStore(
+    subscribe,
+    isAcknowledged,
+    () => true,
+  );
 
   return (
-    <Dialog open={open} onOpenChange={(v) => !v && accept()}>
+    <Dialog open={!acknowledged} onOpenChange={(v) => !v && acknowledge()}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Avertissement</DialogTitle>
@@ -36,7 +51,7 @@ export function FinancialDisclaimer() {
               Les analyses présentées sur cette page sont fournies à titre
               purement informatif et pédagogique. Elles ne constituent en aucun
               cas un conseil en investissement, une recommandation personnalisée
-              ni une sollicitation d'achat ou de vente.
+              ni une sollicitation d&apos;achat ou de vente.
             </span>
             <span className="block">
               Les performances passées ne préjugent pas des performances
@@ -46,8 +61,8 @@ export function FinancialDisclaimer() {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button onClick={accept} className="w-full">
-            J'ai compris
+          <Button onClick={acknowledge} className="w-full">
+            J&apos;ai compris
           </Button>
         </DialogFooter>
       </DialogContent>
