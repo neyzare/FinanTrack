@@ -13,10 +13,11 @@ Ce diagramme montre le modèle de données de l'application avec les entités pr
 ![Diagramme de Classes](./images/01-class-diagram.png)
 
 ### Entités principales:
+
 - **User**: Représente un utilisateur de l'application
   - Authentification par email/mot de passe
   - Relation 1-N avec Stock
-  
+
 - **Stock**: Représente une action en portefeuille
   - Contrainte unique sur (userId, ticker)
   - Un utilisateur ne peut avoir qu'une seule entrée par ticker
@@ -30,6 +31,7 @@ Architecture globale de l'application montrant les différentes couches et leurs
 ![Diagramme de Composants](./images/02-component-diagram.png)
 
 ### Composants:
+
 - **Frontend**: Pages, Components, Forms (Next.js/React)
 - **API Layer**: Server Actions et API Routes
 - **Business Logic**: Services métier (Auth, Stock, Calculator, Finnhub)
@@ -45,6 +47,7 @@ Fonctionnalités disponibles pour les utilisateurs et interactions avec les serv
 ![Diagramme de Cas d'Utilisation](./images/03-usecase-diagram.png)
 
 ### Cas d'utilisation principaux:
+
 1. **Authentification**: Inscription, Connexion, Déconnexion
 2. **Dashboard**: Consultation des résumés et statistiques
 3. **Portefeuille**: Ajout, modification, suppression d'actions
@@ -61,6 +64,7 @@ Processus détaillé de connexion d'un utilisateur avec validation et gestion de
 ![Diagramme de Séquence - Authentification](./images/04-sequence-auth.png)
 
 ### Flux d'authentification:
+
 1. L'utilisateur saisit ses identifiants
 2. Validation des données avec Zod
 3. Vérification de l'existence de l'utilisateur en base
@@ -77,6 +81,7 @@ Processus d'ajout d'une action au portefeuille avec récupération des prix en t
 ![Diagramme de Séquence - Portefeuille](./images/05-sequence-portfolio.png)
 
 ### Flux d'ajout d'action:
+
 1. L'utilisateur saisit les informations de l'action (ticker, quantité, prix)
 2. Vérification de l'authentification
 3. Création de l'entrée en base de données
@@ -124,6 +129,7 @@ Organisation de l'application en 4 couches distinctes suivant les principes d'ar
 ![Diagramme d'États](./images/07-state-diagram.png)
 
 ### États de la session:
+
 - **Non Authentifié**: État initial
 - **En Cours de Connexion**: Phase de validation des credentials
 - **Authentifié**: Accès complet aux fonctionnalités
@@ -133,6 +139,7 @@ Organisation de l'application en 4 couches distinctes suivant les principes d'ar
   - Gérer Paramètres
 
 ### Transitions:
+
 - Login/Register → Authentifié (succès)
 - Login/Register → Non Authentifié (échec)
 - Déconnexion ou Cookie expiré → Non Authentifié
@@ -142,12 +149,14 @@ Organisation de l'application en 4 couches distinctes suivant les principes d'ar
 ## Stack Technique
 
 ### Frontend
+
 - **Framework**: Next.js 15 (App Router)
 - **UI**: React 18, TailwindCSS
 - **Components**: shadcn/ui
 - **Validation**: Zod
 
 ### Backend
+
 - **Runtime**: Next.js Server Actions
 - **Base de données**: PostgreSQL
 - **ORM**: Prisma
@@ -155,6 +164,7 @@ Organisation de l'application en 4 couches distinctes suivant les principes d'ar
 - **Hashing**: bcrypt
 
 ### Services Externes
+
 - **API Boursière**: Finnhub API
 - **Données**: Prix en temps réel, informations sur les actions
 
@@ -163,6 +173,7 @@ Organisation de l'application en 4 couches distinctes suivant les principes d'ar
 ## Structure des Données
 
 ### User
+
 ```typescript
 {
   id: string           // CUID unique
@@ -176,16 +187,19 @@ Organisation de l'application en 4 couches distinctes suivant les principes d'ar
 ```
 
 ### Stock
+
 ```typescript
 {
-  id: number           // Auto-increment
-  ticker: string       // Symbole boursier (ex: AAPL)
-  name: string?        // Nom de l'entreprise
-  quantity: number     // Nombre d'actions
-  buyPrice: number?    // Prix d'achat
-  userId: string       // FK → User
-  createdAt: DateTime
-  updatedAt: DateTime
+  id: number; // Auto-increment
+  ticker: string; // Symbole boursier (ex: AAPL)
+  name: string // Nom de l'entreprise
+    ? quantity
+    : number; // Nombre d'actions
+  buyPrice: number // Prix d'achat
+    ? userId
+    : string; // FK → User
+  createdAt: DateTime;
+  updatedAt: DateTime;
 }
 ```
 
@@ -194,23 +208,27 @@ Organisation de l'application en 4 couches distinctes suivant les principes d'ar
 ## Fonctionnalités Principales
 
 ### 1. Authentification Sécurisée
+
 - Inscription avec validation Zod
 - Hash des mots de passe avec bcrypt (10 rounds)
 - Sessions basées sur des cookies HTTP-only
 - Durée de session: 7 jours
 
 ### 2. Gestion du Portefeuille
+
 - Ajout d'actions avec ticker, quantité et prix d'achat
 - Modification de la quantité
 - Suppression d'actions
 - Contrainte d'unicité (un utilisateur ne peut avoir qu'une entrée par ticker)
 
 ### 3. Données en Temps Réel
+
 - Intégration de l'API Finnhub
 - Récupération des prix actuels
 - Affichage des variations
 
 ### 4. Calculatrice Financière
+
 - Calcul d'intérêts composés
 - Support des apports mensuels réguliers
 - Affichage du capital initial, des apports totaux et des intérêts gagnés
@@ -220,6 +238,7 @@ Organisation de l'application en 4 couches distinctes suivant les principes d'ar
 ## Comment Régénérer les Diagrammes
 
 ### Avec PlantUML installé localement:
+
 ```bash
 # Générer tous les diagrammes en PNG
 plantuml -tpng -o images docs/uml/*.puml
@@ -229,11 +248,13 @@ plantuml -tsvg -o images docs/uml/*.puml
 ```
 
 ### Avec Docker:
+
 ```bash
 ./docs/generate-uml.sh
 ```
 
 ### En ligne:
+
 Visitez [PlantUML Online](https://www.plantuml.com/plantuml/uml/) et copiez-collez le contenu d'un fichier `.puml`
 
 ---
@@ -260,4 +281,4 @@ Visitez [PlantUML Online](https://www.plantuml.com/plantuml/uml/) et copiez-coll
 
 ---
 
-*Documentation générée le 17 janvier 2026*
+_Documentation générée le 17 janvier 2026_

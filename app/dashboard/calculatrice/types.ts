@@ -1,9 +1,9 @@
 export interface DonneesGraphique {
-    annee: number;
-    valeur: number;
+  annee: number;
+  valeur: number;
 }
 
 export interface DonneesDepenses {
-    categorie: string;
-    valeur: number;
+  categorie: string;
+  valeur: number;
 }

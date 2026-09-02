@@ -1,13 +1,17 @@
-import { getDashboardData, saveSnapshot, getHistory } from "@/app/lib/performance"
-import DashboardClient from "./DashboardClient"
+import {
+  getDashboardData,
+  saveSnapshot,
+  getHistory,
+} from "@/app/lib/performance";
+import DashboardClient from "./DashboardClient";
 
 export default async function DashboardPage() {
-    const [data, chartData] = await Promise.all([
-        getDashboardData(),
-        getHistory(30),
-    ])
+  const [data, chartData] = await Promise.all([
+    getDashboardData(),
+    getHistory(30),
+  ]);
 
-    saveSnapshot()
+  saveSnapshot();
 
-    return <DashboardClient data={data} initialChart={chartData} />
+  return <DashboardClient data={data} initialChart={chartData} />;
 }

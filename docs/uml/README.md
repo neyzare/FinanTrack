@@ -55,24 +55,31 @@ docker run --rm -v $(pwd)/docs/uml:/data plantuml/plantuml:latest -tsvg /data/*.
 ## Description des diagrammes
 
 ### 1. Diagramme de Classes
+
 Montre les entités principales (User, Stock) et leurs relations dans la base de données.
 
 ### 2. Diagramme de Composants
+
 Illustre l'architecture globale de l'application avec les différentes couches et services.
 
 ### 3. Diagramme de Cas d'Utilisation
+
 Présente les fonctionnalités accessibles aux utilisateurs et les interactions avec l'API externe.
 
 ### 4. Diagramme de Séquence - Authentification
+
 Détaille le processus de connexion d'un utilisateur avec validation et gestion des erreurs.
 
 ### 5. Diagramme de Séquence - Portefeuille
+
 Montre le flux d'ajout d'une action au portefeuille avec récupération des prix en temps réel.
 
 ### 6. Architecture en Couches
+
 Représente l'organisation en 4 couches distinctes de l'application.
 
 ### 7. Diagramme d'États
+
 Illustre les différents états d'une session utilisateur et les transitions possibles.
 
 ## Technologies utilisées

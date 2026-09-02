@@ -33,15 +33,16 @@ Ce document explique comment déployer Finantrack sur un serveur Hetzner avec Co
 
 Dans l'onglet `Environment Variables` de l'application, ajouter :
 
-| Clé | Valeur |
-|-----|--------|
-| `DATABASE_URL` | URL interne fournie par le service Postgres Coolify |
-| `AUTH_COOKIE_SECRET` | Secret aléatoire généré localement (32+ octets, voir ci-dessous) |
-| `FINNHUB_API_KEY` | Clé Finnhub de production |
-| `NODE_ENV` | `production` (souvent ajoutée automatiquement) |
-| `NEXT_TELEMETRY_DISABLED` | `1` |
+| Clé                       | Valeur                                                           |
+| ------------------------- | ---------------------------------------------------------------- |
+| `DATABASE_URL`            | URL interne fournie par le service Postgres Coolify              |
+| `AUTH_COOKIE_SECRET`      | Secret aléatoire généré localement (32+ octets, voir ci-dessous) |
+| `FINNHUB_API_KEY`         | Clé Finnhub de production                                        |
+| `NODE_ENV`                | `production` (souvent ajoutée automatiquement)                   |
+| `NEXT_TELEMETRY_DISABLED` | `1`                                                              |
 
 Génération d'un secret de cookie sûr :
+
 ```bash
 openssl rand -hex 32
 ```
