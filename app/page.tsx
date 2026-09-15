@@ -13,25 +13,25 @@ import Link from "next/link";
 const features = [
   {
     icon: TrendingUp,
-    title: "Suivi en temps réel",
+    title: "Suivi des positions",
     description:
-      "Vos positions boursières mises à jour en continu, tenues comme les lignes d'un compte.",
+      "Vos actions, leur valeur du jour et l'écart avec votre prix d'achat.",
   },
   {
     icon: BarChart3,
-    title: "Analyse de portefeuille",
+    title: "Analyse",
     description:
-      "Répartition par secteur, performance et diversification, lues d'un coup d'œil.",
+      "Indicateurs, graphique et détection des mouvements de prix inhabituels.",
   },
   {
     icon: Calculator,
-    title: "Calculs financiers",
+    title: "Calculatrice",
     description:
-      "Intérêts composés, rendements, dépenses : projetez vos décisions avant de les prendre.",
+      "Intérêts composés, rendement, dépenses : les calculs que vous faisiez sur un coin de feuille.",
   },
 ];
 
-// Extrait de portefeuille du hero - la signature « feuille de compte »
+// Données affichées dans l'aperçu du hero
 const positions = [
   {
     ticker: "NVDA",
@@ -72,9 +72,8 @@ export default function Home() {
                 tenues au centime.
               </h1>
               <p className="text-lg text-muted-foreground max-w-md mb-8 leading-relaxed">
-                FinanTrack tient votre portefeuille, vos dépenses et vos
-                rendements comme un grand livre - clair, chiffré, sans
-                approximation.
+                Vos positions, vos dépenses et vos rendements au même endroit,
+                avec les cours du marché mis à jour.
               </p>
               <div className="flex flex-wrap items-center gap-4">
                 <Link href="/dashboard">
@@ -159,7 +158,7 @@ export default function Home() {
       {/* Fonctionnalités */}
       <section className="container mx-auto px-6 lg:px-10 py-24">
         <div className="max-w-2xl mb-14">
-          <span className="eyebrow">Ce que tient le registre</span>
+          <span className="eyebrow">Ce qu’il y a dedans</span>
           <h2 className="font-display text-3xl lg:text-4xl font-semibold mt-4">
             Tout votre argent sur une même page
           </h2>
@@ -185,13 +184,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Comment ça marche - une vraie séquence, donc numérotée */}
+      {/* Comment ça marche */}
       <section className="border-y border-border bg-muted/40">
         <div className="container mx-auto px-6 lg:px-10 py-24">
           <div className="max-w-2xl mb-14">
-            <span className="eyebrow">En deux écritures</span>
+            <span className="eyebrow">Pour commencer</span>
             <h2 className="font-display text-3xl lg:text-4xl font-semibold mt-4">
-              Commencer prend une minute
+              Deux étapes, pas plus
             </h2>
           </div>
 
@@ -200,12 +199,12 @@ export default function Home() {
               {
                 step: "01",
                 title: "Créez votre compte",
-                text: "Inscription gratuite en quelques secondes, sans carte bancaire.",
+                text: "Un email, un mot de passe. Rien à payer, rien à installer.",
               },
               {
                 step: "02",
-                title: "Suivez et testez",
-                text: "Ajoutez vos positions, analysez, et entraînez-vous en bourse fictive.",
+                title: "Ajoutez vos actions",
+                text: "Suivez vos vraies positions, ou entraînez-vous d'abord sur le portefeuille fictif.",
               },
             ].map((s) => (
               <div key={s.step} className="bg-card p-8 flex gap-5">
@@ -226,18 +225,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Mot du créateur */}
+      {/* Pourquoi ce projet */}
       <section className="container mx-auto px-6 lg:px-10 py-24">
         <div className="max-w-3xl">
-          <span className="eyebrow">Le mot du créateur</span>
+          <span className="eyebrow">Pourquoi ce projet</span>
           <blockquote className="font-display text-2xl lg:text-3xl leading-snug mt-5 text-foreground">
-            « J’ai construit FinanTrack pour que suivre son argent redevienne
-            simple : un endroit clair où{" "}
-            <span className="text-primary">chaque chiffre a sa ligne</span>, et
-            où l’on décide en connaissance de cause. »
+            « Je suivais mon portefeuille sur un tableur, et je passais plus de
+            temps à rattraper mes formules qu’à regarder mes positions.
+            FinanTrack est né{" "}
+            <span className="text-primary">de ce fichier Excel</span>. »
           </blockquote>
           <p className="text-sm text-muted-foreground mt-6 tabular">
-            Lucas - fondateur de FinanTrack
+            Lucas, créateur de FinanTrack
           </p>
         </div>
       </section>
@@ -247,11 +246,11 @@ export default function Home() {
         <Card className="bg-primary border-0 text-primary-foreground overflow-hidden paper-grid">
           <CardContent className="p-12 lg:p-16 text-center flex flex-col items-center gap-6">
             <h2 className="font-display text-3xl lg:text-5xl font-semibold max-w-2xl">
-              Ouvrez votre registre aujourd’hui
+              Ouvrez votre registre
             </h2>
             <p className="text-lg text-primary-foreground/80 max-w-xl">
-              Reprenez la main sur votre portefeuille et vos investissements,
-              ligne par ligne.
+              Commencez sur le portefeuille fictif si vous préférez tester
+              avant.
             </p>
             <Link href="/dashboard">
               <Button

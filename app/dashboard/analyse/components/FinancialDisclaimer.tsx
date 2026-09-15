@@ -16,6 +16,10 @@ const STORAGE_KEY = "financial-disclaimer-ack";
 
 const listeners = new Set<() => void>();
 
+// le storage peut être inaccessible (navigation privée, cookies bloqués) :
+// cet état mémoire fait foi, sessionStorage ne sert qu'à survivre au rechargement
+let acknowledged: boolean | null = null;
+
 function subscribe(listener: () => void) {
   listeners.add(listener);
   return () => {
@@ -23,27 +27,41 @@ function subscribe(listener: () => void) {
   };
 }
 
+function readStorage() {
+  try {
+    return sessionStorage.getItem(STORAGE_KEY) !== null;
+  } catch {
+    return false;
+  }
+}
+
 function isAcknowledged() {
-  return sessionStorage.getItem(STORAGE_KEY) !== null;
+  if (acknowledged === null) {
+    acknowledged = readStorage();
+  }
+  return acknowledged;
 }
 
 function acknowledge() {
-  sessionStorage.setItem(STORAGE_KEY, "1");
+  acknowledged = true;
+  try {
+    sessionStorage.setItem(STORAGE_KEY, "1");
+  } catch {
+    // pas mémorisé : l'avertissement réapparaîtra au prochain chargement
+  }
   listeners.forEach((listener) => listener());
 }
 
 export function FinancialDisclaimer() {
   // le serveur ne connaît pas sessionStorage : on rend la modale fermée,
   // puis on relit le storage une fois hydraté
-  const acknowledged = useSyncExternalStore(
-    subscribe,
-    isAcknowledged,
-    () => true,
-  );
+  const isAck = useSyncExternalStore(subscribe, isAcknowledged, () => true);
 
+  // seul « J'ai compris » vaut acquittement : Échap, le clic extérieur et la
+  // croix sont désactivés pour ne pas enregistrer un avertissement non lu
   return (
-    <Dialog open={!acknowledged} onOpenChange={(v) => !v && acknowledge()}>
-      <DialogContent className="sm:max-w-md">
+    <Dialog open={!isAck} disablePointerDismissal>
+      <DialogContent className="sm:max-w-md" showCloseButton={false}>
         <DialogHeader>
           <DialogTitle>Avertissement</DialogTitle>
           <DialogDescription className="space-y-3 pt-2 text-left">

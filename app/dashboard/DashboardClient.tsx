@@ -49,10 +49,16 @@ export default function DashboardClient({
   function selectPeriod(days: number) {
     if (days === selectedDays) return;
     setSelectedDays(days);
-    if (days === 30 || !data.hasStocks) return;
 
-    // seule la dernière période demandée met le graphique à jour
+    // seule la dernière période demandée met le graphique à jour : le compteur
+    // avance même sans requête, pour neutraliser celle qui serait encore en vol
     const request = ++lastRequest.current;
+
+    if (days === 30 || !data.hasStocks) {
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     getHistory(days)
       .then((points) => {
